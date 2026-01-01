@@ -1,0 +1,1262 @@
+// =============================================================================
+// DIALOGS
+// =============================================================================
+@use 'shared' as *;
+
+// -----------------------------------------------------------------------------
+// Overlay (backdrop)
+// -----------------------------------------------------------------------------
+.dialog-overlay {
+  @include overlay;
+  @include flex-center;
+  animation: fadeIn $transition-fast;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+// -----------------------------------------------------------------------------
+// Dialog Container
+// -----------------------------------------------------------------------------
+.dialog {
+  background-color: $bg-secondary;
+  border-radius: $radius-md;
+  box-shadow: $shadow-lg;
+  min-width: 400px;
+  max-width: 90vw;
+  max-height: 90vh;
+  overflow: hidden;
+  animation: slideIn $transition-normal;
+  z-index: $z-modal;
+
+  @keyframes slideIn {
+    from {
+      opacity: 0;
+      transform: scale(0.95) translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+  }
+
+  // ---------------------------------------------------------------------------
+  // Dialog Header
+  // ---------------------------------------------------------------------------
+  &__header {
+    padding: $spacing-lg $spacing-xl;
+    border-bottom: 1px solid $bg-tertiary;
+    @include flex-between;
+  }
+
+  &__title {
+    font-size: $font-size-xl;
+    font-weight: $font-weight-semibold;
+  }
+
+  &__close {
+    width: 32px;
+    height: 32px;
+    @include flex-center;
+    border-radius: $radius-sm;
+    color: $text-secondary;
+    font-size: $font-size-xl;
+    cursor: pointer;
+    transition: background-color $transition-fast, color $transition-fast;
+
+    &:hover {
+      background-color: $bg-hover;
+      color: $text-primary;
+    }
+  }
+
+  // ---------------------------------------------------------------------------
+  // Dialog Body
+  // ---------------------------------------------------------------------------
+  &__body {
+    padding: $spacing-xl;
+    overflow-y: auto;
+    max-height: calc(90vh - 140px);
+    @include custom-scrollbar;
+  }
+
+  // ---------------------------------------------------------------------------
+  // Dialog Error
+  // ---------------------------------------------------------------------------
+  &__error {
+    padding: $spacing-sm $spacing-md;
+    margin-bottom: $spacing-md;
+    background-color: rgba($color-danger, 0.15);
+    border: 1px solid rgba($color-danger, 0.3);
+    border-radius: $radius-sm;
+    color: $color-danger;
+    font-size: $font-size-sm;
+  }
+
+  // ---------------------------------------------------------------------------
+  // Dialog Warning
+  // ---------------------------------------------------------------------------
+  &__warning {
+    display: flex;
+    align-items: flex-start;
+    gap: $spacing-sm;
+    padding: $spacing-md;
+    margin-top: $spacing-md;
+    background-color: rgba($color-warning, 0.12);
+    border: 1px solid rgba($color-warning, 0.3);
+    border-radius: $radius-sm;
+    color: $color-warning;
+    font-size: $font-size-sm;
+  }
+
+  &__warning-icon {
+    flex-shrink: 0;
+    font-size: $font-size-lg;
+  }
+
+  &__warning-text {
+    line-height: $line-height-relaxed;
+  }
+
+  // ---------------------------------------------------------------------------
+  // Dialog Footer
+  // ---------------------------------------------------------------------------
+  &__footer {
+    padding: $spacing-lg $spacing-xl;
+    border-top: 1px solid $bg-tertiary;
+    @include flex-between;
+    gap: $spacing-md;
+
+    &--right {
+      justify-content: flex-end;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    gap: $spacing-md;
+  }
+}
+
+// =============================================================================
+// CONFIRM DIALOG
+// =============================================================================
+
+.confirm-dialog {
+  text-align: center;
+  max-width: 400px;
+
+  &__icon {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto $spacing-lg;
+    @include flex-center;
+    border-radius: $radius-full;
+    font-size: $font-size-xxl;
+
+    &.is-danger {
+      background-color: rgba($color-danger, 0.1);
+      color: $color-danger;
+    }
+
+    &.is-warning {
+      background-color: rgba($color-warning, 0.1);
+      color: $color-warning;
+    }
+
+    &.is-success {
+      background-color: rgba($color-success, 0.1);
+      color: $color-success;
+    }
+  }
+
+  &__title {
+    font-size: $font-size-xl;
+    font-weight: $font-weight-semibold;
+    margin-bottom: $spacing-sm;
+  }
+
+  &__message {
+    color: $text-secondary;
+    line-height: $line-height-relaxed;
+    margin-bottom: $spacing-xl;
+  }
+
+  &__actions {
+    display: flex;
+    gap: $spacing-md;
+    justify-content: center;
+  }
+}
+
+// =============================================================================
+// CONNECT DIALOG (Login/Register)
+// =============================================================================
+
+.connect-dialog {
+  &__tabs {
+    display: flex;
+    gap: $spacing-xs;
+    margin-bottom: $spacing-xl;
+    padding: $spacing-xs;
+    background-color: $bg-tertiary;
+    border-radius: $radius-md;
+  }
+
+  &__tab {
+    flex: 1;
+    padding: $spacing-sm $spacing-md;
+    border: none;
+    border-radius: $radius-sm;
+    background-color: transparent;
+    color: $text-secondary;
+    font-size: $font-size-md;
+    font-weight: $font-weight-medium;
+    cursor: pointer;
+    transition: background-color $transition-fast, color $transition-fast;
+
+    &:hover {
+      color: $text-primary;
+    }
+
+    &.is-active {
+      background-color: $bg-secondary;
+      color: $text-primary;
+    }
+  }
+
+  &__error {
+    padding: $spacing-md;
+    margin-bottom: $spacing-lg;
+    background-color: rgba($color-danger, 0.1);
+    border: 1px solid rgba($color-danger, 0.3);
+    border-radius: $radius-sm;
+    color: $color-danger;
+    font-size: $font-size-sm;
+  }
+
+  &__info {
+    padding: $spacing-md;
+    margin-bottom: $spacing-lg;
+    background-color: rgba($color-info, 0.1);
+    border: 1px solid rgba($color-info, 0.3);
+    border-radius: $radius-sm;
+    color: $color-info;
+    font-size: $font-size-sm;
+  }
+}
+
+// =============================================================================
+// ADD/EDIT SERVER DIALOG
+// =============================================================================
+
+.server-dialog {
+  &__preview {
+    @include flex-center;
+    margin-bottom: $spacing-xl;
+  }
+
+  &__preview-button {
+    @include server-button-base;
+    width: 64px;
+    height: 64px;
+    font-size: 24px;
+    cursor: default;
+
+    &:hover {
+      border-radius: $radius-full;
+      background-color: $bg-primary;
+    }
+  }
+}
+
+// =============================================================================
+// RULES DIALOG
+// =============================================================================
+
+.rules-dialog {
+  width: 70vw;
+  min-width: 550px;
+  max-width: 650px;
+
+  // Override the base dialog body to allow more scrollable content
+  .dialog__body {
+    overflow-y: auto;
+    @include custom-scrollbar;
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-xl;
+  }
+
+  // ---------------------------------------------------------------------------
+  // Sections (accordion-style collapsed headers)
+  // ---------------------------------------------------------------------------
+  &__section {
+    background-color: $bg-tertiary;
+    border-radius: $radius-md;
+    overflow: hidden;
+  }
+
+  &__section-title {
+    padding: $spacing-md $spacing-lg;
+    margin: 0;
+    font-size: $font-size-md;
+    font-weight: $font-weight-semibold;
+    color: $text-secondary;
+    background-color: rgba($bg-primary, 0.5);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  &__section-content {
+    padding: $spacing-lg;
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-md;
+  }
+
+  // ---------------------------------------------------------------------------
+  // Fields
+  // ---------------------------------------------------------------------------
+  &__field {
+    display: flex;
+    align-items: center;
+    gap: $spacing-md;
+    min-height: 32px;
+
+    &--checkbox {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: $spacing-xs;
+    }
+
+    &--victory {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: $spacing-xs;
+    }
+  }
+
+  &__label {
+    color: $text-secondary;
+    font-size: $font-size-sm;
+    min-width: 140px;
+    flex-shrink: 0;
+  }
+
+  &__value {
+    color: $text-primary;
+    font-weight: $font-weight-medium;
+
+    &--inline {
+      display: inline;
+      padding: 0 $spacing-xs;
+    }
+  }
+
+  &__field-description {
+    margin: 0;
+    font-size: $font-size-xs;
+    color: $text-muted;
+    padding-left: $spacing-xl;
+  }
+
+  // ---------------------------------------------------------------------------
+  // Form Controls
+  // ---------------------------------------------------------------------------
+  &__select {
+    flex: 1;
+    padding: $spacing-sm $spacing-md;
+    padding-right: $spacing-xxl;
+    background-color: $bg-primary;
+    border: 1px solid $bg-hover;
+    border-radius: $radius-sm;
+    color: $text-primary;
+    font-size: $font-size-md;
+    cursor: pointer;
+    transition: border-color $transition-fast;
+
+    // Reset appearance for consistent cross-browser styling
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+
+    // Custom dropdown arrow
+    background-image: url("/icons/dropdown-arrow.svg");
+    background-repeat: no-repeat;
+    background-position: right $spacing-md center;
+
+    &:focus {
+      outline: none;
+      border-color: $accent-primary;
+    }
+
+    &:hover {
+      border-color: $text-muted;
+    }
+
+    // Style options for better contrast in dropdown
+    option {
+      background-color: $bg-tertiary;
+      color: $text-primary;
+      padding: $spacing-sm;
+    }
+  }
+
+  &__input {
+    padding: $spacing-sm $spacing-md;
+    background-color: $bg-primary;
+    border: 1px solid $bg-hover;
+    border-radius: $radius-sm;
+    color: $text-primary;
+    font-size: $font-size-md;
+    transition: border-color $transition-fast;
+
+    &:focus {
+      outline: none;
+      border-color: $accent-primary;
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    &--small {
+      width: 80px;
+      text-align: center;
+    }
+
+    &--inline {
+      width: 70px;
+      padding: $spacing-xs $spacing-sm;
+      font-size: $font-size-sm;
+      text-align: center;
+    }
+  }
+
+  // ---------------------------------------------------------------------------
+  // Checkboxes
+  // ---------------------------------------------------------------------------
+  &__checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    cursor: pointer;
+    color: $text-primary;
+
+    input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+      accent-color: $accent-primary;
+    }
+  }
+
+  &__checkbox-indicator {
+    font-family: $font-family-mono;
+    color: $accent-primary;
+    min-width: 24px;
+  }
+
+  &__checkbox-text {
+    font-size: $font-size-md;
+  }
+}
+
+// =============================================================================
+// SETTINGS DIALOG
+// =============================================================================
+
+.settings-dialog {
+  min-width: 450px;
+  max-width: 550px;
+
+  &__section {
+    margin-bottom: $spacing-lg;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  &__section-title {
+    font-size: $font-size-md;
+    font-weight: $font-weight-semibold;
+    color: $text-secondary;
+    margin: 0 0 $spacing-md 0;
+    padding-bottom: $spacing-sm;
+    border-bottom: 1px solid $bg-tertiary;
+  }
+
+  &__field {
+    margin-bottom: $spacing-md;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  &__label {
+    display: block;
+    font-size: $font-size-sm;
+    color: $text-secondary;
+    margin-bottom: $spacing-xs;
+  }
+
+  &__path-row {
+    display: flex;
+    align-items: center;
+    gap: $spacing-md;
+  }
+
+  &__path {
+    flex: 1;
+    padding: $spacing-sm $spacing-md;
+    background-color: $bg-tertiary;
+    border-radius: $radius-sm;
+    font-size: $font-size-sm;
+    font-family: $font-family-mono;
+    color: $text-primary;
+    word-break: break-all;
+  }
+
+  &__hint {
+    margin: $spacing-sm 0 0 0;
+    font-size: $font-size-xs;
+    color: $text-muted;
+  }
+
+  &__checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    cursor: pointer;
+    color: $text-primary;
+    font-size: $font-size-sm;
+
+    input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+      accent-color: $accent-primary;
+    }
+  }
+
+  &__zoom-row {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+  }
+
+  &__zoom-bar {
+    flex: 1;
+    height: 8px;
+    background-color: $bg-tertiary;
+    border-radius: $radius-sm;
+    overflow: hidden;
+  }
+
+  &__zoom-fill {
+    height: 100%;
+    background-color: $accent-primary;
+    border-radius: $radius-sm;
+    transition: width $transition-fast;
+  }
+
+  &__wine-check-row {
+    display: flex;
+    align-items: center;
+    gap: $spacing-md;
+    flex-wrap: wrap;
+  }
+
+  &__wine-status {
+    font-size: $font-size-sm;
+    padding: $spacing-xs $spacing-sm;
+    border-radius: $radius-sm;
+
+    &--valid {
+      color: $color-success;
+      background-color: rgba($color-success, 0.1);
+    }
+
+    &--invalid {
+      color: $color-danger;
+      background-color: rgba($color-danger, 0.1);
+    }
+
+    &--not-checked {
+      color: $text-muted;
+      font-style: italic;
+    }
+  }
+
+  &__help-link {
+    margin-top: $spacing-sm;
+
+    a {
+      color: $accent-primary;
+      text-decoration: underline;
+
+      &:hover {
+        color: $accent-hover;
+      }
+    }
+  }
+}
+
+// =============================================================================
+// USERS LIST DIALOG (Admin)
+// =============================================================================
+
+.users-list-dialog {
+  min-width: 450px;
+  max-width: 600px;
+
+  // ---------------------------------------------------------------------------
+  // Tabs
+  // ---------------------------------------------------------------------------
+  &__tabs {
+    display: flex;
+    gap: $spacing-xs;
+    padding: 0 $spacing-xl;
+    background-color: $bg-tertiary;
+    border-bottom: 1px solid $bg-hover;
+  }
+
+  &__tab {
+    padding: $spacing-md $spacing-lg;
+    border: none;
+    background-color: transparent;
+    color: $text-secondary;
+    font-size: $font-size-md;
+    font-weight: $font-weight-medium;
+    cursor: pointer;
+    transition: color $transition-fast, border-color $transition-fast;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+
+    &:hover {
+      color: $text-primary;
+    }
+
+    &.is-active {
+      color: $accent-primary;
+      border-bottom-color: $accent-primary;
+    }
+  }
+
+  // ---------------------------------------------------------------------------
+  // Filter
+  // ---------------------------------------------------------------------------
+  &__filter {
+    padding: $spacing-md $spacing-xl;
+    background-color: $bg-secondary;
+  }
+
+  &__filter-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  &__filter-input {
+    width: 100%;
+    padding: $spacing-sm $spacing-md;
+    padding-right: $spacing-xxl;
+    background-color: $bg-tertiary;
+    border: 1px solid $bg-hover;
+    border-radius: $radius-sm;
+    color: $text-primary;
+    font-size: $font-size-sm;
+    transition: border-color $transition-fast;
+
+    &::placeholder {
+      color: $text-muted;
+    }
+
+    &:focus {
+      outline: none;
+      border-color: $accent-primary;
+    }
+  }
+
+  &__filter-clear {
+    position: absolute;
+    right: $spacing-xs;
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    background: transparent;
+    border: none;
+    border-radius: $radius-sm;
+    color: $text-muted;
+    font-size: $font-size-md;
+    cursor: pointer;
+    @include flex-center;
+    transition: color $transition-fast, background-color $transition-fast;
+
+    &:hover {
+      color: $text-primary;
+      background-color: $bg-hover;
+    }
+  }
+
+  // ---------------------------------------------------------------------------
+  // Content States
+  // ---------------------------------------------------------------------------
+  &__loading {
+    padding: $spacing-lg;
+    text-align: center;
+    color: $text-secondary;
+    @include flex-column-center;
+    gap: $spacing-md;
+  }
+
+  &__empty {
+    padding: $spacing-xl;
+    text-align: center;
+    color: $text-muted;
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-sm;
+    max-height: 400px;
+    overflow-y: auto;
+    @include custom-scrollbar;
+  }
+
+  // ---------------------------------------------------------------------------
+  // User Item
+  // ---------------------------------------------------------------------------
+  &__item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: $spacing-md;
+    padding: $spacing-md $spacing-lg;
+    background-color: $bg-tertiary;
+    border-radius: $radius-sm;
+  }
+
+  &__user-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    flex: 1;
+    min-width: 0;
+  }
+
+  &__name-row {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    flex-wrap: wrap;
+  }
+
+  &__nickname {
+    font-weight: $font-weight-medium;
+    color: $text-primary;
+  }
+
+  &__self-badge {
+    color: $text-muted;
+    font-weight: $font-weight-normal;
+  }
+
+  &__email {
+    font-size: $font-size-xs;
+    color: $text-muted;
+  }
+
+  // ---------------------------------------------------------------------------
+  // Actions
+  // ---------------------------------------------------------------------------
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: $spacing-xs;
+  }
+
+  &__reset-btn,
+  &__delete-btn,
+  &__message-btn {
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    background: transparent;
+    border: none;
+    border-radius: $radius-sm;
+    cursor: pointer;
+    @include flex-center;
+    font-size: $font-size-lg;
+    color: $text-secondary;
+    transition: background-color $transition-fast, color $transition-fast;
+
+    &:hover {
+      background-color: $bg-hover;
+      color: $text-primary;
+    }
+  }
+
+  &__delete-btn:hover {
+    color: $color-danger;
+  }
+
+  &__message-btn:hover {
+    color: $accent-primary;
+  }
+
+  &__badges {
+    display: flex;
+    gap: $spacing-xs;
+  }
+
+  &__badge {
+    padding: 2px $spacing-xs;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-medium;
+    border-radius: $radius-sm;
+
+    &--manager {
+      background-color: rgba($accent-primary, 0.15);
+      color: $accent-primary;
+    }
+
+    &--active {
+      background-color: rgba($color-success, 0.15);
+      color: $color-success;
+    }
+
+    &--inactive {
+      background-color: rgba($text-muted, 0.15);
+      color: $text-muted;
+    }
+  }
+
+  // Confirmation view (nested inside dialog body)
+  &__confirm {
+    text-align: center;
+    padding: $spacing-lg;
+  }
+
+  // Result view (after reset)
+  &__result {
+    text-align: center;
+    padding: $spacing-lg;
+    @include flex-column-center;
+    gap: $spacing-md;
+  }
+
+  &__result-icon {
+    width: 64px;
+    height: 64px;
+    @include flex-center;
+    border-radius: $radius-full;
+    background-color: rgba($color-success, 0.1);
+    color: $color-success;
+    font-size: 32px;
+  }
+
+  &__result-title {
+    font-size: $font-size-lg;
+    font-weight: $font-weight-semibold;
+    margin: 0;
+    color: $text-primary;
+  }
+
+  &__result-warning {
+    color: $color-warning;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+  }
+
+  &__result-key {
+    padding: $spacing-md;
+    background-color: $bg-tertiary;
+    border-radius: $radius-sm;
+    font-family: $font-family-mono;
+    font-size: $font-size-sm;
+    color: $text-primary;
+    word-break: break-all;
+    user-select: all;
+    max-width: 100%;
+  }
+
+  // Error view
+  &__error {
+    text-align: center;
+    padding: $spacing-lg;
+  }
+
+  // ---------------------------------------------------------------------------
+  // Message View (for registration messages)
+  // ---------------------------------------------------------------------------
+  &__message-view {
+    padding: $spacing-lg;
+    @include flex-column-center;
+    gap: $spacing-lg;
+  }
+
+  &__message-header {
+    text-align: center;
+  }
+
+  &__message-title {
+    font-size: $font-size-lg;
+    font-weight: $font-weight-semibold;
+    margin: 0;
+    color: $text-primary;
+  }
+
+  &__message-content {
+    width: 100%;
+    padding: $spacing-lg;
+    background-color: $bg-tertiary;
+    border-radius: $radius-sm;
+    color: $text-primary;
+    font-size: $font-size-md;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    word-break: break-word;
+    max-height: 200px;
+    overflow-y: auto;
+    @include custom-scrollbar;
+
+    p {
+      margin: 0;
+    }
+  }
+
+  &__message-actions {
+    display: flex;
+    gap: $spacing-sm;
+    justify-content: center;
+  }
+}
+
+// =============================================================================
+// CHANGE API KEY DIALOG (User's own key)
+// =============================================================================
+
+.change-apikey-dialog {
+  min-width: 400px;
+  max-width: 500px;
+
+  &__loading {
+    padding: $spacing-xl;
+    text-align: center;
+    color: $text-secondary;
+    @include flex-column-center;
+    gap: $spacing-md;
+  }
+
+  &__result {
+    text-align: center;
+    padding: $spacing-lg;
+    @include flex-column-center;
+    gap: $spacing-md;
+  }
+
+  &__result-icon {
+    width: 64px;
+    height: 64px;
+    @include flex-center;
+    border-radius: $radius-full;
+    background-color: rgba($color-success, 0.1);
+    color: $color-success;
+    font-size: 32px;
+  }
+
+  &__result-title {
+    font-size: $font-size-lg;
+    font-weight: $font-weight-semibold;
+    margin: 0;
+    color: $text-primary;
+  }
+
+  &__result-warning {
+    color: $color-warning;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+  }
+
+  &__result-key {
+    padding: $spacing-md;
+    background-color: $bg-tertiary;
+    border-radius: $radius-sm;
+    font-family: $font-family-mono;
+    font-size: $font-size-sm;
+    color: $text-primary;
+    word-break: break-all;
+    user-select: all;
+    max-width: 100%;
+  }
+
+  &__result-note {
+    margin: 0;
+    font-size: $font-size-sm;
+    color: $text-secondary;
+  }
+}
+
+// =============================================================================
+// MAP VIEWER DIALOG
+// =============================================================================
+
+.map-viewer-dialog {
+  min-width: 900px;
+  max-width: 95vw;
+
+  // Override body to use flex layout
+  .dialog__body {
+    display: flex;
+    gap: $spacing-xl;
+    min-height: 500px;
+    max-height: calc(90vh - 140px);
+    overflow: hidden; // Prevent base overflow-y: auto from breaking flex layout
+  }
+
+  // ---------------------------------------------------------------------------
+  // Options Panel (left side)
+  // ---------------------------------------------------------------------------
+  &__options {
+    flex: 0 0 280px;
+    background-color: $bg-tertiary;
+    border-radius: $radius-md;
+    padding: $spacing-lg;
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-lg;
+    overflow-y: auto;
+    @include custom-scrollbar;
+  }
+
+  &__section-title {
+    font-size: $font-size-sm;
+    font-weight: $font-weight-semibold;
+    color: $text-secondary;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin: 0 0 $spacing-md 0;
+  }
+
+  // ---------------------------------------------------------------------------
+  // Resolution Options
+  // ---------------------------------------------------------------------------
+  &__resolution {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-md;
+  }
+
+  &__presets {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-xs;
+
+    label {
+      font-size: $font-size-sm;
+      color: $text-secondary;
+    }
+
+    select {
+      padding: $spacing-sm $spacing-md;
+      padding-right: $spacing-xxl;
+      background-color: $bg-primary;
+      border: 1px solid $bg-hover;
+      border-radius: $radius-sm;
+      color: $text-primary;
+      font-size: $font-size-sm;
+      cursor: pointer;
+      transition: border-color $transition-fast;
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      background-image: url("/icons/dropdown-arrow.svg");
+      background-repeat: no-repeat;
+      background-position: right $spacing-md center;
+
+      &:focus {
+        outline: none;
+        border-color: $accent-primary;
+      }
+
+      &:hover {
+        border-color: $text-muted;
+      }
+
+      option {
+        background-color: $bg-tertiary;
+        color: $text-primary;
+      }
+    }
+  }
+
+  &__custom-size {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: $spacing-xs $spacing-sm;
+    align-items: center;
+
+    label {
+      font-size: $font-size-sm;
+      color: $text-secondary;
+    }
+
+    input[type="number"] {
+      padding: $spacing-xs $spacing-sm;
+      background-color: $bg-primary;
+      border: 1px solid $bg-hover;
+      border-radius: $radius-sm;
+      color: $text-primary;
+      font-size: $font-size-sm;
+      width: 80px;
+      transition: border-color $transition-fast;
+
+      &:focus {
+        outline: none;
+        border-color: $accent-primary;
+      }
+
+      // Hide spin buttons for cleaner look
+      &::-webkit-inner-spin-button,
+      &::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+
+      -moz-appearance: textfield;
+    }
+  }
+
+  // ---------------------------------------------------------------------------
+  // Display Options (checkboxes)
+  // ---------------------------------------------------------------------------
+  &__display-options {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-sm;
+  }
+
+  &__checkbox {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    cursor: pointer;
+    color: $text-primary;
+    font-size: $font-size-sm;
+
+    input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+      accent-color: $accent-primary;
+    }
+  }
+
+  &__fleet-paths {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    margin-top: $spacing-xs;
+
+    label {
+      font-size: $font-size-sm;
+      color: $text-secondary;
+      white-space: nowrap;
+    }
+
+    input[type="number"] {
+      padding: $spacing-xs $spacing-sm;
+      background-color: $bg-primary;
+      border: 1px solid $bg-hover;
+      border-radius: $radius-sm;
+      color: $text-primary;
+      font-size: $font-size-sm;
+      width: 60px;
+      transition: border-color $transition-fast;
+
+      &:focus {
+        outline: none;
+        border-color: $accent-primary;
+      }
+
+      &::-webkit-inner-spin-button,
+      &::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+
+      -moz-appearance: textfield;
+    }
+  }
+
+  // ---------------------------------------------------------------------------
+  // Map Display Area (right side)
+  // ---------------------------------------------------------------------------
+  &__display {
+    flex: 1;
+    min-width: 500px;
+    min-height: 0; // Allow flex shrinking
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-md;
+  }
+
+  &__svg-container {
+    flex: 1;
+    min-height: 0; // Allow flex shrinking
+    overflow: hidden;
+    background-color: $bg-tertiary;
+    border-radius: $radius-md;
+    position: relative;
+  }
+
+  &__svg-frame {
+    width: 100%;
+    height: 100%;
+    border: none;
+    background-color: transparent;
+  }
+
+  &__fullscreen-btn {
+    position: absolute;
+    top: $spacing-sm;
+    right: $spacing-sm;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    background-color: rgba($bg-primary, 0.8);
+    border: 1px solid $bg-hover;
+    border-radius: $radius-sm;
+    color: $text-primary;
+    font-size: $font-size-lg;
+    cursor: pointer;
+    @include flex-center;
+    transition: background-color $transition-fast, border-color $transition-fast;
+    z-index: 10;
+
+    &:hover {
+      background-color: $bg-hover;
+      border-color: $text-muted;
+    }
+  }
+
+  &__placeholder {
+    flex: 1;
+    @include flex-center;
+    background-color: $bg-tertiary;
+    border-radius: $radius-md;
+    color: $text-muted;
+    font-size: $font-size-md;
+  }
+}

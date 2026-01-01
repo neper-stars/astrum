@@ -1,0 +1,787 @@
+// =============================================================================
+// RACE BUILDER DIALOG
+// =============================================================================
+@use 'shared' as *;
+
+.race-builder {
+  width: 80vw;
+  min-width: 700px;
+  max-width: 900px;
+
+  // ---------------------------------------------------------------------------
+  // Tabs
+  // ---------------------------------------------------------------------------
+  &__tabs {
+    display: flex;
+    gap: $spacing-xs;
+    padding: 0 $spacing-xl;
+    background-color: $bg-tertiary;
+    border-bottom: 1px solid $bg-hover;
+    overflow-x: auto;
+    @include custom-scrollbar;
+  }
+
+  &__tab {
+    padding: $spacing-md $spacing-lg;
+    border: none;
+    background-color: transparent;
+    color: $text-secondary;
+    font-size: $font-size-md;
+    font-weight: $font-weight-medium;
+    cursor: pointer;
+    transition: color $transition-fast, border-color $transition-fast;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    white-space: nowrap;
+
+    &:hover {
+      color: $text-primary;
+    }
+
+    &.is-active {
+      color: $accent-primary;
+      border-bottom-color: $accent-primary;
+    }
+  }
+
+  // ---------------------------------------------------------------------------
+  // Points Bar
+  // ---------------------------------------------------------------------------
+  &__points-bar {
+    padding: $spacing-md $spacing-xl;
+    background-color: $bg-tertiary;
+    border-bottom: 1px solid $bg-hover;
+  }
+
+  &__points {
+    display: flex;
+    align-items: baseline;
+    gap: $spacing-sm;
+    font-size: $font-size-lg;
+    font-weight: $font-weight-semibold;
+    line-height: 28px;
+    height: 28px;
+
+    &--positive {
+      color: $color-success;
+    }
+
+    &--zero {
+      color: $text-primary;
+    }
+
+    &--negative {
+      color: $color-danger;
+    }
+  }
+
+  &__points-label {
+    color: $text-secondary;
+    font-weight: $font-weight-normal;
+    line-height: 28px;
+  }
+
+  &__points-value {
+    display: inline-block;
+    min-width: 60px;
+    text-align: right;
+    line-height: 28px;
+    font-variant-numeric: tabular-nums; // Ensure consistent digit widths
+  }
+
+  &__errors {
+    margin-top: $spacing-sm;
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-xs;
+  }
+
+  &__error {
+    padding: $spacing-xs $spacing-sm;
+    background-color: rgba($color-danger, 0.1);
+    border-radius: $radius-sm;
+    color: $color-danger;
+    font-size: $font-size-sm;
+  }
+
+  &__warnings {
+    margin-top: $spacing-sm;
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-xs;
+  }
+
+  &__warning {
+    padding: $spacing-xs $spacing-sm;
+    background-color: rgba($color-warning, 0.1);
+    border-radius: $radius-sm;
+    color: $color-warning;
+    font-size: $font-size-sm;
+  }
+
+  // ---------------------------------------------------------------------------
+  // Content Area
+  // ---------------------------------------------------------------------------
+  &__content {
+    padding: $spacing-xl;
+    overflow-y: auto;
+    max-height: calc(90vh - 280px);
+    @include custom-scrollbar;
+
+    &--loading {
+      @include flex-center;
+      min-height: 200px;
+    }
+  }
+
+  &__loading {
+    color: $text-secondary;
+    font-size: $font-size-lg;
+  }
+
+  // ---------------------------------------------------------------------------
+  // Common Form Elements
+  // ---------------------------------------------------------------------------
+  &__field {
+    margin-bottom: $spacing-lg;
+  }
+
+  &__label {
+    display: block;
+    font-size: $font-size-sm;
+    color: $text-secondary;
+    margin-bottom: $spacing-xs;
+  }
+
+  &__input {
+    width: 100%;
+    padding: $spacing-sm $spacing-md;
+    background-color: $bg-tertiary;
+    border: 1px solid $bg-hover;
+    border-radius: $radius-sm;
+    color: $text-primary;
+    font-size: $font-size-md;
+    transition: border-color $transition-fast;
+
+    &:focus {
+      outline: none;
+      border-color: $accent-primary;
+    }
+
+    &--short {
+      max-width: 200px;
+    }
+  }
+
+  &__row {
+    display: flex;
+    gap: $spacing-lg;
+
+    .race-builder__field {
+      flex: 1;
+    }
+  }
+
+  &__section-title {
+    font-size: $font-size-md;
+    font-weight: $font-weight-semibold;
+    color: $text-secondary;
+    margin: $spacing-lg 0 $spacing-md 0;
+    padding-bottom: $spacing-sm;
+    border-bottom: 1px solid $bg-tertiary;
+  }
+
+  &__checkbox-field {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    cursor: pointer;
+    color: $text-primary;
+    font-size: $font-size-sm;
+    margin-bottom: $spacing-md;
+
+    input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+      accent-color: $accent-primary;
+    }
+  }
+
+  &__radio-option {
+    display: flex;
+    align-items: center;
+    gap: $spacing-xs;
+    cursor: pointer;
+    color: $text-primary;
+    font-size: $font-size-sm;
+
+    input[type="radio"] {
+      width: 14px;
+      height: 14px;
+      cursor: pointer;
+      accent-color: $accent-primary;
+    }
+  }
+
+  &__slider {
+    width: 100%;
+    height: 6px;
+    cursor: pointer;
+    accent-color: $accent-primary;
+
+    &--sm {
+      width: 120px;
+    }
+  }
+
+  // ---------------------------------------------------------------------------
+  // Identity Tab - Stars! Step 1 layout
+  // ---------------------------------------------------------------------------
+  &__identity {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-sm;
+  }
+
+  // Form row with label and input
+  &__identity-row {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+  }
+
+  &__identity-label {
+    min-width: 120px;
+    font-size: $font-size-sm;
+    color: $text-primary;
+    text-align: right;
+  }
+
+  &__identity-input {
+    flex: 1;
+    max-width: 200px;
+    padding: $spacing-xs $spacing-sm;
+    background-color: $bg-tertiary;
+    border: 1px solid $bg-hover;
+    border-radius: $radius-sm;
+    color: $text-primary;
+    font-size: $font-size-sm;
+
+    &:focus {
+      outline: none;
+      border-color: $accent-primary;
+    }
+
+    &--short {
+      max-width: 100px;
+    }
+  }
+
+  // Predefined Races fieldset
+  &__predefined {
+    border: 1px solid $bg-hover;
+    border-radius: $radius-sm;
+    padding: $spacing-sm $spacing-md $spacing-md;
+    margin: $spacing-sm 0;
+
+    legend {
+      font-size: $font-size-sm;
+      color: $text-primary;
+      padding: 0 $spacing-xs;
+    }
+  }
+
+  &__predefined-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: $spacing-xs $spacing-lg;
+  }
+
+  &__predefined-option {
+    display: flex;
+    align-items: center;
+    gap: $spacing-xs;
+    cursor: pointer;
+    font-size: $font-size-sm;
+    color: $text-primary;
+    padding: $spacing-xs 0;
+
+    input[type="radio"] {
+      accent-color: $accent-primary;
+    }
+
+    &:hover {
+      color: $accent-primary;
+    }
+  }
+
+  // Bottom row: Leftover points + Icon picker (same row like Stars!)
+  &__bottom-row {
+    display: flex;
+    align-items: flex-end;
+    gap: $spacing-lg;
+    margin-top: $spacing-sm;
+  }
+
+  // Leftover advantage points section
+  &__leftover-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-xs;
+
+    label {
+      font-size: $font-size-sm;
+      color: $text-primary;
+    }
+  }
+
+  &__leftover-select {
+    width: 100%;
+    max-width: 250px;
+    padding: $spacing-sm $spacing-md;
+    background-color: #2f3136;
+    border: 1px solid #4a4d52;
+    border-radius: $radius-sm;
+    color: #ffffff;
+    font-size: $font-size-sm;
+    cursor: pointer;
+    // Override browser defaults
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    // Custom dropdown arrow
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23dcddde' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right $spacing-sm center;
+    padding-right: $spacing-xl;
+
+    // Ensure dropdown options are readable
+    option {
+      background-color: #2f3136;
+      color: #ffffff;
+      padding: $spacing-sm;
+    }
+
+    &:focus {
+      outline: none;
+      border-color: $accent-primary;
+    }
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+  }
+
+  // Icon picker (inline with leftover points)
+  &__icon-picker {
+    display: flex;
+    align-items: center;
+    gap: $spacing-xs;
+    padding: $spacing-xs;
+    background-color: $bg-tertiary;
+    border: 1px solid $bg-hover;
+    border-radius: $radius-sm;
+  }
+
+  &__icon-image {
+    width: 32px;
+    height: 32px;
+    image-rendering: pixelated;
+  }
+
+  &__icon-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  &__icon-btn {
+    padding: 2px $spacing-xs;
+    background-color: $bg-secondary;
+    border: 1px solid $bg-hover;
+    border-radius: 2px;
+    color: $text-primary;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-semibold;
+    cursor: pointer;
+    min-width: 20px;
+    line-height: 1;
+
+    &:hover:not(:disabled) {
+      background-color: $bg-hover;
+      border-color: $accent-primary;
+    }
+
+    &:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+  }
+
+  // ---------------------------------------------------------------------------
+  // PRT Tab (Primary Racial Trait) - Stars! style two-column layout
+  // ---------------------------------------------------------------------------
+  &__prt-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: $spacing-xs $spacing-lg;
+  }
+
+  &__prt-option {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    padding: $spacing-sm;
+    cursor: pointer;
+    border-radius: $radius-sm;
+    transition: background-color $transition-fast;
+
+    &:hover {
+      background-color: $bg-hover;
+    }
+
+    &.is-selected {
+      background-color: rgba($accent-primary, 0.1);
+    }
+  }
+
+  &__prt-radio {
+    accent-color: $accent-primary;
+    flex-shrink: 0;
+  }
+
+  &__prt-name {
+    color: $text-primary;
+    font-size: $font-size-sm;
+  }
+
+  // ---------------------------------------------------------------------------
+  // Trait Description (used in PRT and LRT tabs - like Stars!)
+  // ---------------------------------------------------------------------------
+  &__trait-description {
+    margin-top: $spacing-lg;
+    border: 1px solid $bg-hover;
+    border-radius: $radius-sm;
+  }
+
+  &__trait-description-label {
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    color: $text-secondary;
+    padding: $spacing-xs $spacing-md;
+    background-color: $bg-tertiary;
+    border-bottom: 1px solid $bg-hover;
+    border-radius: $radius-sm $radius-sm 0 0;
+  }
+
+  &__trait-description-box {
+    padding: $spacing-md;
+    font-size: $font-size-sm;
+    color: $text-primary;
+    line-height: 1.5;
+    background-color: $bg-secondary;
+    border-radius: 0 0 $radius-sm $radius-sm;
+    min-height: 80px;
+    max-height: 150px;
+    overflow-y: auto;
+    @include custom-scrollbar;
+  }
+
+  // ---------------------------------------------------------------------------
+  // LRT Tab (Lesser Racial Traits) - Stars! style layout
+  // ---------------------------------------------------------------------------
+  &__lrt-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: $spacing-xs $spacing-lg;
+  }
+
+  &__lrt-option {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    padding: $spacing-sm;
+    cursor: pointer;
+    border-radius: $radius-sm;
+    transition: background-color $transition-fast;
+
+    &:hover {
+      background-color: $bg-hover;
+    }
+
+    &.is-selected {
+      background-color: rgba($accent-primary, 0.1);
+    }
+  }
+
+  &__lrt-checkbox {
+    accent-color: $accent-primary;
+    flex-shrink: 0;
+  }
+
+  &__lrt-name {
+    color: $text-primary;
+    font-size: $font-size-sm;
+  }
+
+  // ---------------------------------------------------------------------------
+  // Habitability Tab - Stars! style layout
+  // ---------------------------------------------------------------------------
+  &__habitability {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-lg;
+  }
+
+  &__hab-section {
+    background-color: $bg-tertiary;
+    border-radius: $radius-sm;
+    padding: $spacing-md $spacing-lg;
+  }
+
+  // Row 1: Label | < button | Bar | > button | Range stack
+  &__hab-row {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+  }
+
+  &__hab-label {
+    font-size: $font-size-md;
+    font-weight: $font-weight-semibold;
+    color: $text-primary;
+    min-width: 100px;
+  }
+
+  // Visual bar showing habitable range
+  &__hab-bar {
+    flex: 1;
+    position: relative;
+    height: 20px;
+    background-color: $bg-primary;
+    border-radius: $radius-sm;
+    overflow: hidden;
+  }
+
+  &__hab-bar-fill {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    border-radius: $radius-sm;
+    opacity: 0.8;
+    transition: left $transition-fast, width $transition-fast;
+
+    &--immune {
+      opacity: 0.5;
+    }
+  }
+
+  // Stacked range values (min / to / max)
+  &__hab-range-stack {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    min-width: 70px;
+    line-height: 1.1;
+  }
+
+  &__hab-range-val {
+    font-size: $font-size-sm;
+    font-weight: $font-weight-semibold;
+    color: $accent-primary;
+  }
+
+  &__hab-range-to {
+    font-size: $font-size-xs;
+    color: $text-secondary;
+  }
+
+  // Row 2: Expand | Immune | Shrink controls
+  &__hab-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: $spacing-md;
+    margin-top: $spacing-sm;
+  }
+
+  &__hab-immune {
+    display: flex;
+    align-items: center;
+    gap: $spacing-xs;
+    cursor: pointer;
+    color: $text-secondary;
+    font-size: $font-size-sm;
+
+    input[type="checkbox"] {
+      accent-color: $accent-primary;
+    }
+
+    &:hover {
+      color: $text-primary;
+    }
+  }
+
+  // Habitability control buttons (Stars! style)
+  &__hab-btn {
+    padding: $spacing-xs $spacing-md;
+    background-color: $bg-secondary;
+    border: 1px solid $bg-hover;
+    border-radius: $radius-sm;
+    color: $text-primary;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    font-family: monospace;
+    cursor: pointer;
+    transition: background-color $transition-fast, border-color $transition-fast;
+
+    &:hover:not(:disabled) {
+      background-color: $bg-hover;
+      border-color: $accent-primary;
+    }
+
+    &:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    // Move left/right buttons (< and >)
+    &--move {
+      padding: $spacing-xs $spacing-sm;
+      min-width: 28px;
+      font-size: $font-size-md;
+    }
+  }
+
+  // Growth rate slider
+  &__growth-slider {
+    display: flex;
+    align-items: center;
+    gap: $spacing-md;
+  }
+
+  &__growth-min,
+  &__growth-max {
+    font-size: $font-size-xs;
+    color: $text-muted;
+    min-width: 30px;
+  }
+
+  &__growth-max {
+    text-align: right;
+  }
+
+  // ---------------------------------------------------------------------------
+  // Economy Tab - Stars! style with native number inputs
+  // ---------------------------------------------------------------------------
+  &__economy {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-xs;
+  }
+
+  &__economy-row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: $spacing-xs;
+    padding: $spacing-xs 0;
+    font-size: $font-size-md;
+    color: $text-primary;
+    line-height: 1.5;
+  }
+
+  &__economy-text {
+    color: $text-primary;
+  }
+
+  &__economy-input {
+    width: 70px;
+    padding: $spacing-xs $spacing-sm;
+    background-color: $bg-tertiary;
+    border: 1px solid $bg-hover;
+    border-radius: $radius-sm;
+    text-align: center;
+    font-size: $font-size-md;
+    font-weight: $font-weight-semibold;
+    color: $text-primary;
+
+    &:focus {
+      outline: none;
+      border-color: $accent-primary;
+    }
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    // Hide spinner buttons on Firefox
+    -moz-appearance: textfield;
+
+    // Style spinner buttons on WebKit browsers
+    &::-webkit-inner-spin-button,
+    &::-webkit-outer-spin-button {
+      opacity: 1;
+      height: 24px;
+    }
+  }
+
+  // ---------------------------------------------------------------------------
+  // Research Tab - Stars! style 2x3 grid of fieldset boxes
+  // ---------------------------------------------------------------------------
+  &__research {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-lg;
+  }
+
+  // 2-column grid for research boxes
+  &__research-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: $spacing-md;
+  }
+
+  // Individual research box (fieldset)
+  &__research-box {
+    border: 1px solid $bg-hover;
+    border-radius: $radius-sm;
+    padding: $spacing-sm $spacing-md $spacing-md;
+    margin: 0;
+    background-color: $bg-tertiary;
+  }
+
+  // Box title (legend)
+  &__research-title {
+    font-size: $font-size-sm;
+    font-weight: $font-weight-semibold;
+    color: $text-primary;
+    padding: 0 $spacing-xs;
+  }
+
+  // Radio option row
+  &__research-option {
+    display: flex;
+    align-items: center;
+    gap: $spacing-xs;
+    cursor: pointer;
+    color: $text-primary;
+    font-size: $font-size-sm;
+    padding: $spacing-xs 0;
+
+    input[type="radio"] {
+      width: 14px;
+      height: 14px;
+      cursor: pointer;
+      accent-color: $accent-primary;
+    }
+
+    &:hover {
+      color: $accent-primary;
+    }
+  }
+}

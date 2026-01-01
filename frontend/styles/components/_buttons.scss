@@ -1,0 +1,317 @@
+// =============================================================================
+// BUTTONS
+// =============================================================================
+@use 'shared' as *;
+
+// -----------------------------------------------------------------------------
+// Base Button
+// -----------------------------------------------------------------------------
+.btn {
+  @include button-base;
+}
+
+// -----------------------------------------------------------------------------
+// Primary Button (accent color)
+// -----------------------------------------------------------------------------
+.btn-primary {
+  @include button-base;
+  background-color: $accent-primary;
+  color: white;
+
+  &:hover:not(:disabled) {
+    background-color: $accent-hover;
+  }
+
+  &:active:not(:disabled) {
+    background-color: $accent-active;
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Secondary Button (subtle)
+// -----------------------------------------------------------------------------
+.btn-secondary {
+  @include button-base;
+  background-color: $bg-tertiary;
+  color: $text-primary;
+
+  &:hover:not(:disabled) {
+    background-color: $bg-hover;
+  }
+
+  &:active:not(:disabled) {
+    background-color: $bg-active;
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Ghost Button (transparent)
+// -----------------------------------------------------------------------------
+.btn-ghost {
+  @include button-base;
+  background-color: transparent;
+  color: $text-secondary;
+
+  &:hover:not(:disabled) {
+    background-color: $bg-hover;
+    color: $text-primary;
+  }
+
+  &:active:not(:disabled) {
+    background-color: $bg-active;
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Link Button (text only)
+// -----------------------------------------------------------------------------
+.btn-link {
+  @include button-base;
+  background-color: transparent;
+  color: $text-link;
+  padding: 0;
+
+  &:hover:not(:disabled) {
+    text-decoration: underline;
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Success Button
+// -----------------------------------------------------------------------------
+.btn-success {
+  @include button-base;
+  background-color: $color-success;
+  color: white;
+
+  &:hover:not(:disabled) {
+    background-color: $color-success-hover;
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Danger Button
+// -----------------------------------------------------------------------------
+.btn-danger {
+  @include button-base;
+  background-color: $color-danger;
+  color: white;
+
+  &:hover:not(:disabled) {
+    background-color: $color-danger-hover;
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Danger Ghost (for destructive actions in menus)
+// -----------------------------------------------------------------------------
+.btn-danger-ghost {
+  @include button-base;
+  background-color: transparent;
+  color: $color-danger;
+
+  &:hover:not(:disabled) {
+    background-color: rgba($color-danger, 0.1);
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Size Variants
+// -----------------------------------------------------------------------------
+.btn-xs,
+.btn--xs {
+  padding: 2px $spacing-xs;
+  font-size: $font-size-xs;
+  min-width: auto;
+  line-height: 1.2;
+}
+
+.btn-sm {
+  padding: $spacing-xs $spacing-sm;
+  font-size: $font-size-sm;
+}
+
+.btn-lg {
+  padding: $spacing-md $spacing-xl;
+  font-size: $font-size-lg;
+}
+
+// -----------------------------------------------------------------------------
+// Full Width
+// -----------------------------------------------------------------------------
+.btn-block {
+  width: 100%;
+}
+
+// -----------------------------------------------------------------------------
+// Icon Button
+// -----------------------------------------------------------------------------
+.btn-icon {
+  @include button-base;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border-radius: $radius-sm;
+  background-color: transparent;
+  color: $text-secondary;
+
+  &:hover:not(:disabled) {
+    background-color: $bg-hover;
+    color: $text-primary;
+  }
+
+  &.btn-icon-sm {
+    width: 28px;
+    height: 28px;
+    font-size: $font-size-sm;
+  }
+
+  &.btn-icon-lg {
+    width: 44px;
+    height: 44px;
+    font-size: $font-size-lg;
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Button with Loading State
+// -----------------------------------------------------------------------------
+.btn-loading {
+  position: relative;
+  color: transparent !important;
+  pointer-events: none;
+
+  &::after {
+    content: '';
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    top: 50%;
+    left: 50%;
+    margin-top: -8px;
+    margin-left: -8px;
+    border: 2px solid currentColor;
+    border-right-color: transparent;
+    border-radius: $radius-full;
+    animation: spin 0.6s linear infinite;
+  }
+
+  // Restore original color for the spinner
+  &.btn-primary::after {
+    border-color: white;
+    border-right-color: transparent;
+  }
+
+  &.btn-secondary::after,
+  &.btn-ghost::after {
+    border-color: $text-primary;
+    border-right-color: transparent;
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Button Group
+// -----------------------------------------------------------------------------
+.btn-group {
+  display: inline-flex;
+
+  .btn {
+    border-radius: 0;
+
+    &:first-child {
+      border-radius: $radius-sm 0 0 $radius-sm;
+    }
+
+    &:last-child {
+      border-radius: 0 $radius-sm $radius-sm 0;
+    }
+
+    &:not(:first-child) {
+      margin-left: -1px;
+    }
+  }
+}
+
+// -----------------------------------------------------------------------------
+// BEM-style Modifier Classes (used with .btn base class)
+// -----------------------------------------------------------------------------
+.btn {
+  &--primary {
+    background-color: $accent-primary;
+    color: white;
+
+    &:hover:not(:disabled):not(.btn--disabled) {
+      background-color: $accent-hover;
+    }
+
+    &:active:not(:disabled):not(.btn--disabled) {
+      background-color: $accent-active;
+    }
+  }
+
+  &--secondary {
+    background-color: $bg-tertiary;
+    color: $text-primary;
+
+    &:hover:not(:disabled):not(.btn--disabled) {
+      background-color: $bg-hover;
+    }
+
+    &:active:not(:disabled):not(.btn--disabled) {
+      background-color: $bg-active;
+    }
+  }
+
+  &--success {
+    background-color: $color-success;
+    color: white;
+
+    &:hover:not(:disabled):not(.btn--disabled) {
+      background-color: $color-success-hover;
+    }
+  }
+
+  &--danger {
+    background-color: $color-danger;
+    color: white;
+
+    &:hover:not(:disabled):not(.btn--disabled) {
+      background-color: $color-danger-hover;
+    }
+  }
+
+  &--sm {
+    padding: $spacing-xs $spacing-sm;
+    font-size: $font-size-sm;
+  }
+
+  &--disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  &--loading {
+    position: relative;
+    pointer-events: none;
+    opacity: 0.8;
+
+    // Keep text visible but dimmed
+    &::before {
+      content: '';
+      position: absolute;
+      width: 14px;
+      height: 14px;
+      top: 50%;
+      right: $spacing-sm;
+      margin-top: -7px;
+      border: 2px solid currentColor;
+      border-right-color: transparent;
+      border-radius: $radius-full;
+      animation: spin 0.6s linear infinite;
+    }
+
+    // Add padding for spinner
+    padding-right: $spacing-xl + $spacing-sm;
+  }
+}

@@ -1,0 +1,260 @@
+// =============================================================================
+// SESSION LIST COMPONENT
+// =============================================================================
+@use 'shared' as *;
+
+.session-list {
+  padding: $spacing-lg;
+
+  // ---------------------------------------------------------------------------
+  // Header with title, actions, and filters
+  // ---------------------------------------------------------------------------
+  &__header {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: $spacing-md;
+    margin-bottom: $spacing-lg;
+  }
+
+  &__title {
+    font-size: $font-size-lg;
+    font-weight: $font-weight-semibold;
+    margin: 0;
+  }
+
+  &__actions {
+    display: flex;
+    gap: $spacing-sm;
+  }
+
+  // ---------------------------------------------------------------------------
+  // Filters (pushed to the right)
+  // ---------------------------------------------------------------------------
+  &__filters {
+    display: flex;
+    gap: $spacing-sm;
+    margin-left: auto;
+  }
+
+  // ---------------------------------------------------------------------------
+  // Grid of session cards
+  // ---------------------------------------------------------------------------
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: $spacing-lg;
+  }
+
+  // ---------------------------------------------------------------------------
+  // Empty state
+  // ---------------------------------------------------------------------------
+  &__empty {
+    @include flex-column-center;
+    gap: $spacing-md;
+    padding: $spacing-xxl;
+    color: $text-secondary;
+    text-align: center;
+  }
+}
+
+// =============================================================================
+// FILTER BUTTONS
+// =============================================================================
+
+.filter-btn {
+  padding: $spacing-sm $spacing-md;
+  border: none;
+  border-radius: $radius-sm;
+  background-color: transparent;
+  color: $text-secondary;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  cursor: pointer;
+  transition: background-color $transition-fast, color $transition-fast;
+
+  &:hover {
+    background-color: $bg-hover;
+    color: $text-primary;
+  }
+
+  &.is-active {
+    background-color: $bg-active;
+    color: $text-primary;
+  }
+}
+
+// =============================================================================
+// SESSION CARD
+// =============================================================================
+
+.session-card {
+  @include card;
+  cursor: pointer;
+  transition: background-color $transition-fast, transform $transition-fast;
+
+  &:hover {
+    background-color: $bg-hover;
+    transform: translateY(-2px);
+  }
+
+  // ---------------------------------------------------------------------------
+  // Card Header
+  // ---------------------------------------------------------------------------
+  &__header {
+    @include flex-between;
+    margin-bottom: $spacing-md;
+  }
+
+  &__title {
+    font-size: $font-size-lg;
+    font-weight: $font-weight-semibold;
+    @include text-truncate;
+  }
+
+  &__badges {
+    display: flex;
+    gap: $spacing-xs;
+    flex-shrink: 0;
+  }
+
+  &__badge {
+    padding: $spacing-xs $spacing-sm;
+    border-radius: $radius-sm;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-semibold;
+    text-transform: uppercase;
+
+    &.is-public {
+      background-color: rgba($color-success, 0.2);
+      color: $color-success;
+    }
+
+    &.is-private {
+      background-color: rgba($text-muted, 0.2);
+      color: $text-secondary;
+    }
+
+    &.is-active {
+      background-color: rgba($accent-primary, 0.2);
+      color: $accent-primary;
+    }
+
+    &.is-started {
+      background-color: rgba($accent-primary, 0.2);
+      color: $accent-primary;
+    }
+
+    &.is-not-started {
+      background-color: rgba($color-warning, 0.2);
+      color: $color-warning;
+    }
+  }
+
+  // ---------------------------------------------------------------------------
+  // Turn Info (for started sessions where user is member or manager)
+  // ---------------------------------------------------------------------------
+  &__turn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: $spacing-sm $spacing-md;
+    margin-bottom: $spacing-md;
+    background-color: rgba($accent-primary, 0.1);
+    border-radius: $radius-sm;
+    border-left: 3px solid $accent-primary;
+  }
+
+  &__turn-year {
+    font-size: $font-size-md;
+    font-weight: $font-weight-semibold;
+    color: $text-primary;
+  }
+
+  &__orders-loading {
+    font-size: $font-size-sm;
+    color: $text-muted;
+  }
+
+  // ---------------------------------------------------------------------------
+  // Card Info
+  // ---------------------------------------------------------------------------
+  &__info {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-sm;
+    margin-bottom: $spacing-md;
+  }
+
+  &__row {
+    @include flex-between;
+    font-size: $font-size-sm;
+    color: $text-secondary;
+  }
+
+  &__label {
+    color: $text-muted;
+  }
+
+  &__value {
+    color: $text-primary;
+  }
+
+  // ---------------------------------------------------------------------------
+  // Card Footer
+  // ---------------------------------------------------------------------------
+  &__footer {
+    @include flex-between;
+    padding-top: $spacing-md;
+    border-top: 1px solid $bg-tertiary;
+  }
+
+  &__members {
+    font-size: $font-size-sm;
+    color: $text-secondary;
+
+    span {
+      color: $text-primary;
+      font-weight: $font-weight-medium;
+    }
+  }
+
+  &__action {
+    opacity: 0;
+    transition: opacity $transition-fast;
+  }
+
+  &:hover &__action {
+    opacity: 1;
+  }
+}
+
+// =============================================================================
+// SESSION STATUS INDICATORS
+// =============================================================================
+
+.session-status {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-xs;
+  font-size: $font-size-sm;
+
+  &__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: $radius-full;
+  }
+
+  &.is-waiting &__dot {
+    background-color: $color-warning;
+  }
+
+  &.is-running &__dot {
+    background-color: $color-success;
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  &.is-finished &__dot {
+    background-color: $text-muted;
+  }
+}

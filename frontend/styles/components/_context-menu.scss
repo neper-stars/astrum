@@ -1,0 +1,333 @@
+// =============================================================================
+// CONTEXT MENU
+// =============================================================================
+@use 'shared' as *;
+
+.context-menu {
+  position: fixed;
+  min-width: 180px;
+  max-width: 280px;
+  background-color: $bg-tertiary;
+  border-radius: $radius-md;
+  padding: $spacing-sm 0;
+  box-shadow: $shadow-lg;
+  z-index: $z-popover;
+  animation: contextMenuFadeIn $transition-fast;
+
+  @keyframes contextMenuFadeIn {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  // ---------------------------------------------------------------------------
+  // Menu Item
+  // ---------------------------------------------------------------------------
+  &__item {
+    display: flex;
+    align-items: center;
+    gap: $spacing-md;
+    padding: $spacing-sm $spacing-md;
+    font-size: $font-size-md;
+    color: $text-primary;
+    cursor: pointer;
+    transition: background-color $transition-fast;
+
+    &:hover {
+      background-color: $accent-primary;
+    }
+
+    // Disabled state
+    &.is-disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+
+      &:hover {
+        background-color: transparent;
+      }
+    }
+
+    // Danger/destructive item
+    &.is-danger {
+      color: $color-danger;
+
+      &:hover {
+        background-color: $color-danger;
+        color: white;
+      }
+    }
+  }
+
+  // ---------------------------------------------------------------------------
+  // Menu Item Icon
+  // ---------------------------------------------------------------------------
+  &__icon {
+    width: 18px;
+    height: 18px;
+    @include flex-center;
+    flex-shrink: 0;
+    color: $text-secondary;
+
+    .context-menu__item:hover & {
+      color: inherit;
+    }
+  }
+
+  // ---------------------------------------------------------------------------
+  // Menu Item Label
+  // ---------------------------------------------------------------------------
+  &__label {
+    flex: 1;
+    @include text-truncate;
+  }
+
+  // ---------------------------------------------------------------------------
+  // Menu Item Shortcut
+  // ---------------------------------------------------------------------------
+  &__shortcut {
+    font-size: $font-size-sm;
+    color: $text-muted;
+    margin-left: auto;
+
+    .context-menu__item:hover & {
+      color: inherit;
+      opacity: 0.7;
+    }
+  }
+
+  // ---------------------------------------------------------------------------
+  // Separator
+  // ---------------------------------------------------------------------------
+  &__separator {
+    height: 1px;
+    margin: $spacing-sm 0;
+    background-color: $bg-secondary;
+  }
+
+  // ---------------------------------------------------------------------------
+  // Group Label
+  // ---------------------------------------------------------------------------
+  &__group-label {
+    padding: $spacing-sm $spacing-md;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-semibold;
+    text-transform: uppercase;
+    color: $text-muted;
+    letter-spacing: 0.02em;
+  }
+
+  // ---------------------------------------------------------------------------
+  // Submenu
+  // ---------------------------------------------------------------------------
+  &__submenu {
+    position: relative;
+
+    &::after {
+      content: '';
+      position: absolute;
+      right: $spacing-md;
+      top: 50%;
+      transform: translateY(-50%);
+      border: 4px solid transparent;
+      border-left-color: $text-secondary;
+    }
+
+    &:hover::after {
+      border-left-color: white;
+    }
+  }
+
+  // Nested menu
+  &__nested {
+    position: absolute;
+    top: -$spacing-sm;
+    left: 100%;
+    margin-left: $spacing-xs;
+  }
+}
+
+// =============================================================================
+// CONTEXT MENU BACKDROP (invisible click catcher)
+// =============================================================================
+
+.context-menu-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: $z-dropdown;
+}
+
+// =============================================================================
+// USER MENU (header dropdown)
+// =============================================================================
+
+.user-menu-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: $z-dropdown;
+}
+
+.user-menu {
+  position: fixed;
+  top: $header-height;
+  right: $spacing-lg;
+  min-width: 180px;
+  background-color: $bg-tertiary;
+  border-radius: $radius-md;
+  padding: $spacing-sm 0;
+  box-shadow: $shadow-lg;
+  z-index: $z-popover;
+  animation: contextMenuFadeIn $transition-fast;
+
+  &__item {
+    display: flex;
+    align-items: center;
+    gap: $spacing-md;
+    padding: $spacing-sm $spacing-md;
+    font-size: $font-size-md;
+    color: $text-primary;
+    cursor: pointer;
+    transition: background-color $transition-fast;
+
+    &:hover {
+      background-color: $accent-primary;
+    }
+  }
+
+  &__separator {
+    height: 1px;
+    margin: $spacing-sm 0;
+    background-color: $bg-secondary;
+  }
+
+  &__serial {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-xs;
+    padding: $spacing-sm $spacing-md;
+    font-size: $font-size-sm;
+  }
+
+  &__serial-label {
+    color: $text-secondary;
+    font-size: $font-size-xs;
+  }
+
+  &__serial-value {
+    font-family: $font-family-mono;
+    color: $text-primary;
+    user-select: all;
+    cursor: text;
+  }
+
+  &__value-row {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+  }
+
+  &__copy-btn {
+    background: none;
+    border: none;
+    padding: $spacing-xs;
+    cursor: pointer;
+    opacity: 0.6;
+    font-size: $font-size-sm;
+    line-height: 1;
+    border-radius: $radius-sm;
+    transition: opacity $transition-fast, background-color $transition-fast;
+
+    &:hover {
+      opacity: 1;
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    &:active {
+      opacity: 0.8;
+    }
+  }
+
+  &__apikey {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-xs;
+    padding: $spacing-sm $spacing-md;
+    font-size: $font-size-sm;
+  }
+
+  &__apikey-label {
+    color: $text-secondary;
+    font-size: $font-size-xs;
+  }
+
+  &__apikey-value {
+    font-family: $font-family-mono;
+    font-size: $font-size-xs;
+    color: $text-primary;
+    user-select: all;
+    cursor: text;
+    word-break: break-all;
+  }
+
+  &__item--small {
+    font-size: $font-size-sm;
+    padding: $spacing-xs $spacing-md;
+    color: $text-secondary;
+  }
+}
+
+// =============================================================================
+// DROPDOWN MENU (attached to button)
+// =============================================================================
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+
+  &__trigger {
+    cursor: pointer;
+  }
+
+  &__menu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: $spacing-xs;
+    min-width: 180px;
+    background-color: $bg-tertiary;
+    border-radius: $radius-md;
+    padding: $spacing-sm 0;
+    box-shadow: $shadow-lg;
+    z-index: $z-dropdown;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-$spacing-sm);
+    transition: opacity $transition-fast,
+                transform $transition-fast,
+                visibility $transition-fast;
+  }
+
+  &.is-open &__menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  // Align left
+  &.is-left &__menu {
+    right: auto;
+    left: 0;
+  }
+
+  // Align up
+  &.is-up &__menu {
+    top: auto;
+    bottom: 100%;
+    margin-top: 0;
+    margin-bottom: $spacing-xs;
+  }
+}

@@ -1,0 +1,221 @@
+// =============================================================================
+// SERVER BAR COMPONENT
+// Discord-style vertical server sidebar
+// =============================================================================
+@use 'shared' as *;
+
+.server-bar {
+  width: $server-bar-width;
+  min-width: $server-bar-width;
+  height: 100%;
+  background-color: $bg-server-bar;
+  @include flex-column;
+  padding: $spacing-md 0;
+
+  // ---------------------------------------------------------------------------
+  // Server List Container
+  // ---------------------------------------------------------------------------
+  &__list {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    @include flex-column;
+    align-items: center;
+    gap: $spacing-sm;
+    padding: 0 $spacing-md;
+    @include thin-scrollbar;
+  }
+
+  // ---------------------------------------------------------------------------
+  // Bottom Section (Add Button)
+  // ---------------------------------------------------------------------------
+  &__bottom {
+    padding-top: $spacing-md;
+    margin-top: auto;
+    border-top: 2px solid $bg-secondary;
+    @include flex-center;
+  }
+}
+
+// =============================================================================
+// SERVER BUTTON
+// =============================================================================
+
+.server-button {
+  position: relative;
+  @include flex-center;
+
+  // ---------------------------------------------------------------------------
+  // Selection Indicator Pill
+  // ---------------------------------------------------------------------------
+  &__indicator {
+    position: absolute;
+    left: -12px;
+    width: 4px;
+    height: 0;
+    background-color: $text-primary;
+    border-radius: 0 $radius-sm $radius-sm 0;
+    transition: height $transition-normal;
+  }
+
+  &:hover &__indicator {
+    height: 20px;
+  }
+
+  &.is-selected &__indicator {
+    height: 40px;
+  }
+
+  // ---------------------------------------------------------------------------
+  // The Actual Button
+  // ---------------------------------------------------------------------------
+  &__btn {
+    @include server-button-base;
+    position: relative;
+    overflow: hidden;
+
+    &:hover {
+      background-color: $accent-primary;
+    }
+  }
+
+  &.is-selected &__btn {
+    background-color: $accent-primary;
+    border-radius: $radius-lg;
+  }
+
+  // ---------------------------------------------------------------------------
+  // Drag and Drop States
+  // ---------------------------------------------------------------------------
+  &.is-dragging {
+    opacity: 0.5;
+    cursor: grabbing;
+  }
+
+  &.is-drag-over {
+    &::before {
+      content: '';
+      position: absolute;
+      top: -4px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 32px;
+      height: 3px;
+      background-color: $accent-primary;
+      border-radius: 2px;
+    }
+  }
+
+  // ---------------------------------------------------------------------------
+  // Server Icon/Image
+  // ---------------------------------------------------------------------------
+  &__icon {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: inherit;
+  }
+
+  // ---------------------------------------------------------------------------
+  // Server Initials (fallback when no icon)
+  // ---------------------------------------------------------------------------
+  &__initials {
+    font-size: 18px;
+    font-weight: $font-weight-semibold;
+    text-transform: uppercase;
+    user-select: none;
+  }
+
+  // ---------------------------------------------------------------------------
+  // Connection Status Dot
+  // ---------------------------------------------------------------------------
+  &__status {
+    position: absolute;
+    bottom: -2px;
+    right: -2px;
+    width: 16px;
+    height: 16px;
+    border-radius: $radius-full;
+    border: 3px solid $bg-server-bar;
+
+    &.is-online {
+      background-color: $status-online;
+    }
+
+    &.is-offline {
+      background-color: $status-offline;
+    }
+
+    &.is-connecting {
+      background-color: $status-connecting;
+      animation: pulse 1.5s ease-in-out infinite;
+    }
+  }
+}
+
+// =============================================================================
+// ADD SERVER BUTTON
+// =============================================================================
+
+.add-server-btn {
+  @include server-button-base;
+  color: $color-success;
+  font-size: $font-size-xxl;
+  font-weight: $font-weight-normal;
+
+  &:hover {
+    background-color: $color-success;
+    color: white;
+  }
+}
+
+// =============================================================================
+// ANIMATIONS
+// =============================================================================
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+// =============================================================================
+// TOOLTIP (for server name on hover)
+// =============================================================================
+
+.server-tooltip {
+  position: absolute;
+  left: calc(100% + $spacing-md);
+  top: 50%;
+  transform: translateY(-50%);
+  padding: $spacing-sm $spacing-md;
+  background-color: $bg-tertiary;
+  color: $text-primary;
+  font-size: $font-size-md;
+  font-weight: $font-weight-semibold;
+  border-radius: $radius-sm;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity $transition-fast;
+  z-index: $z-tooltip;
+  box-shadow: $shadow-md;
+
+  // Arrow
+  &::before {
+    content: '';
+    position: absolute;
+    right: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+    border: 6px solid transparent;
+    border-right-color: $bg-tertiary;
+  }
+
+  .server-button:hover & {
+    opacity: 1;
+  }
+}

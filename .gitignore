@@ -1,0 +1,25 @@
+mise.local.toml
+astrum
+frontend/node_modules
+frontend/elm-stuff
+
+# task cache files should not be versionned ever
+.task/
+icos/*
+
+# tools are fetched from tasks on every work station
+tools/bin
+tools/venv
+
+# build and deps are locally generated and fetched
+build
+dependencies
+
+# TEST_VARS is the local way of tweaking TEST_VARS.sample
+TEST_VARS
+
+tests-coverage.*
+
+# special editor cruft
+.idea
+*.swp

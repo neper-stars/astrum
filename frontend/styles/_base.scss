@@ -1,0 +1,167 @@
+// =============================================================================
+// BASE STYLES - Reset and foundational styles
+// =============================================================================
+@use 'shared' as *;
+
+// -----------------------------------------------------------------------------
+// Box Sizing
+// -----------------------------------------------------------------------------
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+// -----------------------------------------------------------------------------
+// Reset
+// -----------------------------------------------------------------------------
+* {
+  margin: 0;
+  padding: 0;
+}
+
+// -----------------------------------------------------------------------------
+// CSS Custom Properties for Zoom
+// -----------------------------------------------------------------------------
+:root {
+  --zoom-level: 100;
+}
+
+// -----------------------------------------------------------------------------
+// HTML & Body
+// -----------------------------------------------------------------------------
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: $font-family;
+  font-size: $font-size-md;
+  line-height: $line-height-normal;
+  color: $text-primary;
+  background-color: $bg-primary;
+  overflow: hidden;
+  // Zoom the entire UI - zoom property is well-supported in WebKit/Chromium
+  zoom: calc(var(--zoom-level) / 100);
+}
+
+// -----------------------------------------------------------------------------
+// Typography
+// -----------------------------------------------------------------------------
+h1, h2, h3, h4, h5, h6 {
+  font-weight: $font-weight-semibold;
+  line-height: $line-height-tight;
+  color: $text-primary;
+}
+
+h1 { font-size: $font-size-xxl; }
+h2 { font-size: $font-size-xl; }
+h3 { font-size: $font-size-lg; }
+h4 { font-size: $font-size-md; }
+
+p {
+  margin-bottom: $spacing-md;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+a {
+  color: $text-link;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Lists
+// -----------------------------------------------------------------------------
+ul, ol {
+  list-style: none;
+}
+
+// -----------------------------------------------------------------------------
+// Images
+// -----------------------------------------------------------------------------
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+// -----------------------------------------------------------------------------
+// Buttons
+// -----------------------------------------------------------------------------
+button {
+  font-family: inherit;
+  font-size: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+  color: inherit;
+}
+
+// -----------------------------------------------------------------------------
+// Inputs
+// -----------------------------------------------------------------------------
+input,
+textarea,
+select {
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+}
+
+input:focus,
+textarea:focus,
+select:focus,
+button:focus {
+  outline: none;
+}
+
+// -----------------------------------------------------------------------------
+// Code
+// -----------------------------------------------------------------------------
+code, pre {
+  font-family: $font-family-mono;
+}
+
+// -----------------------------------------------------------------------------
+// Selection
+// -----------------------------------------------------------------------------
+::selection {
+  background-color: $accent-primary;
+  color: white;
+}
+
+// -----------------------------------------------------------------------------
+// Scrollbar (Global)
+// -----------------------------------------------------------------------------
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: $bg-tertiary;
+  border-radius: $radius-sm;
+
+  &:hover {
+    background-color: $text-muted;
+  }
+}
+
+// Firefox
+* {
+  scrollbar-width: thin;
+  scrollbar-color: $bg-tertiary transparent;
+}

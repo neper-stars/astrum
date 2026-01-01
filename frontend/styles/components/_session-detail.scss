@@ -1,0 +1,820 @@
+// =============================================================================
+// SESSION DETAIL VIEW
+// =============================================================================
+
+@use '../variables' as *;
+@use '../mixins' as *;
+
+.session-detail {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: $spacing-lg;
+  overflow-y: auto;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    gap: $spacing-md;
+    margin-bottom: $spacing-lg;
+    padding-bottom: $spacing-md;
+    border-bottom: 1px solid $bg-tertiary;
+  }
+
+  &__back {
+    background: transparent;
+    border: none;
+    color: $text-secondary;
+    font-size: $font-size-md;
+    cursor: pointer;
+    padding: $spacing-xs $spacing-sm;
+    border-radius: $radius-sm;
+    transition: background-color $transition-fast, color $transition-fast;
+
+    &:hover {
+      background-color: $bg-hover;
+      color: $text-primary;
+    }
+  }
+
+  &__title {
+    flex: 1;
+    font-size: $font-size-xl;
+    font-weight: $font-weight-semibold;
+    color: $text-primary;
+    margin: 0;
+  }
+
+  &__header-actions {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    min-height: 36px; // Match button height to prevent layout shift
+  }
+
+  // Wrapper for disabled buttons to enable tooltip display
+  .tooltip-wrapper {
+    display: inline-block;
+    cursor: not-allowed;
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-lg;
+  }
+
+  &__section-row {
+    display: flex;
+    gap: $spacing-lg;
+    flex-wrap: wrap;
+  }
+
+  &__section {
+    background-color: $bg-secondary;
+    border-radius: $radius-md;
+    padding: $spacing-md;
+
+    &--half {
+      flex: 1;
+      min-width: 250px;
+    }
+
+    &--two-thirds {
+      flex: 2;
+      min-width: 300px;
+    }
+
+    &--one-third {
+      flex: 1;
+      min-width: 200px;
+    }
+  }
+
+  &__section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: $spacing-md;
+    margin-bottom: $spacing-md;
+    padding-bottom: $spacing-sm;
+    border-bottom: 1px solid $bg-tertiary;
+    min-height: 32px; // Match btn-sm height to prevent layout shift
+  }
+
+  &__section-actions {
+    display: flex;
+    gap: $spacing-sm;
+  }
+
+  &__section-title {
+    display: flex;
+    align-items: center;
+    gap: $spacing-xs;
+    font-size: $font-size-md;
+    font-weight: $font-weight-semibold;
+    color: $text-primary;
+    margin: 0;
+    cursor: default;
+  }
+
+  // When section-title is NOT inside section-header, keep original spacing
+  &__section > &__section-title {
+    margin: 0 0 $spacing-md 0;
+    padding-bottom: $spacing-sm;
+    border-bottom: 1px solid $bg-tertiary;
+  }
+
+  &__help-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    font-size: $font-size-xs;
+    color: $text-secondary;
+    background-color: $bg-tertiary;
+    border-radius: 50%;
+    cursor: help;
+  }
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-sm;
+  }
+
+  &__row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: $spacing-xs 0;
+  }
+
+  &__label {
+    color: $text-secondary;
+    font-size: $font-size-sm;
+  }
+
+  &__value {
+    color: $text-primary;
+    font-size: $font-size-sm;
+
+    &--mono {
+      font-family: $font-family-mono;
+      font-size: $font-size-xs;
+      color: $text-secondary;
+    }
+
+    &--muted {
+      color: $text-muted;
+      font-style: italic;
+    }
+
+    &--started {
+      color: $accent-primary;
+      font-weight: $font-weight-medium;
+    }
+
+    &--not-started {
+      color: $color-warning;
+      font-weight: $font-weight-medium;
+    }
+  }
+
+  &__members {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-xs;
+  }
+
+  &__member-wrapper {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+  }
+
+  &__member {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    padding: $spacing-sm;
+    background-color: $bg-tertiary;
+    border-radius: $radius-sm;
+    font-size: $font-size-sm;
+    color: $text-primary;
+    font-family: $font-family-mono;
+    word-break: break-all;
+  }
+
+  &__member-actions {
+    display: flex;
+    align-items: center;
+    gap: $spacing-xs;
+    min-width: 70px;
+    justify-content: flex-end;
+  }
+
+  &__invitee {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: $spacing-sm;
+  }
+
+  &__invitee-name {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__empty {
+    color: $text-secondary;
+    font-size: $font-size-sm;
+    font-style: italic;
+    padding: $spacing-sm;
+  }
+
+  // Players list
+  &__players {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-xs;
+  }
+
+  // Wrapper for player card + actions
+  &__player-wrapper {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    transition: opacity $transition-fast;
+
+    &--dragging {
+      opacity: 0.5;
+
+      .session-detail__player {
+        background-color: $bg-hover;
+        pointer-events: none;
+      }
+    }
+
+    &--drag-over {
+      .session-detail__player {
+        border-color: $accent-primary;
+        background-color: rgba($accent-primary, 0.1);
+      }
+    }
+  }
+
+  &__player {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    padding: $spacing-sm;
+    background-color: $bg-tertiary;
+    border-radius: $radius-sm;
+    gap: $spacing-md;
+    transition: background-color $transition-fast, border-color $transition-fast;
+    border: 2px solid transparent;
+
+    &--draggable {
+      cursor: grab;
+      user-select: none;
+
+      &:active {
+        cursor: grabbing;
+      }
+    }
+
+    &--drag-clone {
+      opacity: 0.9;
+      transform: rotate(2deg) scale(1.02);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      background-color: $bg-tertiary;
+      padding: $spacing-sm $spacing-md;
+      border-radius: $radius-sm;
+      min-width: 150px;
+    }
+  }
+
+  &__player-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: $spacing-xs;
+    flex-shrink: 0;
+    min-width: 70px; // Fixed width for consistent row alignment
+  }
+
+  &__player-number {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    min-width: 24px;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-semibold;
+    color: $text-secondary;
+    background-color: $bg-secondary;
+    border-radius: $radius-sm;
+  }
+
+  &__player-info {
+    display: flex;
+    align-items: center;
+    gap: $spacing-md;
+    flex: 1;
+    min-width: 0;
+  }
+
+  &__player-id {
+    font-size: $font-size-sm;
+    color: $text-primary;
+    font-family: $font-family-mono;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &__player-status {
+    font-size: $font-size-xs;
+    font-weight: $font-weight-medium;
+    padding: $spacing-xs $spacing-sm;
+    border-radius: $radius-sm;
+    white-space: nowrap;
+
+    &--ready {
+      color: $color-success;
+      background-color: rgba($color-success, 0.15);
+    }
+
+    &--not-ready {
+      color: $text-muted;
+      background-color: rgba($text-muted, 0.15);
+    }
+  }
+
+  // Turns section
+  &__turns {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $spacing-sm;
+  }
+
+  &__turn-link {
+    display: inline-flex;
+    align-items: center;
+    padding: $spacing-sm $spacing-md;
+    background-color: $bg-tertiary;
+    border: 1px solid $bg-tertiary;
+    border-radius: $radius-sm;
+    color: $accent-primary;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    cursor: pointer;
+    transition: background-color $transition-fast, border-color $transition-fast;
+
+    &:hover {
+      background-color: $bg-hover;
+      border-color: $accent-primary;
+    }
+  }
+
+  // Latest turn styling (highlighted with orders badge)
+  &__turn-link--latest {
+    display: inline-flex;
+    align-items: center;
+    gap: $spacing-sm;
+    background-color: rgba($color-warning, 0.15);
+    border-color: rgba($color-warning, 0.5);
+
+    &:hover {
+      background-color: rgba($color-warning, 0.25);
+      border-color: $color-warning;
+    }
+  }
+
+  &__orders-summary {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px $spacing-xs;
+    background-color: rgba($color-warning, 0.3);
+    border-radius: $radius-sm;
+    font-size: $font-size-xs;
+    color: $color-warning;
+
+    &--complete {
+      background-color: rgba($color-success, 0.3);
+      color: $color-success;
+    }
+  }
+
+  &__orders-loading {
+    font-size: $font-size-xs;
+    color: $text-muted;
+  }
+}
+
+
+// =============================================================================
+// INVITE USER DIALOG
+// =============================================================================
+
+.invite-dialog {
+  &__loading {
+    color: $text-secondary;
+    font-size: $font-size-sm;
+    text-align: center;
+    padding: $spacing-lg;
+  }
+
+  &__users {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-xs;
+    max-height: 300px;
+    overflow-y: auto;
+  }
+
+  &__user {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-xs;
+    padding: $spacing-sm $spacing-md;
+    background-color: $bg-secondary;
+    border: 2px solid transparent;
+    border-radius: $radius-md;
+    cursor: pointer;
+    transition: background-color $transition-fast, border-color $transition-fast;
+
+    &:hover {
+      background-color: $bg-hover;
+    }
+
+    &.is-selected {
+      border-color: $accent-primary;
+      background-color: rgba($accent-primary, 0.1);
+    }
+  }
+
+  &__user-name {
+    font-size: $font-size-md;
+    font-weight: $font-weight-medium;
+    color: $text-primary;
+  }
+
+  &__user-email {
+    font-size: $font-size-sm;
+    color: $text-secondary;
+  }
+}
+
+
+// =============================================================================
+// INVITATIONS DIALOG
+// =============================================================================
+
+.invitations-dialog {
+  &__section {
+    margin-bottom: $spacing-lg;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  &__section-title {
+    font-size: $font-size-md;
+    font-weight: $font-weight-semibold;
+    color: $text-primary;
+    margin: 0 0 $spacing-sm 0;
+    padding-bottom: $spacing-xs;
+    border-bottom: 1px solid $bg-tertiary;
+  }
+
+  &__empty {
+    color: $text-secondary;
+    font-size: $font-size-sm;
+    text-align: center;
+    padding: $spacing-md;
+    font-style: italic;
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-sm;
+    max-height: 200px;
+    overflow-y: auto;
+  }
+}
+
+.invitation-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: $spacing-md;
+  background-color: $bg-tertiary;
+  border-radius: $radius-md;
+  gap: $spacing-md;
+
+  &__info {
+    flex: 1;
+    min-width: 0;
+  }
+
+  &__session {
+    font-size: $font-size-md;
+    font-weight: $font-weight-medium;
+    color: $text-primary;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &__inviter {
+    font-size: $font-size-sm;
+    color: $text-secondary;
+    margin-top: $spacing-xs;
+  }
+
+  &__invitee {
+    font-size: $font-size-sm;
+    color: $text-secondary;
+    margin-top: $spacing-xs;
+  }
+
+  &__actions {
+    display: flex;
+    gap: $spacing-sm;
+    flex-shrink: 0;
+  }
+}
+
+
+// =============================================================================
+// RACES DIALOG
+// =============================================================================
+
+.races-dialog {
+  &__actions {
+    margin-bottom: $spacing-md;
+  }
+
+  &__empty {
+    color: $text-secondary;
+    font-size: $font-size-sm;
+    text-align: center;
+    padding: $spacing-xl;
+    font-style: italic;
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-sm;
+    max-height: 400px;
+    overflow-y: auto;
+  }
+}
+
+.race-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: $spacing-md;
+  background-color: $bg-tertiary;
+  border-radius: $radius-md;
+  gap: $spacing-md;
+
+  &__info {
+    flex: 1;
+    min-width: 0;
+  }
+
+  &__name {
+    font-size: $font-size-md;
+    font-weight: $font-weight-medium;
+    color: $text-primary;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &__singular {
+    font-size: $font-size-sm;
+    color: $text-secondary;
+    margin-top: $spacing-xs;
+  }
+
+  &__actions {
+    display: flex;
+    gap: $spacing-sm;
+    flex-shrink: 0;
+  }
+}
+
+
+// =============================================================================
+// SETUP RACE DIALOG
+// =============================================================================
+
+.setup-race-dialog {
+  &__description {
+    color: $text-secondary;
+    font-size: $font-size-sm;
+    margin-bottom: $spacing-md;
+  }
+
+  &__actions {
+    margin-bottom: $spacing-md;
+  }
+
+  &__empty {
+    color: $text-secondary;
+    font-size: $font-size-sm;
+    text-align: center;
+    padding: $spacing-xl;
+    font-style: italic;
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-sm;
+    max-height: 300px;
+    overflow-y: auto;
+  }
+
+  &__race {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-xs;
+    padding: $spacing-sm $spacing-md;
+    background-color: $bg-secondary;
+    border: 2px solid transparent;
+    border-radius: $radius-md;
+    cursor: pointer;
+    transition: background-color $transition-fast, border-color $transition-fast;
+
+    &:hover {
+      background-color: $bg-hover;
+    }
+
+    &.is-selected {
+      border-color: $accent-primary;
+      background-color: rgba($accent-primary, 0.1);
+    }
+  }
+
+  &__race-name {
+    font-size: $font-size-md;
+    font-weight: $font-weight-medium;
+    color: $text-primary;
+  }
+
+  &__race-singular {
+    font-size: $font-size-sm;
+    color: $text-secondary;
+  }
+}
+
+
+// =============================================================================
+// TURN FILES DIALOG
+// =============================================================================
+
+.turn-files-dialog {
+  &__section {
+    margin-bottom: $spacing-lg;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  &__section-title {
+    font-size: $font-size-md;
+    font-weight: $font-weight-semibold;
+    color: $text-primary;
+    margin: 0 0 $spacing-sm 0;
+    padding-bottom: $spacing-xs;
+    border-bottom: 1px solid $bg-tertiary;
+  }
+
+  &__loading {
+    color: $text-secondary;
+    font-size: $font-size-sm;
+    text-align: center;
+    padding: $spacing-lg;
+  }
+
+  &__empty {
+    color: $text-secondary;
+    font-size: $font-size-sm;
+    text-align: center;
+    padding: $spacing-xl;
+    font-style: italic;
+  }
+
+  &__conflict-warning {
+    background-color: rgba($color-danger, 0.15);
+    border: 1px solid $color-danger;
+    border-radius: $radius-sm;
+    padding: $spacing-sm $spacing-md;
+    margin-bottom: $spacing-md;
+    color: $color-danger;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+  }
+
+  // Orders status list
+  &__orders {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-xs;
+  }
+
+  &__order-row {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    padding: $spacing-sm;
+    background-color: $bg-tertiary;
+    border-radius: $radius-sm;
+
+    &--submitted {
+      .turn-files-dialog__order-status {
+        color: $color-success;
+      }
+    }
+
+    &--pending {
+      .turn-files-dialog__order-status {
+        color: $text-muted;
+      }
+    }
+  }
+
+  &__order-number {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    min-width: 24px;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-semibold;
+    color: $text-secondary;
+    background-color: $bg-secondary;
+    border-radius: $radius-sm;
+  }
+
+  &__order-name {
+    flex: 1;
+    font-size: $font-size-sm;
+    color: $text-primary;
+  }
+
+  &__order-status {
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+  }
+
+  // Turn files list
+  &__files {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-md;
+  }
+
+  &__file {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-xs;
+    padding: $spacing-md;
+    background-color: $bg-tertiary;
+    border-radius: $radius-md;
+  }
+
+  &__file-label {
+    font-size: $font-size-md;
+    font-weight: $font-weight-medium;
+    color: $text-primary;
+  }
+
+  &__file-info {
+    display: flex;
+    align-items: center;
+    gap: $spacing-md;
+  }
+
+  &__file-size {
+    font-size: $font-size-sm;
+    color: $text-secondary;
+    font-family: $font-family-mono;
+  }
+}

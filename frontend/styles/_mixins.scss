@@ -1,0 +1,208 @@
+// =============================================================================
+// MIXINS
+// =============================================================================
+@use 'variables' as v;
+
+// -----------------------------------------------------------------------------
+// Flexbox Shortcuts
+// -----------------------------------------------------------------------------
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@mixin flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+@mixin flex-column-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+// -----------------------------------------------------------------------------
+// Server Button Animation
+// -----------------------------------------------------------------------------
+@mixin server-button-base {
+  width: v.$server-button-size;
+  height: v.$server-button-size;
+  border-radius: v.$radius-full;
+  border: none;
+  background-color: v.$bg-primary;
+  color: v.$text-primary;
+  font-size: 18px;
+  font-weight: v.$font-weight-semibold;
+  cursor: pointer;
+  transition: border-radius v.$transition-normal,
+              background-color v.$transition-normal;
+
+  &:hover,
+  &.is-selected {
+    border-radius: v.$radius-lg;
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Scrollbar Styling
+// -----------------------------------------------------------------------------
+@mixin custom-scrollbar($width: 8px) {
+  &::-webkit-scrollbar {
+    width: $width;
+    height: $width;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: v.$bg-tertiary;
+    border-radius: v.$radius-sm;
+
+    &:hover {
+      background-color: v.$text-muted;
+    }
+  }
+}
+
+// Thin scrollbar variant
+@mixin thin-scrollbar {
+  @include custom-scrollbar(4px);
+}
+
+// -----------------------------------------------------------------------------
+// Text Truncation
+// -----------------------------------------------------------------------------
+@mixin text-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@mixin text-truncate-lines($lines: 2) {
+  display: -webkit-box;
+  -webkit-line-clamp: $lines;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+// -----------------------------------------------------------------------------
+// Focus Styles
+// -----------------------------------------------------------------------------
+@mixin focus-ring {
+  outline: 2px solid v.$accent-primary;
+  outline-offset: 2px;
+}
+
+@mixin focus-visible {
+  &:focus {
+    outline: none;
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Button Base
+// -----------------------------------------------------------------------------
+@mixin button-base {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: v.$spacing-sm;
+  padding: v.$spacing-sm v.$spacing-lg;
+  border: none;
+  border-radius: v.$radius-sm;
+  font-family: v.$font-family;
+  font-size: v.$font-size-md;
+  font-weight: v.$font-weight-medium;
+  cursor: pointer;
+  transition: background-color v.$transition-fast;
+  @include focus-visible;
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Input Base
+// -----------------------------------------------------------------------------
+@mixin input-base {
+  width: 100%;
+  padding: v.$spacing-sm v.$spacing-md;
+  border: none;
+  border-radius: v.$radius-sm;
+  background-color: v.$bg-tertiary;
+  color: v.$text-primary;
+  font-family: v.$font-family;
+  font-size: v.$font-size-lg;
+  @include focus-visible;
+
+  &::placeholder {
+    color: v.$text-muted;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Card Style
+// -----------------------------------------------------------------------------
+@mixin card {
+  background-color: v.$bg-secondary;
+  border-radius: v.$radius-md;
+  padding: v.$spacing-lg;
+}
+
+// -----------------------------------------------------------------------------
+// Overlay
+// -----------------------------------------------------------------------------
+@mixin overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: v.$z-modal-backdrop;
+}
+
+// -----------------------------------------------------------------------------
+// Absolute Fill
+// -----------------------------------------------------------------------------
+@mixin absolute-fill {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+// -----------------------------------------------------------------------------
+// Screen Reader Only
+// -----------------------------------------------------------------------------
+@mixin sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

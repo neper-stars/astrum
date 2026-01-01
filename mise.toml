@@ -1,0 +1,328 @@
+[env]
+FRONTEND_DIR = "frontend"
+
+[tools]
+go = "1.25"
+node = "22"
+golangci-lint = "2.7.2"
+# Note: elm is installed via npm in frontend/package.json
+
+# ===========================================================================
+# WAILS + ELM DEVELOPMENT
+# ===========================================================================
+
+[tasks.default]
+depends = ["build"]
+
+[tasks.dev]
+description = "Start Wails development mode with hot reload"
+depends = ["install"]
+run = "wails dev -tags webkit2_41"
+
+[tasks."dev:frontend"]
+description = "Watch and rebuild frontend only (Elm + SCSS)"
+dir = "{{env.FRONTEND_DIR}}"
+run = "npm run watch"
+
+# ===========================================================================
+# INSTALLATION
+# ===========================================================================
+
+[tasks.install]
+description = "Install all dependencies (Go, npm, Wails)"
+depends = ["install:go", "install:frontend"]
+
+[tasks."install:go"]
+description = "Install Go dependencies"
+run = "go mod download"
+
+[tasks."install:frontend"]
+description = "Install frontend npm dependencies"
+dir = "{{env.FRONTEND_DIR}}"
+run = "npm install"
+
+[tasks."fetch-wails"]
+description = "Install Wails CLI"
+run = "go install github.com/wailsapp/wails/v2/cmd/wails@latest"
+
+# ===========================================================================
+# BUILDING
+# ===========================================================================
+
+[tasks."build:icons"]
+description = "Copy app icons to build directory"
+run = """
+mkdir -p build
+cp resources/astrum.png build/appicon.png
+"""
+
+[tasks.build]
+description = "Build production Wails application (non-interactive)"
+depends = ["install", "build:icons", "build:frontend"]
+env = { ASTRUM_BINDING_MODE = "true" }
+run = "wails build -tags webkit2_41"
+
+[tasks."build:quick"]
+description = "Build without regenerating bindings (faster)"
+depends = ["install", "build:icons", "build:frontend"]
+run = "wails build -tags webkit2_41 -skipbindings"
+
+# ===========================================================================
+# CROSS-COMPILATION
+# ===========================================================================
+
+[tasks."build:linux"]
+description = "Build for Linux AMD64"
+depends = ["install", "build:icons", "build:frontend"]
+run = "wails build -tags webkit2_41 -platform linux/amd64"
+
+[tasks."build:linux:arm64"]
+description = "Build for Linux ARM64"
+depends = ["install", "build:icons", "build:frontend"]
+run = "wails build -tags webkit2_41 -platform linux/arm64"
+
+[tasks."build:windows"]
+description = "Build for Windows AMD64 (requires mingw-w64)"
+depends = ["install", "build:icons", "build:frontend"]
+run = "wails build -platform windows/amd64 -skipbindings"
+
+[tasks."build:windows:arm64"]
+description = "Build for Windows ARM64 (requires mingw-w64)"
+depends = ["install", "build:icons", "build:frontend"]
+run = "wails build -platform windows/arm64 -skipbindings"
+
+[tasks."build:all"]
+description = "Build for all platforms (Linux, Windows)"
+depends = ["install", "build:icons", "build:frontend"]
+run = """
+wails build -tags webkit2_41 -platform linux/amd64 -skipbindings
+wails build -platform windows/amd64 -skipbindings
+"""
+
+# ===========================================================================
+# PACKAGING
+# ===========================================================================
+
+[tasks."package:windows"]
+description = "Build Windows installer with NSIS"
+depends = ["install", "build:icons", "fetch-nsis", "build:frontend"]
+run = "wails build -platform windows/amd64 -nsis -skipbindings"
+
+[tasks."package:all"]
+description = "Build all packages (Linux AppImage, Windows NSIS installer)"
+depends = ["package:appimage", "package:windows"]
+
+[tasks."package:appimage"]
+description = "Build Linux AppImage (requires appimagetool)"
+depends = ["build:linux", "fetch-appimagetool"]
+run = """
+APPDIR=build/AppDir
+APPIMAGE_NAME=Astrum-x86_64.AppImage
+ROOTDIR=$(pwd)
+
+rm -rf $APPDIR
+mkdir -p $APPDIR/usr/bin
+mkdir -p $APPDIR/usr/share/icons/hicolor/256x256/apps
+mkdir -p $APPDIR/usr/share/applications
+cp build/bin/astrum $APPDIR/usr/bin/astrum
+cp resources/astrum.png $APPDIR/usr/share/icons/hicolor/256x256/apps/astrum.png
+cp resources/astrum.png $APPDIR/astrum.png
+cp resources/astrum.desktop $APPDIR/astrum.desktop
+cp resources/astrum.desktop $APPDIR/usr/share/applications/
+cp resources/AppRun $APPDIR/AppRun
+chmod +x $APPDIR/AppRun
+ARCH=x86_64 "$ROOTDIR/tools/bin/appimagetool" $APPDIR build/$APPIMAGE_NAME
+"""
+
+[tasks."fetch-appimagetool"]
+description = "Download appimagetool"
+run = """
+mkdir -p tools/bin
+if [ ! -x tools/bin/appimagetool ]; then
+  curl -L -o tools/bin/appimagetool https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage
+  chmod +x tools/bin/appimagetool
+fi
+"""
+
+[tasks."fetch-nsis"]
+description = "Install NSIS (requires sudo)"
+run = """
+if ! command -v makensis &> /dev/null; then
+  echo "Installing NSIS via apt..."
+  sudo apt install -y nsis
+fi
+"""
+
+[tasks.bindings]
+description = "Generate Wails bindings (non-interactive)"
+env = { ASTRUM_BINDING_MODE = "true" }
+run = "wails generate module -tags webkit2_41"
+
+[tasks."build:frontend"]
+description = "Build frontend (Elm + SCSS) for production"
+dir = "{{env.FRONTEND_DIR}}"
+run = "npm run build"
+
+[tasks."build:elm"]
+description = "Build Elm only (optimized)"
+dir = "{{env.FRONTEND_DIR}}"
+run = "npm run build:elm"
+
+[tasks."build:elm:debug"]
+description = "Build Elm with debug mode enabled"
+dir = "{{env.FRONTEND_DIR}}"
+run = "npm run build:elm:debug"
+
+[tasks."build:scss"]
+description = "Build SCSS only"
+dir = "{{env.FRONTEND_DIR}}"
+run = "npm run build:scss"
+
+# ===========================================================================
+# CODE QUALITY
+# ===========================================================================
+
+[tasks.format]
+description = "Format all code (Go + Elm)"
+depends = ["format:go", "format:elm"]
+
+[tasks."format:go"]
+description = "Format Go code"
+run = "go fmt ./..."
+
+[tasks."format:elm"]
+description = "Format Elm code"
+dir = "{{env.FRONTEND_DIR}}"
+run = "npm run format"
+
+[tasks.lint]
+description = "Lint all code (Go + Elm)"
+depends = ["lint:go", "lint:elm"]
+
+[tasks."lint:go"]
+description = "Lint Go code with golangci-lint"
+run = "golangci-lint run"
+
+[tasks."lint:elm"]
+description = "Run elm-review"
+dir = "{{env.FRONTEND_DIR}}"
+run = "npm run review || true"
+
+# ===========================================================================
+# TESTING
+# ===========================================================================
+
+[tasks.test]
+description = "Run all tests (Go + Elm)"
+depends = ["test:go", "test:elm"]
+
+[tasks."test:go"]
+description = "Run Go tests"
+run = "go test ./..."
+
+[tasks."test:elm"]
+description = "Run Elm tests"
+dir = "{{env.FRONTEND_DIR}}"
+run = "npm run test"
+
+[tasks.cover]
+description = "Run Go tests with coverage"
+depends = ["fetch-cover-cobertura"]
+run = """
+go test ./... -cover -coverprofile tests-coverage.out
+gocover-cobertura < tests-coverage.out > tests-coverage.xml
+go tool cover -html=tests-coverage.out -o tests-coverage.html
+"""
+
+# ===========================================================================
+# UTILITIES
+# ===========================================================================
+
+[tasks.clean]
+description = "Clean all build artifacts"
+run = """
+rm -rf build/
+rm -rf {{env.FRONTEND_DIR}}/static/dist/
+rm -rf {{env.FRONTEND_DIR}}/elm-stuff/
+rm -rf {{env.FRONTEND_DIR}}/node_modules/
+"""
+
+[tasks."clean:build"]
+description = "Clean build artifacts only (keep node_modules)"
+run = """
+rm -rf build/
+rm -rf {{env.FRONTEND_DIR}}/static/dist/
+rm -rf {{env.FRONTEND_DIR}}/elm-stuff/
+"""
+
+[tasks.check]
+description = "Run all checks (format, lint, test)"
+depends = ["format", "lint", "test"]
+
+[tasks.vulncheck]
+description = "Search for known vulnerabilities in code and libraries"
+depends = ["fetch-govulncheck"]
+run = "govulncheck ./..."
+
+# ===========================================================================
+# CODE GENERATION
+# ===========================================================================
+
+[tasks.generate]
+description = "Generate all code (API types and async types)"
+depends = ["generate:api-types", "generate:async-types"]
+
+[tasks."generate:api-types"]
+description = "Generate Go types from neper API swagger spec"
+depends = ["fetch-swagger"]
+run = """
+cat > /tmp/api-types-spec.yaml << 'EOF'
+swagger: "2.0"
+info:
+  title: Neper API Types
+  version: "1.0"
+paths: {}
+EOF
+cat dependencies/neper/neper-types.yaml >> /tmp/api-types-spec.yaml
+swagger generate model \
+  --spec=/tmp/api-types-spec.yaml \
+  --target=api \
+  --model-package=models \
+  --skip-validation
+rm /tmp/api-types-spec.yaml
+"""
+
+[tasks."generate:async-types"]
+description = "Generate Go types from async types swagger spec"
+depends = ["fetch-swagger"]
+run = """
+cat > /tmp/async-types-spec.yaml << 'EOF'
+swagger: "2.0"
+info:
+  title: Neper Async Types
+  version: "1.0"
+paths: {}
+EOF
+cat dependencies/neper/neper-async-types.yaml >> /tmp/async-types-spec.yaml
+swagger generate model \
+  --spec=/tmp/async-types-spec.yaml \
+  --target=api \
+  --model-package=async
+rm /tmp/async-types-spec.yaml
+"""
+
+# ===========================================================================
+# TOOL INSTALLATION (tools not available via mise plugins)
+# ===========================================================================
+
+[tasks."fetch-swagger"]
+description = "Install go-swagger"
+run = "go install github.com/go-swagger/go-swagger/cmd/swagger@latest"
+
+[tasks."fetch-govulncheck"]
+description = "Install govulncheck"
+run = "go install golang.org/x/vuln/cmd/govulncheck@latest"
+
+[tasks."fetch-cover-cobertura"]
+description = "Install gocover-cobertura"
+run = "go install github.com/t-yuki/gocover-cobertura@latest"

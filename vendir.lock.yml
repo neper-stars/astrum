@@ -1,0 +1,13 @@
+apiVersion: vendir.k14s.io/v1alpha1
+directories:
+- contents:
+  - hg:
+      changeSetTitle: make linters happy
+      sha: f92524f76e8ac633be8d4581413ff1dd6dcb2fa6
+    path: houston
+  - hg:
+      changeSetTitle: added constraint to only allow one entry per player on a session
+      sha: e8ed8015d41f6cfaab27b625fe9608c4043baeb8
+    path: neper
+  path: dependencies
+kind: LockConfig

@@ -1,0 +1,333 @@
+// =============================================================================
+// FORMS
+// =============================================================================
+@use 'shared' as *;
+
+// -----------------------------------------------------------------------------
+// Form Group
+// -----------------------------------------------------------------------------
+.form-group {
+  margin-bottom: $spacing-lg;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Label
+// -----------------------------------------------------------------------------
+.form-label {
+  display: block;
+  margin-bottom: $spacing-sm;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semibold;
+  text-transform: uppercase;
+  color: $text-secondary;
+  letter-spacing: 0.02em;
+
+  // Required indicator
+  &.is-required::after {
+    content: ' *';
+    color: $color-danger;
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Text Input
+// -----------------------------------------------------------------------------
+.form-input {
+  @include input-base;
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba($accent-primary, 0.3);
+  }
+
+  // Error state
+  &.is-error {
+    box-shadow: 0 0 0 1px $color-danger;
+
+    &:focus {
+      box-shadow: 0 0 0 2px rgba($color-danger, 0.3);
+    }
+  }
+
+  // Success state
+  &.is-success {
+    box-shadow: 0 0 0 1px $color-success;
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Textarea
+// -----------------------------------------------------------------------------
+.form-textarea {
+  @include input-base;
+  min-height: 100px;
+  resize: vertical;
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba($accent-primary, 0.3);
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Select
+// -----------------------------------------------------------------------------
+.form-select {
+  @include input-base;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("/icons/dropdown-arrow.svg");
+  background-repeat: no-repeat;
+  background-position: right $spacing-md center;
+  padding-right: $spacing-xxl;
+  cursor: pointer;
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba($accent-primary, 0.3);
+  }
+
+  // Style options for better contrast in dropdown
+  option {
+    background-color: $bg-secondary;
+    color: $text-primary;
+    padding: $spacing-sm;
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Checkbox
+// -----------------------------------------------------------------------------
+.form-checkbox {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  cursor: pointer;
+  user-select: none;
+
+  input[type="checkbox"] {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid $text-muted;
+    border-radius: $radius-sm;
+    background-color: transparent;
+    cursor: pointer;
+    transition: border-color $transition-fast, background-color $transition-fast;
+
+    &:hover {
+      border-color: $text-secondary;
+    }
+
+    &:checked {
+      border-color: $accent-primary;
+      background-color: $accent-primary;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='white' d='M10.28 2.28L4.5 8.06 1.72 5.28a1 1 0 00-1.44 1.44l3.5 3.5a1 1 0 001.44 0l6.5-6.5a1 1 0 00-1.44-1.44z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+
+    &:focus-visible {
+      @include focus-ring;
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+
+  &__label {
+    font-size: $font-size-md;
+    color: $text-primary;
+  }
+
+  &__description {
+    font-size: $font-size-sm;
+    color: $text-secondary;
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Radio Button
+// -----------------------------------------------------------------------------
+.form-radio {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  cursor: pointer;
+  user-select: none;
+
+  input[type="radio"] {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid $text-muted;
+    border-radius: $radius-full;
+    background-color: transparent;
+    cursor: pointer;
+    transition: border-color $transition-fast;
+
+    &:hover {
+      border-color: $text-secondary;
+    }
+
+    &:checked {
+      border-color: $accent-primary;
+      border-width: 6px;
+    }
+
+    &:focus-visible {
+      @include focus-ring;
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Toggle/Switch
+// -----------------------------------------------------------------------------
+.form-toggle {
+  display: flex;
+  align-items: center;
+  gap: $spacing-md;
+  cursor: pointer;
+  user-select: none;
+
+  &__switch {
+    position: relative;
+    width: 44px;
+    height: 24px;
+    background-color: $bg-tertiary;
+    border-radius: 12px;
+    transition: background-color $transition-fast;
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 20px;
+      height: 20px;
+      background-color: $text-secondary;
+      border-radius: $radius-full;
+      transition: transform $transition-fast, background-color $transition-fast;
+    }
+  }
+
+  input[type="checkbox"] {
+    @include sr-only;
+
+    &:checked + .form-toggle__switch {
+      background-color: $accent-primary;
+
+      &::after {
+        transform: translateX(20px);
+        background-color: white;
+      }
+    }
+
+    &:focus-visible + .form-toggle__switch {
+      @include focus-ring;
+    }
+
+    &:disabled + .form-toggle__switch {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+
+  &__label {
+    font-size: $font-size-md;
+    color: $text-primary;
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Form Error Message
+// -----------------------------------------------------------------------------
+.form-error {
+  margin-top: $spacing-xs;
+  font-size: $font-size-sm;
+  color: $color-danger;
+}
+
+// -----------------------------------------------------------------------------
+// Form Help Text
+// -----------------------------------------------------------------------------
+.form-help {
+  margin-top: $spacing-xs;
+  font-size: $font-size-sm;
+  color: $text-muted;
+}
+
+// -----------------------------------------------------------------------------
+// Input with Icon
+// -----------------------------------------------------------------------------
+.input-with-icon {
+  position: relative;
+
+  &__icon {
+    position: absolute;
+    left: $spacing-md;
+    top: 50%;
+    transform: translateY(-50%);
+    color: $text-muted;
+    pointer-events: none;
+  }
+
+  .form-input {
+    padding-left: 40px;
+  }
+
+  // Icon on right
+  &.is-right {
+    .input-with-icon__icon {
+      left: auto;
+      right: $spacing-md;
+    }
+
+    .form-input {
+      padding-left: $spacing-md;
+      padding-right: 40px;
+    }
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Password Input with Toggle
+// -----------------------------------------------------------------------------
+.password-input {
+  position: relative;
+
+  .form-input {
+    padding-right: 44px;
+  }
+
+  &__toggle {
+    position: absolute;
+    right: $spacing-xs;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 32px;
+    height: 32px;
+    @include flex-center;
+    border-radius: $radius-sm;
+    color: $text-muted;
+    cursor: pointer;
+    transition: color $transition-fast;
+
+    &:hover {
+      color: $text-primary;
+    }
+  }
+}

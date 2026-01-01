@@ -1,0 +1,27 @@
+// =============================================================================
+// ASTRUM - Main Stylesheet
+// Discord-inspired dark theme for Stars! game session management
+// =============================================================================
+
+// -----------------------------------------------------------------------------
+// 1. Base Styles (reset, typography, global)
+// Each file loads its own dependencies via @use 'shared'
+// -----------------------------------------------------------------------------
+@use 'base';
+
+// -----------------------------------------------------------------------------
+// 2. Layout
+// -----------------------------------------------------------------------------
+@use 'layout';
+
+// -----------------------------------------------------------------------------
+// 3. Components
+// -----------------------------------------------------------------------------
+@use 'components/server-bar';
+@use 'components/session-list';
+@use 'components/session-detail';
+@use 'components/dialogs';
+@use 'components/race-builder';
+@use 'components/buttons';
+@use 'components/forms';
+@use 'components/context-menu';
