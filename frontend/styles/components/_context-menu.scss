@@ -168,7 +168,7 @@
 .user-menu-backdrop {
   position: fixed;
   inset: 0;
-  z-index: $z-dropdown;
+  z-index: $z-modal-backdrop; // Above header ($z-sticky) but below user-menu ($z-popover)
 }
 
 .user-menu {
