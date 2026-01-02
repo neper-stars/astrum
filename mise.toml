@@ -5,6 +5,7 @@ FRONTEND_DIR = "frontend"
 go = "1.25"
 node = "22"
 golangci-lint = "2.7.2"
+"asdf:pdemagny/asdf-changie" = "latest"
 # Note: elm is installed via npm in frontend/package.json
 
 # ===========================================================================
@@ -326,3 +327,20 @@ run = "go install golang.org/x/vuln/cmd/govulncheck@latest"
 [tasks."fetch-cover-cobertura"]
 description = "Install gocover-cobertura"
 run = "go install github.com/t-yuki/gocover-cobertura@latest"
+
+# ===========================================================================
+# RELEASE MANAGEMENT
+# ===========================================================================
+
+[tasks.changelog]
+description = "Create a new changelog entry"
+run = "changie new"
+
+[tasks."build-release-tool"]
+description = "Build the release tool"
+run = "go build -o tools/bin/release ./tools/release"
+
+[tasks.release]
+description = "Create a new release (batch changelog, commit, tag, push)"
+depends = ["build-release-tool"]
+run = "tools/bin/release"

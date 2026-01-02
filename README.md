@@ -1,11 +1,16 @@
-# Astrum - Multi-Platform Client for Neper API
+# Astrum - Multi-Platform Client for [Neper](https://github.com/neper-stars/neper) API
 
 **Astrum** (from Greek ἄστρον - "star") is a modern, desktop client
-for managing Stars! game sessions via the Neper API.
+for managing Stars! game sessions via the [Neper](https://github.com/neper-stars/neper) API.
 
 Built with Go and Wails, it provides a clean,
 intuitive interface for server management,
 user authentication, and game session coordination.
+
+## Dependencies
+
+This project makes use of the [Houston](https://github.com/neper-stars/houston) library.
+And it is a client for the [Neper](https://github.com/neper-stars/neper) server.
 
 ## Screenshots
 
