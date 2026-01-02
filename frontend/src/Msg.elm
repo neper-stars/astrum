@@ -107,6 +107,7 @@ type Msg
       -- =========================================================================
     | ViewSessionDetail String -- sessionId
     | CloseSessionDetail
+    | TogglePlayersExpanded
     | LoadUserProfiles -- Load user profiles for invite dialog
     | GotUserProfiles String (Result String (List UserProfile)) -- serverUrl, result
     | OpenInviteDialog

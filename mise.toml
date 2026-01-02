@@ -333,8 +333,12 @@ run = "go install github.com/t-yuki/gocover-cobertura@latest"
 # ===========================================================================
 
 [tasks.changelog]
-description = "Create a new changelog entry"
+description = "Create a new changelog entry (interactive)"
 run = "changie new"
+
+[tasks."changelog:add"]
+description = "Create a new changelog entry non-interactively: mise r changelog:add Changed 'Description'"
+run = "changie new -k {{arg(name=\"kind\")}} -b {{arg(name=\"body\")}}"
 
 [tasks."build-release-tool"]
 description = "Build the release tool"

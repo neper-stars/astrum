@@ -116,6 +116,22 @@
     color: $text-primary;
     margin: 0;
     cursor: default;
+
+    &--clickable {
+      cursor: pointer;
+      transition: color $transition-fast;
+
+      &:hover {
+        color: $accent-primary;
+      }
+    }
+  }
+
+  &__expand-icon {
+    font-size: $font-size-xs;
+    color: $text-secondary;
+    width: 12px;
+    text-align: center;
   }
 
   // When section-title is NOT inside section-header, keep original spacing

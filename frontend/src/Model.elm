@@ -422,6 +422,7 @@ type alias SessionDetailView =
     { sessionId : String
     , showInviteDialog : Bool
     , dragState : Maybe DragState
+    , playersExpanded : Bool
     }
 
 

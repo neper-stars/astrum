@@ -358,10 +358,20 @@ viewSessionDetail session detail availableTurns ordersStatusByYear model =
             , div [ class "session-detail__section" ]
                 [ div [ class "session-detail__section-header" ]
                     [ h3
-                        [ class "session-detail__section-title"
-                        , title "Players are members who have already set the race with which they want to play."
+                        [ class "session-detail__section-title session-detail__section-title--clickable"
+                        , title "Players are members who have already set the race with which they want to play. Click to expand/collapse."
+                        , onClick TogglePlayersExpanded
                         ]
-                        [ text ("Players (" ++ String.fromInt (List.length session.players) ++ ")")
+                        [ span [ class "session-detail__expand-icon" ]
+                            [ text
+                                (if detail.playersExpanded then
+                                    "▼"
+
+                                 else
+                                    "▶"
+                                )
+                            ]
+                        , text ("Players (" ++ String.fromInt (List.length session.players) ++ ")")
                         , span [ class "session-detail__help-icon" ] [ text "?" ]
                         ]
                     , if showSetupRaceButton then
@@ -381,21 +391,25 @@ viewSessionDetail session detail availableTurns ordersStatusByYear model =
                       else
                         text ""
                     ]
-                , div [ class "session-detail__players" ]
-                    (if List.isEmpty session.players then
-                        [ div [ class "session-detail__empty" ] [ text "No players yet" ] ]
+                , if detail.playersExpanded then
+                    div [ class "session-detail__players" ]
+                        (if List.isEmpty session.players then
+                            [ div [ class "session-detail__empty" ] [ text "No players yet" ] ]
 
-                     else
-                        let
-                            myRace =
-                                Dict.get session.id serverData.sessionPlayerRaces
-                        in
-                        List.indexedMap
-                            (\idx player ->
-                                viewPlayerRow serverData.userProfiles myRace session.id currentUserId isManager session.started detail.dragState idx player
-                            )
-                            session.players
-                    )
+                         else
+                            let
+                                myRace =
+                                    Dict.get session.id serverData.sessionPlayerRaces
+                            in
+                            List.indexedMap
+                                (\idx player ->
+                                    viewPlayerRow serverData.userProfiles myRace session.id currentUserId isManager session.started detail.dragState idx player
+                                )
+                                session.players
+                        )
+
+                  else
+                    text ""
                 ]
             , -- Turns section (only show if game is started and there are turns)
               if session.started && not (Dict.isEmpty availableTurns) then

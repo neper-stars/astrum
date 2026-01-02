@@ -84,14 +84,20 @@ update msg model =
                     case newServerData.lastViewedSession of
                         Just sessionId ->
                             -- Check if session still exists
-                            if List.any (\s -> s.id == sessionId) newServerData.sessions then
-                                ( Just { sessionId = sessionId, showInviteDialog = False, dragState = Nothing }
-                                , Just sessionId
-                                )
+                            case List.filter (\s -> s.id == sessionId) newServerData.sessions |> List.head of
+                                Just session ->
+                                    ( Just
+                                        { sessionId = sessionId
+                                        , showInviteDialog = False
+                                        , dragState = Nothing
+                                        , playersExpanded = not session.started
+                                        }
+                                    , Just sessionId
+                                    )
 
-                            else
-                                -- Session was deleted, clear the lastViewedSession
-                                ( Nothing, Nothing )
+                                Nothing ->
+                                    -- Session was deleted, clear the lastViewedSession
+                                    ( Nothing, Nothing )
 
                         Nothing ->
                             ( Nothing, Nothing )
@@ -790,6 +796,7 @@ update msg model =
                                     { sessionId = session.id
                                     , showInviteDialog = False
                                     , dragState = Nothing
+                                    , playersExpanded = not session.started
                                     }
                           }
                         , Cmd.none
@@ -1076,6 +1083,10 @@ update msg model =
 
                         Nothing ->
                             model.serverData
+
+                -- Players section is collapsed by default when session is started
+                isStarted =
+                    maybeSession |> Maybe.map .started |> Maybe.withDefault False
             in
             ( { model
                 | sessionDetail =
@@ -1083,6 +1094,7 @@ update msg model =
                         { sessionId = sessionId
                         , showInviteDialog = False
                         , dragState = Nothing
+                        , playersExpanded = not isStarted
                         }
                 , serverData = updatedServerData
               }
@@ -1105,6 +1117,16 @@ update msg model =
             ( { model | sessionDetail = Nothing, serverData = updatedServerData }
             , Cmd.none
             )
+
+        TogglePlayersExpanded ->
+            case model.sessionDetail of
+                Just detail ->
+                    ( { model | sessionDetail = Just { detail | playersExpanded = not detail.playersExpanded } }
+                    , Cmd.none
+                    )
+
+                Nothing ->
+                    ( model, Cmd.none )
 
         LoadUserProfiles ->
             ( model
