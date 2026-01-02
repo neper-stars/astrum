@@ -277,8 +277,8 @@ github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd/go.mod h1:6dJ
 github.com/modern-go/reflect2 v1.0.2 h1:xBagoLtFs94CBntxluKeaWgTMpvLxC4ur3nMaC9Gz0M=
 github.com/modern-go/reflect2 v1.0.2/go.mod h1:yWuevngMOJpCy52FWWMvUC8ws7m/LJsjYzDa0/r8luk=
 github.com/montanaflynn/stats v0.0.0-20171201202039-1bf9dbcd8cbe/go.mod h1:wL8QJuTMNUDYhXwkmfOly8iTdp5TEcJFWZD2D7SIkUc=
-github.com/neper-stars/houston v0.0.0-20260101193142-a324969db1b3 h1:PkyJDI1DGfEGLyCyKwgBKt35Xng6Wg+BMwihb0+cX34=
-github.com/neper-stars/houston v0.0.0-20260101193142-a324969db1b3/go.mod h1:naPWAvWA7n5xCKsnLC8gm40wFSqSseqfLewv7AppIhw=
+github.com/neper-stars/houston v0.1.0 h1:LGGDIOHqE7RS/BTNpVOYJ1CGgBCfwVufGxCuGJlbknM=
+github.com/neper-stars/houston v0.1.0/go.mod h1:naPWAvWA7n5xCKsnLC8gm40wFSqSseqfLewv7AppIhw=
 github.com/neper-stars/neper v0.0.0-20260101203407-280957da8292 h1:2/qgCQvrkw/1NC8K04ozvjNMBQWOfbLfW2NlbzAAmPQ=
 github.com/neper-stars/neper v0.0.0-20260101203407-280957da8292/go.mod h1:1X7r52YvKHX5sEW9QlnZa28rwUoiXr5n03OlYplxfqM=
 github.com/nfnt/resize v0.0.0-20180221191011-83c6a9932646 h1:zYyBkD/k9seD2A7fsi6Oo2LfFZAehjjQMERAvZLEDnQ=

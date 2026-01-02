@@ -12,7 +12,7 @@ require (
 	github.com/gorilla/websocket v1.5.3
 	github.com/json-iterator/go v1.1.12
 	github.com/kirsle/configdir v0.0.0-20170128060238-e45d2f54772f
-	github.com/neper-stars/houston v0.0.0-20260101193142-a324969db1b3
+	github.com/neper-stars/houston v0.1.0
 	github.com/neper-stars/neper v0.0.0-20260101203407-280957da8292
 	github.com/rs/zerolog v1.34.0
 	github.com/stretchr/testify v1.11.1
