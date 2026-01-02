@@ -165,7 +165,7 @@ type alias Model =
     , dialog : Maybe Dialog
     , contextMenu : Maybe ContextMenu
     , showUserMenu : Bool
-    , displayedApiKey : Maybe String -- API key shown in user menu
+    , toast : Maybe String -- Temporary success message
     , loading : Bool
     , error : Maybe String
 
@@ -251,7 +251,7 @@ init _ =
       , dialog = Nothing
       , contextMenu = Nothing
       , showUserMenu = False
-      , displayedApiKey = Nothing
+      , toast = Nothing
       , loading = True
       , error = Nothing
       , startingSessionId = Nothing

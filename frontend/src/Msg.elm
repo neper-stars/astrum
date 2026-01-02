@@ -377,10 +377,11 @@ type Msg
       -- =========================================================================
     | ToggleUserMenu
     | HideUserMenu
-    | ShowApiKey String -- serverUrl
+    | CopyApiKey String -- serverUrl - fetches and copies API key to clipboard
     | GotApiKey String (Result String String) -- serverUrl, apiKey
-    | HideApiKey
     | CopyToClipboard String -- text to copy
+    | ShowToast String -- message to show
+    | HideToast -- auto-hide after timeout
       -- =========================================================================
       -- Zoom Messages
       -- =========================================================================

@@ -18,6 +18,7 @@ import Set
 import Model exposing (..)
 import Msg exposing (Msg(..))
 import Ports
+import Process
 import Task
 import Time
 
@@ -4340,11 +4341,11 @@ update msg model =
             )
 
         HideUserMenu ->
-            ( { model | showUserMenu = False, displayedApiKey = Nothing }
+            ( { model | showUserMenu = False }
             , Cmd.none
             )
 
-        ShowApiKey serverUrl ->
+        CopyApiKey serverUrl ->
             ( model
             , Ports.getApiKey serverUrl
             )
@@ -4352,8 +4353,12 @@ update msg model =
         GotApiKey _ result ->
             case result of
                 Ok apiKey ->
-                    ( { model | displayedApiKey = Just apiKey }
-                    , Cmd.none
+                    ( { model | toast = Just "API key copied to clipboard" }
+                    , Cmd.batch
+                        [ Ports.copyToClipboard apiKey
+                        , Process.sleep 3000
+                            |> Task.perform (\_ -> HideToast)
+                        ]
                     )
 
                 Err err ->
@@ -4361,14 +4366,20 @@ update msg model =
                     , Cmd.none
                     )
 
-        HideApiKey ->
-            ( { model | displayedApiKey = Nothing }
-            , Cmd.none
-            )
-
         CopyToClipboard text ->
             ( model
             , Ports.copyToClipboard text
+            )
+
+        ShowToast message ->
+            ( { model | toast = Just message }
+            , Process.sleep 3000
+                |> Task.perform (\_ -> HideToast)
+            )
+
+        HideToast ->
+            ( { model | toast = Nothing }
+            , Cmd.none
             )
 
         -- =====================================================================

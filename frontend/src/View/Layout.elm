@@ -54,6 +54,7 @@ view model =
         , viewContextMenu model.contextMenu model.serverData
         , viewUserMenu model
         , viewDialog model
+        , viewToast model.toast
         ]
 
 
@@ -356,3 +357,16 @@ viewStatusBar model =
             [ span [ class "status-bar__item" ] [ text sessionCountText ]
             ]
         ]
+
+
+{-| Toast notification for temporary success messages.
+-}
+viewToast : Maybe String -> Html Msg
+viewToast maybeMessage =
+    case maybeMessage of
+        Just message ->
+            div [ class "toast toast--success" ]
+                [ text message ]
+
+        Nothing ->
+            text ""

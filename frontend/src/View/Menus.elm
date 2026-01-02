@@ -140,32 +140,11 @@ viewUserMenu model =
                             ]
                             [ text "Invitations" ]
                          , div [ class "user-menu__separator" ] []
-                         , case model.displayedApiKey of
-                            Just apiKey ->
-                                div [ class "user-menu__apikey" ]
-                                    [ span [ class "user-menu__apikey-label" ] [ text "API Key:" ]
-                                    , div [ class "user-menu__value-row" ]
-                                        [ span [ class "user-menu__apikey-value" ] [ text apiKey ]
-                                        , button
-                                            [ class "user-menu__copy-btn"
-                                            , onClick (CopyToClipboard apiKey)
-                                            , attribute "title" "Copy to clipboard"
-                                            ]
-                                            [ text "\u{1F4CB}" ]
-                                        ]
-                                    , div
-                                        [ class "user-menu__item user-menu__item--small"
-                                        , onClick HideApiKey
-                                        ]
-                                        [ text "Hide" ]
-                                    ]
-
-                            Nothing ->
-                                div
-                                    [ class "user-menu__item"
-                                    , onClick (ShowApiKey serverUrl)
-                                    ]
-                                    [ text "View API Key" ]
+                         , div
+                            [ class "user-menu__item"
+                            , onClick (CopyApiKey serverUrl)
+                            ]
+                            [ text "Copy API Key" ]
                          , div
                             [ class "user-menu__item"
                             , onClick OpenChangeApikeyDialog
