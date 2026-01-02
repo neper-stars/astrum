@@ -232,14 +232,23 @@ const (
 	AppSettingsKey = "settings"
 )
 
+// WindowGeometry stores window position and size
+type WindowGeometry struct {
+	X      int `json:"x"`
+	Y      int `json:"y"`
+	Width  int `json:"width"`
+	Height int `json:"height"`
+}
+
 // AppSettings stores global application settings
 type AppSettings struct {
-	ServersDir        string  `json:"serversDir"`
-	AutoDownloadStars *bool   `json:"autoDownloadStars"` // nil means default (true)
-	ZoomLevel         *int    `json:"zoomLevel"`         // nil means default (100)
-	UseWine           *bool   `json:"useWine"`           // nil means default (false)
-	WinePrefixesDir   *string `json:"winePrefixesDir"`   // nil means default (~/.config/astrum/wine_prefixes)
-	ValidWineInstall  *bool   `json:"validWineInstall"`  // nil means not checked yet (default: false)
+	ServersDir        string          `json:"serversDir"`
+	AutoDownloadStars *bool           `json:"autoDownloadStars"` // nil means default (true)
+	ZoomLevel         *int            `json:"zoomLevel"`         // nil means default (100)
+	UseWine           *bool           `json:"useWine"`           // nil means default (false)
+	WinePrefixesDir   *string         `json:"winePrefixesDir"`   // nil means default (~/.config/astrum/wine_prefixes)
+	ValidWineInstall  *bool           `json:"validWineInstall"`  // nil means not checked yet (default: false)
+	WindowGeometry    *WindowGeometry `json:"windowGeometry"`    // nil means use defaults
 }
 
 // GetAutoDownloadStars returns the auto download setting (default: true)
@@ -453,6 +462,25 @@ func (c *Config) GetValidWineInstall() (bool, error) {
 		return false, err
 	}
 	return settings.GetValidWineInstall(), nil
+}
+
+// GetWindowGeometry returns the saved window geometry, or nil if not set
+func (c *Config) GetWindowGeometry() (*WindowGeometry, error) {
+	settings, err := c.GetAppSettings()
+	if err != nil {
+		return nil, err
+	}
+	return settings.WindowGeometry, nil
+}
+
+// SetWindowGeometry saves the window geometry
+func (c *Config) SetWindowGeometry(geom *WindowGeometry) error {
+	settings, err := c.GetAppSettings()
+	if err != nil {
+		return err
+	}
+	settings.WindowGeometry = geom
+	return c.SetAppSettings(settings)
 }
 
 // EnsureServersDir creates the servers directory if it doesn't exist

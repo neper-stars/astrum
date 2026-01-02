@@ -91,8 +91,8 @@ func main() {
 
 	err := wails.Run(&options.App{
 		Title:     "Astrum",
-		Width:     1024,
-		Height:    768,
+		Width:     1440,
+		Height:    900,
 		MinWidth:  800,
 		MinHeight: 600,
 		AssetServer: &assetserver.Options{
@@ -108,7 +108,8 @@ func main() {
 			}
 			app.startup(ctx)
 		},
-		OnShutdown: app.shutdown,
+		OnBeforeClose: app.beforeClose,
+		OnShutdown:    app.shutdown,
 		Bind: []interface{}{
 			app,
 		},

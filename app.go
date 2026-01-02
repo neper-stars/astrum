@@ -5,6 +5,7 @@ import (
 	"sync"
 
 	"github.com/gen2brain/beeep"
+	"github.com/wailsapp/wails/v2/pkg/runtime"
 
 	"github.com/neper-stars/astrum/api"
 	"github.com/neper-stars/astrum/database"
@@ -88,7 +89,18 @@ func (a *App) startup(ctx context.Context) {
 		logger.App.Warn().Err(err).Msg("Failed to create servers directory")
 	}
 
+	// Restore window geometry from previous session
+	a.restoreWindowGeometry(ctx)
+
 	logger.App.Info().Msg("Application started successfully")
+}
+
+// beforeClose is called before the window closes (while GTK window is still valid)
+// Returns false to allow close, true to prevent close
+func (a *App) beforeClose(ctx context.Context) bool {
+	// Save window geometry while the window is still valid
+	a.saveWindowGeometry(ctx)
+	return false // Allow the window to close
 }
 
 // shutdown is called when the app closes
@@ -144,6 +156,116 @@ func (a *App) shutdown(ctx context.Context) {
 	}
 
 	logger.App.Info().Msg("Application shutdown complete")
+}
+
+// =============================================================================
+// WINDOW GEOMETRY PERSISTENCE
+// =============================================================================
+
+// saveWindowGeometry saves the current window position and size
+func (a *App) saveWindowGeometry(ctx context.Context) {
+	if a.config == nil {
+		return
+	}
+
+	width, height := runtime.WindowGetSize(ctx)
+	x, y := runtime.WindowGetPosition(ctx)
+
+	geom := &astrum.WindowGeometry{
+		X:      x,
+		Y:      y,
+		Width:  width,
+		Height: height,
+	}
+
+	if err := a.config.SetWindowGeometry(geom); err != nil {
+		logger.App.Warn().Err(err).Msg("Failed to save window geometry")
+	} else {
+		logger.App.Debug().
+			Int("x", x).Int("y", y).
+			Int("width", width).Int("height", height).
+			Msg("Window geometry saved")
+	}
+}
+
+// restoreWindowGeometry restores the saved window position and size if valid
+func (a *App) restoreWindowGeometry(ctx context.Context) {
+	if a.config == nil {
+		return
+	}
+
+	geom, err := a.config.GetWindowGeometry()
+	if err != nil {
+		logger.App.Warn().Err(err).Msg("Failed to get saved window geometry")
+		return
+	}
+	if geom == nil {
+		logger.App.Debug().Msg("No saved window geometry found")
+		return
+	}
+
+	// Validate geometry is on a visible screen
+	if !a.isGeometryOnScreen(ctx, geom) {
+		logger.App.Info().
+			Int("x", geom.X).Int("y", geom.Y).
+			Int("width", geom.Width).Int("height", geom.Height).
+			Msg("Saved geometry is off-screen, using defaults")
+		return
+	}
+
+	// Restore position and size
+	runtime.WindowSetPosition(ctx, geom.X, geom.Y)
+	runtime.WindowSetSize(ctx, geom.Width, geom.Height)
+
+	logger.App.Debug().
+		Int("x", geom.X).Int("y", geom.Y).
+		Int("width", geom.Width).Int("height", geom.Height).
+		Msg("Window geometry restored")
+}
+
+// isGeometryOnScreen checks if the window geometry would be reasonably visible
+// Wails Screen doesn't provide X/Y positions, so we validate against screen dimensions
+func (a *App) isGeometryOnScreen(ctx context.Context, geom *astrum.WindowGeometry) bool {
+	screens, err := runtime.ScreenGetAll(ctx)
+	if err != nil {
+		logger.App.Warn().Err(err).Msg("Failed to get screen info")
+		return false
+	}
+
+	if len(screens) == 0 {
+		return false
+	}
+
+	// Find the largest screen dimensions (accounts for multi-monitor setups)
+	var maxWidth, maxHeight int
+	for _, screen := range screens {
+		if screen.Size.Width > maxWidth {
+			maxWidth = screen.Size.Width
+		}
+		if screen.Size.Height > maxHeight {
+			maxHeight = screen.Size.Height
+		}
+	}
+
+	// We require at least 100x100 pixels to be potentially visible
+	const minVisible = 100
+
+	// Check if window position would place at least some of it on screen
+	// Allow negative positions up to (screenSize - minVisible) to support
+	// windows partially off the left/top edge
+	if geom.X < -geom.Width+minVisible || geom.X > maxWidth-minVisible {
+		return false
+	}
+	if geom.Y < -geom.Height+minVisible || geom.Y > maxHeight-minVisible {
+		return false
+	}
+
+	// Ensure saved size is reasonable (not larger than any known screen)
+	if geom.Width > maxWidth*2 || geom.Height > maxHeight*2 {
+		return false
+	}
+
+	return true
 }
 
 // =============================================================================
