@@ -92,7 +92,7 @@ jobs:
 
   build-macos-intel:
     name: Build macOS (Intel)
-    runs-on: macos-13
+    runs-on: macos-15-intel
     needs: test
     steps:
       - uses: actions/checkout@v4
@@ -118,7 +118,7 @@ jobs:
 
   build-macos-arm:
     name: Build macOS (Apple Silicon)
-    runs-on: macos-14
+    runs-on: macos-latest
     needs: test
     steps:
       - uses: actions/checkout@v4

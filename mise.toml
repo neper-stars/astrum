@@ -95,11 +95,13 @@ run = "wails build -platform windows/arm64 -skipbindings"
 [tasks."build:darwin"]
 description = "Build for macOS AMD64 (Intel)"
 depends = ["install", "build:icons", "build:frontend"]
+env = { MACOSX_DEPLOYMENT_TARGET = "13.0" }
 run = "wails build -platform darwin/amd64"
 
 [tasks."build:darwin:arm64"]
 description = "Build for macOS ARM64 (Apple Silicon)"
 depends = ["install", "build:icons", "build:frontend"]
+env = { MACOSX_DEPLOYMENT_TARGET = "13.0" }
 run = "wails build -platform darwin/arm64"
 
 [tasks."build:all"]
