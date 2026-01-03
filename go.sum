@@ -58,6 +58,8 @@ github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc h1:U9qPSI2PIWSS1
 github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/esiqveland/notify v0.13.3 h1:QCMw6o1n+6rl+oLUfg8P1IIDSFsDEb2WlXvVvIJbI/o=
 github.com/esiqveland/notify v0.13.3/go.mod h1:hesw/IRYTO0x99u1JPweAl4+5mwXJibQVUcP0Iu5ORE=
+github.com/faide/canvas v0.0.0-20251231001319-936f02a3e0fe h1:ZWX0x6nomJodeTWgR7ai1SDj0YxKFP25FmQPTDM6Yhw=
+github.com/faide/canvas v0.0.0-20251231001319-936f02a3e0fe/go.mod h1:JUnBKQtnaYE12uB8NR8KsEJl06JJoAyPZAqOV/UdRuw=
 github.com/fsnotify/fsnotify v1.9.0 h1:2Ml+OJNzbYCTzsxtv8vKSFD9PbJjmhYF14k/jKC7S9k=
 github.com/fsnotify/fsnotify v1.9.0/go.mod h1:8jBTzvmWwFyi3Pb8djgCCO5IBqzKJ/Jwo8TRcHyHii0=
 github.com/gen2brain/beeep v0.11.2 h1:+KfiKQBbQCuhfJFPANZuJ+oxsSKAYNe88hIpJuyKWDA=
@@ -277,8 +279,8 @@ github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd/go.mod h1:6dJ
 github.com/modern-go/reflect2 v1.0.2 h1:xBagoLtFs94CBntxluKeaWgTMpvLxC4ur3nMaC9Gz0M=
 github.com/modern-go/reflect2 v1.0.2/go.mod h1:yWuevngMOJpCy52FWWMvUC8ws7m/LJsjYzDa0/r8luk=
 github.com/montanaflynn/stats v0.0.0-20171201202039-1bf9dbcd8cbe/go.mod h1:wL8QJuTMNUDYhXwkmfOly8iTdp5TEcJFWZD2D7SIkUc=
-github.com/neper-stars/houston v0.1.0 h1:LGGDIOHqE7RS/BTNpVOYJ1CGgBCfwVufGxCuGJlbknM=
-github.com/neper-stars/houston v0.1.0/go.mod h1:naPWAvWA7n5xCKsnLC8gm40wFSqSseqfLewv7AppIhw=
+github.com/neper-stars/houston v0.2.0 h1:HH25Z1xd2Se8scR/GcPxcXm0THif52wKWipPrAL25Ss=
+github.com/neper-stars/houston v0.2.0/go.mod h1:naPWAvWA7n5xCKsnLC8gm40wFSqSseqfLewv7AppIhw=
 github.com/neper-stars/neper v0.0.0-20260101203407-280957da8292 h1:2/qgCQvrkw/1NC8K04ozvjNMBQWOfbLfW2NlbzAAmPQ=
 github.com/neper-stars/neper v0.0.0-20260101203407-280957da8292/go.mod h1:1X7r52YvKHX5sEW9QlnZa28rwUoiXr5n03OlYplxfqM=
 github.com/nfnt/resize v0.0.0-20180221191011-83c6a9932646 h1:zYyBkD/k9seD2A7fsi6Oo2LfFZAehjjQMERAvZLEDnQ=
@@ -353,8 +355,6 @@ github.com/stretchr/testify v1.11.1 h1:7s2iGBzp5EwR7/aIZr8ao5+dra3wiQyKjjFuvgVKu
 github.com/stretchr/testify v1.11.1/go.mod h1:wZwfW3scLgRK+23gO65QZefKpKQRnfz6sD981Nm4B6U=
 github.com/tadvi/systray v0.0.0-20190226123456-11a2b8fa57af h1:6yITBqGTE2lEeTPG04SN9W+iWHCRyHqlVYILiSXziwk=
 github.com/tadvi/systray v0.0.0-20190226123456-11a2b8fa57af/go.mod h1:4F09kP5F+am0jAwlQLddpoMDM+iewkxxt6nxUQ5nq5o=
-github.com/tdewolff/canvas v0.0.0-20251224152029-436d73bc8f67 h1:yqkrKShEWyV2lhAu30DITj9G/ByMjW+Ft1D93//40Zo=
-github.com/tdewolff/canvas v0.0.0-20251224152029-436d73bc8f67/go.mod h1:JUnBKQtnaYE12uB8NR8KsEJl06JJoAyPZAqOV/UdRuw=
 github.com/tdewolff/font v0.0.0-20250902141222-fb72ecc1bc0a h1:IuR6wFg9mSxhxcCogXcG5bte813psi1PE4KTjMAkM6k=
 github.com/tdewolff/font v0.0.0-20250902141222-fb72ecc1bc0a/go.mod h1:lGIMHKyJnHCmJeb9MqdWnudFoPDVz8COuALmILs95xY=
 github.com/tdewolff/minify/v2 v2.24.4 h1:pQyr6eWDa+RXtAoZg+6wurh0jB9ojqw/qc5LlU7/z6c=

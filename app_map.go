@@ -207,7 +207,17 @@ func (a *App) GenerateAnimatedMap(request AnimatedMapRequest) (string, error) {
 			continue
 		}
 
-		// Use base name for loading (animator needs just filename)
+		// Set XY file as base data (will be included in every frame)
+		if strings.HasSuffix(baseName, ".xy") {
+			animator.SetBaseData(baseName, data)
+			logger.App.Debug().
+				Str("file", baseName).
+				Int("size", len(data)).
+				Msg("Set XY file as base data for all frames")
+			continue
+		}
+
+		// Add turn file (XY base data will be automatically included)
 		if err := animator.AddBytes(baseName, data); err != nil {
 			logger.App.Warn().
 				Str("file", baseName).
@@ -220,7 +230,7 @@ func (a *App) GenerateAnimatedMap(request AnimatedMapRequest) (string, error) {
 		logger.App.Debug().
 			Str("file", baseName).
 			Int("size", len(data)).
-			Msg("Loaded file into animator")
+			Msg("Loaded turn file into animator")
 	}
 
 	if fileCount == 0 {
