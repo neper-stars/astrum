@@ -1,3 +1,0 @@
-kind: Fixed
-body: 'Fixed animated GIF map generation: planet names and options now correctly apply to all frames (uses houston v0.2.0 SetBaseData API)'
-time: 2026-01-03T16:02:24.639457547+01:00
