@@ -1,3 +1,0 @@
-kind: Changed
-body: Added elm-review linting with NoUnused rules; removed dead code (StarsBrowser module, unused types/exports)
-time: 2026-01-03T16:29:09.880051524+01:00
