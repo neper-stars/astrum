@@ -89,3 +89,55 @@ jobs:
           name: astrum-windows-amd64-installer
           path: build/bin/*-installer.exe
           retention-days: 7
+
+  build-macos-intel:
+    name: Build macOS (Intel)
+    runs-on: macos-13
+    needs: test
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install mise
+        uses: jdx/mise-action@v2
+
+      - name: Install Wails
+        run: mise r fetch-wails
+
+      - name: Install project dependencies
+        run: mise r install
+
+      - name: Build macOS binary
+        run: mise r build:darwin
+
+      - name: Upload macOS app
+        uses: actions/upload-artifact@v4
+        with:
+          name: astrum-darwin-amd64
+          path: build/bin/astrum.app
+          retention-days: 7
+
+  build-macos-arm:
+    name: Build macOS (Apple Silicon)
+    runs-on: macos-14
+    needs: test
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install mise
+        uses: jdx/mise-action@v2
+
+      - name: Install Wails
+        run: mise r fetch-wails
+
+      - name: Install project dependencies
+        run: mise r install
+
+      - name: Build macOS binary
+        run: mise r build:darwin:arm64
+
+      - name: Upload macOS app
+        uses: actions/upload-artifact@v4
+        with:
+          name: astrum-darwin-arm64
+          path: build/bin/astrum.app
+          retention-days: 7

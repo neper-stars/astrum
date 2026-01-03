@@ -92,13 +92,19 @@ description = "Build for Windows ARM64 (requires mingw-w64)"
 depends = ["install", "build:icons", "build:frontend"]
 run = "wails build -platform windows/arm64 -skipbindings"
 
-[tasks."build:all"]
-description = "Build for all platforms (Linux, Windows)"
+[tasks."build:darwin"]
+description = "Build for macOS AMD64 (Intel)"
 depends = ["install", "build:icons", "build:frontend"]
-run = """
-wails build -tags webkit2_41 -platform linux/amd64 -skipbindings
-wails build -platform windows/amd64 -skipbindings
-"""
+run = "wails build -platform darwin/amd64"
+
+[tasks."build:darwin:arm64"]
+description = "Build for macOS ARM64 (Apple Silicon)"
+depends = ["install", "build:icons", "build:frontend"]
+run = "wails build -platform darwin/arm64"
+
+[tasks."build:all"]
+description = "Build for all cross-compilable platforms (Linux, Windows)"
+depends = ["build:linux", "build:windows"]
 
 # ===========================================================================
 # PACKAGING

@@ -1,0 +1,3 @@
+kind: Added
+body: Added macOS builds to CI (Intel on macos-13, Apple Silicon on macos-14)
+time: 2026-01-03T16:59:46.434973918+01:00
