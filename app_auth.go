@@ -170,6 +170,20 @@ func (a *App) setupNotificationCallbacks(notifMgr *notification.Manager, serverU
 			if nAction == async.ResourceChangeActionReady {
 				go a.showTurnReadyNotification(serverURL, nID, n.Metadata)
 			}
+		} else if nType == api.NotificationTypePendingRegistration && n.Metadata != nil {
+			// For pending_registration approval, include metadata (user_profile_id, nickname)
+			runtime.EventsEmit(a.ctx, eventName, serverURL, nID, n.Metadata)
+			logger.App.Debug().
+				Str("event", eventName).
+				Str("serverUrl", serverURL).
+				Str("id", nID).
+				Interface("metadata", n.Metadata).
+				Msg("Notification received")
+
+			// Show desktop notification for registration approval
+			if nAction == async.ResourceChangeActionApproved {
+				go a.showRegistrationApprovedNotification(serverURL, n.Metadata)
+			}
 		} else {
 			runtime.EventsEmit(a.ctx, eventName, serverURL, nID)
 			logger.App.Debug().
@@ -244,6 +258,33 @@ func (a *App) showTurnReadyNotification(serverURL, sessionID string, metadata in
 			Str("sessionName", sessionName).
 			Int("year", year).
 			Msg("Desktop notification shown for new turn")
+	}
+}
+
+// showRegistrationApprovedNotification shows a desktop notification when a registration is approved
+func (a *App) showRegistrationApprovedNotification(serverURL string, metadata interface{}) {
+	nickname := ""
+	if metaMap, ok := metadata.(map[string]interface{}); ok {
+		if nicknameVal, ok := metaMap["nickname"]; ok {
+			if s, ok := nicknameVal.(string); ok {
+				nickname = s
+			}
+		}
+	}
+
+	title := "Registration Approved"
+	message := fmt.Sprintf("Your registration as %s has been approved", nickname)
+	if nickname == "" {
+		message = "Your registration has been approved"
+	}
+
+	if err := beeep.Notify(title, message, a.notificationIcon); err != nil {
+		logger.App.Warn().Err(err).Msg("Failed to show desktop notification")
+	} else {
+		logger.App.Debug().
+			Str("serverUrl", serverURL).
+			Str("nickname", nickname).
+			Msg("Desktop notification shown for registration approval")
 	}
 }
 
@@ -349,21 +390,43 @@ func (a *App) AutoConnect(serverURL string) (*ConnectResult, error) {
 }
 
 // Register submits a registration request for a new user account on a server.
-// The user will be pending approval by a global manager.
-// No connection is established - user must wait for approval.
-func (a *App) Register(serverURL, nickname, email, message string) error {
+// Returns the registration result which includes whether approval is needed.
+// The API key is automatically saved to the keyring.
+func (a *App) Register(serverURL, nickname, email, message string) (*RegistrationResultInfo, error) {
 	client := api.NewClient(serverURL)
 	authMgr := auth.NewManager(client)
 
-	_, err := authMgr.Register(nickname, email, message)
+	result, err := authMgr.Register(nickname, email, message)
 	if err != nil {
-		return fmt.Errorf("registration failed: %w", err)
+		return nil, fmt.Errorf("registration failed: %w", err)
+	}
+
+	// Save the API key to keyring
+	if result.Apikey != "" {
+		if err := a.config.SaveCredential(serverURL, nickname, result.Apikey); err != nil {
+			logger.App.Warn().
+				Err(err).
+				Str("serverUrl", serverURL).
+				Msg("Failed to save API key after registration")
+			// Don't fail registration, just warn
+		} else {
+			logger.App.Info().
+				Str("serverUrl", serverURL).
+				Str("nickname", nickname).
+				Msg("Saved API key after registration")
+		}
 	}
 
 	logger.App.Info().
-		Str("nickname", nickname).
+		Str("nickname", result.Nickname).
+		Str("userId", result.UserID).
+		Bool("pending", result.Pending).
 		Str("serverUrl", serverURL).
-		Msg("Registration request submitted, pending approval")
+		Msg("Registration completed")
 
-	return nil
+	return &RegistrationResultInfo{
+		UserID:   result.UserID,
+		Nickname: result.Nickname,
+		Pending:  result.Pending,
+	}, nil
 }

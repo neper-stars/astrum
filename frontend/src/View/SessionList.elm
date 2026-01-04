@@ -7,7 +7,7 @@ module View.SessionList exposing
 -}
 
 import Api.OrdersStatus exposing (OrdersStatus, PlayerOrderStatus)
-import Api.Session exposing (Session)
+import Api.Session exposing (Session, isArchived, isStarted)
 import Api.TurnFiles exposing (TurnFiles)
 import Dict
 import Html exposing (..)
@@ -54,11 +54,23 @@ viewSessionList model =
                 , viewFilterButton PublicSessions "Public" model.sessionFilter
                 , viewFilterButton InvitedSessions "Invited" model.sessionFilter
                 , viewFilterButtonWithTooltip MyTurn "My Turn" model.sessionFilter "Sessions where you have a turn to submit"
+                , viewFilterButtonWithTooltip ArchivedSessions "Archived" model.sessionFilter "Finished sessions that have been archived"
                 ]
             ]
         , if List.isEmpty filteredSessions then
-            div [ class "session-list__empty" ]
-                [ text "No sessions found" ]
+            if model.sessionFilter == ArchivedSessions && not serverData.archivedSessionsFetched then
+                div [ class "session-list__empty" ]
+                    [ p [] [ text "Archived sessions are not loaded by default." ]
+                    , button
+                        [ class "btn btn-primary"
+                        , onClick FetchArchivedSessions
+                        ]
+                        [ text "Fetch Archived Sessions" ]
+                    ]
+
+            else
+                div [ class "session-list__empty" ]
+                    [ text "No sessions found" ]
 
           else
             div [ class "session-list__grid" ]
@@ -115,6 +127,9 @@ filterSessions maybeUserId filter sessions ordersStatusDict =
                 Nothing ->
                     []
 
+        ArchivedSessions ->
+            List.filter isArchived sessions
+
 
 {-| Check if a user is a member or manager of a session.
 -}
@@ -133,7 +148,7 @@ Returns True if:
 -}
 hasUnsubmittedTurn : String -> Dict.Dict String (Dict.Dict Int OrdersStatus) -> Session -> Bool
 hasUnsubmittedTurn userId ordersStatusDict session =
-    if not session.started then
+    if not (isStarted session) then
         False
 
     else
@@ -180,7 +195,7 @@ viewSessionCard maybeUserId allSessionTurns allSessionOrdersStatus session =
 
         -- Get turn data for this session if started and user is member or manager
         maybeTurnInfo =
-            if session.started && isAlreadyMemberOrManager then
+            if isStarted session && isAlreadyMemberOrManager then
                 let
                     sessionTurns =
                         Dict.get session.id allSessionTurns
@@ -230,12 +245,12 @@ viewSessionCard maybeUserId allSessionTurns allSessionOrdersStatus session =
                 , span
                     [ class "session-card__badge"
                     , classList
-                        [ ( "is-started", session.started )
-                        , ( "is-not-started", not session.started )
+                        [ ( "is-started", isStarted session )
+                        , ( "is-not-started", not (isStarted session) )
                         ]
                     ]
                     [ text
-                        (if session.started then
+                        (if isStarted session then
                             "Started"
 
                          else
@@ -275,7 +290,7 @@ viewSessionCard maybeUserId allSessionTurns allSessionOrdersStatus session =
         , div [ class "session-card__footer" ]
             [ span [ class "session-card__members" ]
                 [ text (String.fromInt (List.length session.managers + List.length session.members) ++ " users") ]
-            , if not isAlreadyMemberOrManager && not session.started then
+            , if not isAlreadyMemberOrManager && not (isStarted session) then
                 button
                     [ class "btn btn-sm btn-primary session-card__action"
                     , onClick (JoinSession session.id)

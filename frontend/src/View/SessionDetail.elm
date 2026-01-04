@@ -6,7 +6,7 @@ module View.SessionDetail exposing (viewSessionDetail)
 import Api.Invitation exposing (Invitation)
 import Api.OrdersStatus exposing (OrdersStatus)
 import Api.Race exposing (Race)
-import Api.Session exposing (Session, SessionPlayer)
+import Api.Session exposing (Session, SessionPlayer, isStarted)
 import Api.TurnFiles exposing (TurnFiles)
 import Api.UserProfile exposing (UserProfile)
 import Dict
@@ -56,7 +56,7 @@ viewSessionDetail session detail availableTurns ordersStatusByYear model =
 
         -- Show join button if not a member, not started, and (public or has invitation)
         canJoin =
-            not isMemberOrManager && not session.started && (session.isPublic || hasInvitation)
+            not isMemberOrManager && not (isStarted session) && (session.isPublic || hasInvitation)
 
         isPlayer =
             case currentUserId of
@@ -98,7 +98,7 @@ viewSessionDetail session detail availableTurns ordersStatusByYear model =
         -- 2. a player but not ready (can change race until ready)
         -- Note: hidden once session is started
         showSetupRaceButton =
-            isMemberOrManager && not currentPlayerReady && not session.started
+            isMemberOrManager && not currentPlayerReady && not (isStarted session)
 
         -- Check if all players are ready (only players, not members/managers)
         allPlayersReady =
@@ -113,7 +113,7 @@ viewSessionDetail session detail availableTurns ordersStatusByYear model =
 
         -- Reason why game can't be started (for tooltip)
         startGameBlockedReason =
-            if session.started then
+            if isStarted session then
                 Just "Game has already started"
 
             else if not session.rulesIsSet then
@@ -132,7 +132,7 @@ viewSessionDetail session detail availableTurns ordersStatusByYear model =
         -- and if manager then not the last manager
         canQuit =
             isMemberOrManager
-                && not session.started
+                && not (isStarted session)
                 && not currentPlayerReady
                 && (not isManager || List.length session.managers > 1)
     in
@@ -156,7 +156,7 @@ viewSessionDetail session detail availableTurns ordersStatusByYear model =
                   else
                     text ""
                 , -- Start Game button (only for managers, when not already started)
-                  if isManager && not session.started then
+                  if isManager && not (isStarted session) then
                     let
                         isStarting =
                             model.startingSessionId == Just session.id
@@ -191,7 +191,7 @@ viewSessionDetail session detail availableTurns ordersStatusByYear model =
                   else
                     text ""
                 , -- Invite User button (managers only, not started)
-                  if isManager && not session.started then
+                  if isManager && not (isStarted session) then
                     button
                         [ class "btn btn--primary"
                         , onClick OpenInviteDialog
@@ -201,7 +201,7 @@ viewSessionDetail session detail availableTurns ordersStatusByYear model =
                   else
                     text ""
                 , -- Backup Session button (managers only, when started)
-                  if isManager && session.started then
+                  if isManager && isStarted session then
                     button
                         [ class "btn btn--secondary"
                         , onClick (DownloadSessionBackup session.id)
@@ -212,13 +212,24 @@ viewSessionDetail session detail availableTurns ordersStatusByYear model =
                   else
                     text ""
                 , -- Historic Backup button (players only, when started)
-                  if isPlayer && session.started then
+                  if isPlayer && isStarted session then
                     button
                         [ class "btn btn--secondary"
                         , onClick (DownloadHistoricBackup session.id)
                         , attribute "title" "Download all historic game files"
                         ]
                         [ text (Icons.download ++ " Historic") ]
+
+                  else
+                    text ""
+                , -- Archive Session button (managers only, when started)
+                  if isManager && isStarted session then
+                    button
+                        [ class "btn btn--secondary"
+                        , onClick (ArchiveSession session.id)
+                        , attribute "title" "Mark session as archived (finished)"
+                        ]
+                        [ text (Icons.archive ++ " Archive") ]
 
                   else
                     text ""
@@ -260,12 +271,12 @@ viewSessionDetail session detail availableTurns ordersStatusByYear model =
                             , span
                                 [ class "session-detail__value"
                                 , classList
-                                    [ ( "session-detail__value--started", session.started )
-                                    , ( "session-detail__value--not-started", not session.started )
+                                    [ ( "session-detail__value--started", isStarted session )
+                                    , ( "session-detail__value--not-started", not (isStarted session) )
                                     ]
                                 ]
                                 [ text
-                                    (if session.started then
+                                    (if isStarted session then
                                         "Started"
 
                                      else
@@ -401,7 +412,7 @@ viewSessionDetail session detail availableTurns ordersStatusByYear model =
                             in
                             List.indexedMap
                                 (\idx player ->
-                                    viewPlayerRow serverData.userProfiles myRace session.id currentUserId isManager session.started detail.dragState idx player
+                                    viewPlayerRow serverData.userProfiles myRace session.id currentUserId isManager (isStarted session) detail.dragState idx player
                                 )
                                 session.players
                         )
@@ -410,7 +421,7 @@ viewSessionDetail session detail availableTurns ordersStatusByYear model =
                     text ""
                 ]
             , -- Turns section (only show if game is started and there are turns)
-              if session.started && not (Dict.isEmpty availableTurns) then
+              if isStarted session && not (Dict.isEmpty availableTurns) then
                 let
                     sortedYears =
                         availableTurns

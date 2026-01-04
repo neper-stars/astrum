@@ -587,6 +587,22 @@ export namespace main {
 		    return a;
 		}
 	}
+	export class RegistrationResultInfo {
+	    userId: string;
+	    nickname: string;
+	    pending: boolean;
+	
+	    static createFrom(source: any = {}) {
+	        return new RegistrationResultInfo(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.userId = source["userId"];
+	        this.nickname = source["nickname"];
+	        this.pending = source["pending"];
+	    }
+	}
 	export class RulesInfo {
 	    universeSize: number;
 	    density: number;
@@ -713,7 +729,7 @@ export namespace main {
 	    isPublic: boolean;
 	    members: string[];
 	    managers: string[];
-	    started: boolean;
+	    state: string;
 	    rulesIsSet: boolean;
 	    players: SessionPlayerInfo[];
 	    pending_invitation: boolean;
@@ -729,7 +745,7 @@ export namespace main {
 	        this.isPublic = source["isPublic"];
 	        this.members = source["members"];
 	        this.managers = source["managers"];
-	        this.started = source["started"];
+	        this.state = source["state"];
 	        this.rulesIsSet = source["rulesIsSet"];
 	        this.players = this.convertValues(source["players"], SessionPlayerInfo);
 	        this.pending_invitation = source["pending_invitation"];
@@ -778,6 +794,7 @@ export namespace main {
 	    email: string;
 	    isActive: boolean;
 	    isManager: boolean;
+	    pending: boolean;
 	    message?: string;
 	
 	    static createFrom(source: any = {}) {
@@ -791,6 +808,7 @@ export namespace main {
 	        this.email = source["email"];
 	        this.isActive = source["isActive"];
 	        this.isManager = source["isManager"];
+	        this.pending = source["pending"];
 	        this.message = source["message"];
 	    }
 	}

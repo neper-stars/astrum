@@ -198,6 +198,7 @@ type alias ServerData =
     , fetchingSessions : Bool -- whether we're currently fetching sessions
     , fetchStartTime : Maybe Int -- milliseconds since epoch when fetch started
     , lastFetchResult : Maybe FetchResult -- result of last fetch for status bar
+    , archivedSessionsFetched : Bool -- whether archived sessions have been fetched
     }
 
 
@@ -222,6 +223,7 @@ emptyServerData =
     , fetchingSessions = False
     , fetchStartTime = Nothing
     , lastFetchResult = Nothing
+    , archivedSessionsFetched = False
     }
 
 
@@ -294,6 +296,7 @@ type SessionFilter
     | PublicSessions
     | InvitedSessions
     | MyTurn
+    | ArchivedSessions
 
 
 

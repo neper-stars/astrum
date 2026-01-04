@@ -8,6 +8,8 @@ export function AddServer(arg1:string,arg2:string):Promise<main.ServerInfo>;
 
 export function ApprovePendingRegistration(arg1:string,arg2:string):Promise<string>;
 
+export function ArchiveSession(arg1:string,arg2:string):Promise<void>;
+
 export function AutoConnect(arg1:string):Promise<main.ConnectResult>;
 
 export function BuildAndSaveRace(arg1:string,arg2:main.RaceConfig,arg3:string):Promise<main.RaceInfo>;
@@ -98,6 +100,8 @@ export function GetSessionPlayerRace(arg1:string,arg2:string):Promise<main.RaceI
 
 export function GetSessions(arg1:string):Promise<Array<main.SessionInfo>>;
 
+export function GetSessionsIncludeArchived(arg1:string):Promise<Array<main.SessionInfo>>;
+
 export function GetTurn(arg1:string,arg2:string,arg3:number,arg4:boolean):Promise<main.TurnFilesInfo>;
 
 export function GetUserProfiles(arg1:string):Promise<Array<main.UserProfileInfo>>;
@@ -120,7 +124,7 @@ export function PromoteMember(arg1:string,arg2:string,arg3:string):Promise<void>
 
 export function QuitSession(arg1:string,arg2:string):Promise<void>;
 
-export function Register(arg1:string,arg2:string,arg3:string,arg4:string):Promise<void>;
+export function Register(arg1:string,arg2:string,arg3:string,arg4:string):Promise<main.RegistrationResultInfo>;
 
 export function RejectPendingRegistration(arg1:string,arg2:string):Promise<void>;
 

@@ -306,7 +306,7 @@ func (a *App) AcceptInvitation(serverURL, invitationID string) (*SessionInfo, er
 		IsPublic:          !session.Private,
 		Members:           session.Members,
 		Managers:          session.Managers,
-		Started:           session.Started,
+		State:             session.State,
 		RulesIsSet:        session.RulesIsSet,
 		Players:           convertPlayers(session.Players),
 		PendingInvitation: session.PendingInvitation,

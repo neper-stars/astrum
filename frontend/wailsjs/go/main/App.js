@@ -14,6 +14,10 @@ export function ApprovePendingRegistration(arg1, arg2) {
   return window['go']['main']['App']['ApprovePendingRegistration'](arg1, arg2);
 }
 
+export function ArchiveSession(arg1, arg2) {
+  return window['go']['main']['App']['ArchiveSession'](arg1, arg2);
+}
+
 export function AutoConnect(arg1) {
   return window['go']['main']['App']['AutoConnect'](arg1);
 }
@@ -192,6 +196,10 @@ export function GetSessionPlayerRace(arg1, arg2) {
 
 export function GetSessions(arg1) {
   return window['go']['main']['App']['GetSessions'](arg1);
+}
+
+export function GetSessionsIncludeArchived(arg1) {
+  return window['go']['main']['App']['GetSessionsIncludeArchived'](arg1);
 }
 
 export function GetTurn(arg1, arg2, arg3, arg4) {

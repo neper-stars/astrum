@@ -1,10 +1,39 @@
-module Api.Session exposing (Session, SessionPlayer)
+module Api.Session exposing (Session, SessionPlayer, SessionState(..), isStarted, isPending, isArchived)
 
 {-| Session type definition.
 
 Represents a game session on a Neper server.
 
 -}
+
+
+{-| Session state enum.
+-}
+type SessionState
+    = Pending
+    | Started
+    | Archived
+
+
+{-| Check if a session is started (game in progress).
+-}
+isStarted : Session -> Bool
+isStarted session =
+    session.state == Started
+
+
+{-| Check if a session is pending (not yet started).
+-}
+isPending : Session -> Bool
+isPending session =
+    session.state == Pending
+
+
+{-| Check if a session is archived (game finished).
+-}
+isArchived : Session -> Bool
+isArchived session =
+    session.state == Archived
 
 
 {-| A game session.
@@ -15,7 +44,7 @@ type alias Session =
     , isPublic : Bool
     , members : List String
     , managers : List String
-    , started : Bool
+    , state : SessionState
     , rulesIsSet : Bool
     , players : List SessionPlayer
     , pendingInvitation : Bool -- True if current user has pending invitation (from API)

@@ -1,0 +1,11 @@
+apiVersion: vendir.k14s.io/v1alpha1
+directories:
+- contents:
+  - git:
+      commitTitle: Added session archive support
+      sha: d7ceec459b3b3ac2e3e62b37d728ae9d982423cc
+      tags:
+      - v0.8.1-5-gd7ceec4
+    path: .
+  path: dependencies/neper
+kind: LockConfig

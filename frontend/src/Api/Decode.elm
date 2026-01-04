@@ -28,7 +28,7 @@ import Api.OrdersStatus exposing (OrdersStatus, PlayerOrderStatus)
 import Api.Race exposing (Race)
 import Api.Rules exposing (Rules)
 import Api.Server exposing (Server)
-import Api.Session exposing (Session, SessionPlayer)
+import Api.Session exposing (Session, SessionPlayer, SessionState(..))
 import Api.TurnFiles exposing (TurnFiles)
 import Api.UserProfile exposing (UserProfile)
 import Json.Decode as D exposing (Decoder)
@@ -72,6 +72,28 @@ serverList =
 -- =============================================================================
 
 
+{-| Decode session state.
+-}
+sessionState : Decoder SessionState
+sessionState =
+    D.string
+        |> D.andThen
+            (\str ->
+                case str of
+                    "pending" ->
+                        D.succeed Pending
+
+                    "started" ->
+                        D.succeed Started
+
+                    "archived" ->
+                        D.succeed Archived
+
+                    _ ->
+                        D.succeed Pending
+            )
+
+
 {-| Decode a single session.
 -}
 session : Decoder Session
@@ -82,7 +104,7 @@ session =
         |> required "isPublic" D.bool
         |> optional "members" (D.list D.string) []
         |> optional "managers" (D.list D.string) []
-        |> optional "started" D.bool False
+        |> optional "state" sessionState Pending
         |> optional "rulesIsSet" D.bool False
         |> optional "players" (D.list sessionPlayer) []
         |> optional "pending_invitation" D.bool False

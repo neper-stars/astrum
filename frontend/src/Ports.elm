@@ -6,6 +6,8 @@ port module Ports exposing
     , appSettingsReceived
     , approveRegistration
     , approveRegistrationResult
+    , archivedSessionsReceived
+    , archiveSession
     , autoConnect
     , autoDownloadStarsSet
     , buildAndSaveRace
@@ -54,6 +56,7 @@ port module Ports exposing
     , getSession
     , getSessionPlayerRace
     , getSessions
+    , getSessionsIncludeArchived
     , getTurn
     , getUserProfiles
     , gifSaved
@@ -125,6 +128,7 @@ port module Ports exposing
     , serversDirSelected
     , serversReceived
     , serversReordered
+    , sessionArchived
     , sessionBackupDownloaded
     , sessionCreated
     , sessionDeleted
@@ -245,6 +249,9 @@ port rejectRegistration : E.Value -> Cmd msg
 port getSessions : String -> Cmd msg
 
 
+port getSessionsIncludeArchived : String -> Cmd msg
+
+
 port getSession : E.Value -> Cmd msg
 
 
@@ -261,6 +268,9 @@ port quitSession : E.Value -> Cmd msg
 
 
 port promoteMember : E.Value -> Cmd msg
+
+
+port archiveSession : E.Value -> Cmd msg
 
 
 
@@ -510,6 +520,9 @@ port rejectRegistrationResult : (D.Value -> msg) -> Sub msg
 port sessionsReceived : (D.Value -> msg) -> Sub msg
 
 
+port archivedSessionsReceived : (D.Value -> msg) -> Sub msg
+
+
 port sessionReceived : (D.Value -> msg) -> Sub msg
 
 
@@ -526,6 +539,9 @@ port sessionQuit : (D.Value -> msg) -> Sub msg
 
 
 port memberPromoted : (D.Value -> msg) -> Sub msg
+
+
+port sessionArchived : (D.Value -> msg) -> Sub msg
 
 
 

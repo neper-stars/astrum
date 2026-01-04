@@ -95,12 +95,14 @@ subscriptions model =
 
         -- Session results
         , Ports.sessionsReceived decodeSessionsReceived
+        , Ports.archivedSessionsReceived decodeArchivedSessionsReceived
         , Ports.sessionReceived decodeSessionReceived
         , Ports.sessionCreated (decodeResultWithServerUrl Decode.session SessionCreated)
         , Ports.sessionJoined (decodeResultWithServerUrl Decode.session SessionJoined)
         , Ports.sessionDeleted (decodeResultWithServerUrl (D.succeed ()) SessionDeleted)
         , Ports.sessionQuit (decodeResultWithServerUrl (D.succeed ()) SessionQuitResult)
         , Ports.memberPromoted (decodeResultWithServerUrl (D.succeed ()) MemberPromoted)
+        , Ports.sessionArchived (decodeResultWithServerUrl (D.succeed ()) SessionArchived)
 
         -- User profiles & invitations
         , Ports.userProfilesReceived (decodeResultWithServerUrl Decode.userProfileList GotUserProfiles)
@@ -153,7 +155,7 @@ subscriptions model =
         , Ports.notificationPlayerRace (decodeNotification NotificationPlayerRace)
         , Ports.notificationSessionTurn decodeSessionTurnNotification
         , Ports.notificationOrderStatus (decodeNotification NotificationOrderStatus)
-        , Ports.notificationPendingRegistration (decodeNotification NotificationPendingRegistration)
+        , Ports.notificationPendingRegistration decodePendingRegistrationNotification
 
         -- Turn files
         , Ports.turnReceived decodeTurnReceived
@@ -356,11 +358,17 @@ decodeDisconnectResult value =
 decodeRegisterResult : D.Value -> Msg
 decodeRegisterResult value =
     let
+        registrationResultDecoder =
+            D.map3 (\userId nickname pending -> { userId = userId, nickname = nickname, pending = pending })
+                (D.field "userId" D.string)
+                (D.field "nickname" D.string)
+                (D.field "pending" D.bool)
+
         decoder =
             D.map2 Tuple.pair
                 (D.field "serverUrl" D.string)
                 (D.oneOf
-                    [ D.field "ok" (D.succeed ()) |> D.map Ok
+                    [ D.field "ok" registrationResultDecoder |> D.map Ok
                     , D.field "error" D.string |> D.map Err
                     ]
                 )
@@ -521,6 +529,31 @@ decodeSessionsReceived value =
 
         Err err ->
             GotSessions "" (Err ("Failed to decode sessions response: " ++ D.errorToString err))
+
+
+{-| Decode archived sessions received result.
+
+The JavaScript sends: { serverUrl: "...", ok: [...] } | { serverUrl: "...", error: "..." }
+
+-}
+decodeArchivedSessionsReceived : D.Value -> Msg
+decodeArchivedSessionsReceived value =
+    let
+        decoder =
+            D.map2 Tuple.pair
+                (D.field "serverUrl" D.string)
+                (D.oneOf
+                    [ D.field "ok" Decode.sessionList |> D.map Ok
+                    , D.field "error" D.string |> D.map Err
+                    ]
+                )
+    in
+    case D.decodeValue decoder value of
+        Ok ( serverUrl, result ) ->
+            GotArchivedSessions serverUrl result
+
+        Err err ->
+            GotArchivedSessions "" (Err ("Failed to decode archived sessions response: " ++ D.errorToString err))
 
 
 {-| Decode single session received result.
@@ -707,6 +740,30 @@ decodeSessionTurnNotification value =
                 (D.field "sessionId" D.string)
                 (D.field "action" D.string)
                 (D.field "year" (D.nullable D.int))
+    in
+    case D.decodeValue decoder value of
+        Ok msg ->
+            msg
+
+        Err _ ->
+            NoOp
+
+
+{-| Decode pending registration notification event.
+
+The JavaScript sends: { serverUrl: "...", id: "...", action: "...", userProfileId: string|null, nickname: string|null }
+
+-}
+decodePendingRegistrationNotification : D.Value -> Msg
+decodePendingRegistrationNotification value =
+    let
+        decoder =
+            D.map5 NotificationPendingRegistration
+                (D.field "serverUrl" D.string)
+                (D.field "id" D.string)
+                (D.field "action" D.string)
+                (D.field "userProfileId" (D.nullable D.string))
+                (D.field "nickname" (D.nullable D.string))
     in
     case D.decodeValue decoder value of
         Ok msg ->

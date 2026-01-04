@@ -8,6 +8,7 @@ This module handles all state transitions in response to messages.
 
 import Api.Encode as Encode
 import Api.Rules exposing (Rules)
+import Api.Session
 import Api.TurnFiles exposing (TurnFiles)
 import Api.UserProfile
 import Dict
@@ -89,7 +90,7 @@ update msg model =
                                         { sessionId = sessionId
                                         , showInviteDialog = False
                                         , dragState = Nothing
-                                        , playersExpanded = not session.started
+                                        , playersExpanded = not (Api.Session.isStarted session)
                                         }
                                     , Just sessionId
                                     )
@@ -448,13 +449,20 @@ update msg model =
                             -- Some other dialog is open, just update connection state
                             ( modelWithError, Cmd.none )
 
-        RegisterResult _ result ->
+        RegisterResult serverUrl result ->
             case result of
-                Ok _ ->
-                    -- Registration submitted, user is pending approval
-                    ( updateRegisterForm model (\f -> { f | submitting = False, success = True })
-                    , Cmd.none
-                    )
+                Ok regResult ->
+                    if regResult.pending then
+                        -- User is pending approval, show success message
+                        ( updateRegisterForm model (\f -> { f | submitting = False, success = True })
+                        , Cmd.none
+                        )
+
+                    else
+                        -- User is auto-approved, trigger connection
+                        ( updateRegisterForm model (\f -> { f | submitting = False, success = True })
+                        , Ports.autoConnect serverUrl
+                        )
 
                 Err err ->
                     ( updateRegisterForm model (\f -> { f | submitting = False, error = Just err })
@@ -567,7 +575,7 @@ update msg model =
                             sessions
                                 |> List.filter
                                     (\s ->
-                                        s.started
+                                        Api.Session.isStarted s
                                             && not (Dict.member s.id currentData.sessionOrdersStatus)
                                     )
 
@@ -583,7 +591,7 @@ update msg model =
                                     sessions
                                         |> List.filter
                                             (\s ->
-                                                s.started
+                                                Api.Session.isStarted s
                                                     && isUserInSession userId s
                                                     && not (Dict.member s.id currentData.sessionTurns)
                                             )
@@ -699,6 +707,62 @@ update msg model =
                 Nothing ->
                     ( model, Cmd.none )
 
+        FetchArchivedSessions ->
+            case model.selectedServerUrl of
+                Just serverUrl ->
+                    ( model
+                    , Ports.getSessionsIncludeArchived serverUrl
+                    )
+
+                Nothing ->
+                    ( model, Cmd.none )
+
+        GotArchivedSessions serverUrl result ->
+            case result of
+                Ok archivedSessions ->
+                    -- Merge archived sessions with existing sessions (replace duplicates)
+                    let
+                        currentData =
+                            getServerData serverUrl model.serverData
+
+                        existingIds =
+                            List.map .id currentData.sessions
+                                |> Set.fromList
+
+                        -- Add only new archived sessions that aren't already in the list
+                        newArchivedSessions =
+                            List.filter (\s -> not (Set.member s.id existingIds)) archivedSessions
+
+                        mergedSessions =
+                            -- Update existing sessions with archived data + add new ones
+                            List.map
+                                (\existing ->
+                                    List.filter (\s -> s.id == existing.id) archivedSessions
+                                        |> List.head
+                                        |> Maybe.withDefault existing
+                                )
+                                currentData.sessions
+                                ++ newArchivedSessions
+                    in
+                    ( { model
+                        | serverData =
+                            updateServerData serverUrl
+                                (\sd ->
+                                    { sd
+                                        | sessions = mergedSessions
+                                        , archivedSessionsFetched = True
+                                    }
+                                )
+                                model.serverData
+                      }
+                    , Cmd.none
+                    )
+
+                Err err ->
+                    ( { model | error = Just err }
+                    , Cmd.none
+                    )
+
         GotSession serverUrl result ->
             case result of
                 Ok session ->
@@ -754,7 +818,7 @@ update msg model =
                                     { sessionId = session.id
                                     , showInviteDialog = False
                                     , dragState = Nothing
-                                    , playersExpanded = not session.started
+                                    , playersExpanded = not (Api.Session.isStarted session)
                                     }
                           }
                         , Cmd.none
@@ -995,6 +1059,37 @@ update msg model =
                     )
 
         -- =====================================================================
+        -- Session Archive Messages
+        -- =====================================================================
+        ArchiveSession sessionId ->
+            case model.selectedServerUrl of
+                Just serverUrl ->
+                    ( model
+                    , Ports.archiveSession
+                        (E.object
+                            [ ( "serverUrl", E.string serverUrl )
+                            , ( "sessionId", E.string sessionId )
+                            ]
+                        )
+                    )
+
+                Nothing ->
+                    ( model, Cmd.none )
+
+        SessionArchived serverUrl result ->
+            case result of
+                Ok _ ->
+                    -- Refresh sessions to update the state
+                    ( model
+                    , Ports.getSessions serverUrl
+                    )
+
+                Err err ->
+                    ( { model | error = Just err }
+                    , Cmd.none
+                    )
+
+        -- =====================================================================
         -- Session Detail & Invitation Messages
         -- =====================================================================
         ViewSessionDetail sessionId ->
@@ -1018,7 +1113,7 @@ update msg model =
                                     [ Ports.getSessionPlayerRace (Encode.getSessionPlayerRace serverUrl sessionId) ]
 
                                 turnCmds =
-                                    if session.started then
+                                    if Api.Session.isStarted session then
                                         [ Ports.getLatestTurn (Encode.getLatestTurn serverUrl sessionId)
                                         , Ports.checkHasStarsExe (Encode.checkHasStarsExe serverUrl sessionId)
                                         ]
@@ -1043,8 +1138,8 @@ update msg model =
                             model.serverData
 
                 -- Players section is collapsed by default when session is started
-                isStarted =
-                    maybeSession |> Maybe.map .started |> Maybe.withDefault False
+                isSessionStarted =
+                    maybeSession |> Maybe.map Api.Session.isStarted |> Maybe.withDefault False
             in
             ( { model
                 | sessionDetail =
@@ -1052,7 +1147,7 @@ update msg model =
                         { sessionId = sessionId
                         , showInviteDialog = False
                         , dragState = Nothing
-                        , playersExpanded = not isStarted
+                        , playersExpanded = not isSessionStarted
                         }
                 , serverData = updatedServerData
               }
@@ -2851,11 +2946,42 @@ update msg model =
             else
                 ( model, Cmd.none )
 
-        NotificationPendingRegistration serverUrl _ _ ->
+        NotificationPendingRegistration serverUrl _ action maybeUserProfileId _ ->
+            let
+                serverData =
+                    getServerData serverUrl model.serverData
+
+                -- Get current user ID from connection state
+                currentUserId =
+                    case serverData.connectionState of
+                        Connected info ->
+                            Just info.userId
+
+                        _ ->
+                            Nothing
+
+                -- Check if this approval is for the current user
+                isCurrentUserApproved =
+                    action == "approved" && maybeUserProfileId == currentUserId && currentUserId /= Nothing
+
+                -- If current user was approved, reconnect to refresh their permissions
+                reconnectCmd =
+                    if isCurrentUserApproved then
+                        Cmd.batch
+                            [ Ports.disconnect serverUrl
+                            , Ports.autoConnect serverUrl
+                            ]
+
+                    else
+                        Cmd.none
+            in
             -- Refetch pending registrations when notified (created/approved/rejected)
             -- This keeps the count and dialog in sync with the server
             ( model
-            , Ports.getPendingRegistrations serverUrl
+            , Cmd.batch
+                [ Ports.getPendingRegistrations serverUrl
+                , reconnectCmd
+                ]
             )
 
         OpenTurnFilesDialog sessionId year isLatestYear ->

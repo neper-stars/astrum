@@ -179,25 +179,26 @@ func (m *Manager) notifyTokenRefreshed(token string) {
 }
 
 // Register submits a registration request for a new user account.
-// The user will be pending approval by a global manager.
-// Returns the created (pending) user profile.
-func (m *Manager) Register(nickname, email, message string) (*api.UserProfile, error) {
+// Returns a RegistrationResult containing the API key.
+// If pending is true, the user needs admin approval for full access.
+func (m *Manager) Register(nickname, email, message string) (*api.RegistrationResult, error) {
 	req := &api.RegistrationRequest{
 		Nickname: nickname,
 		Email:    email,
 		Message:  message,
 	}
 
-	created, err := m.client.Register(m.ctx, req)
+	result, err := m.client.Register(m.ctx, req)
 	if err != nil {
 		return nil, fmt.Errorf("registration failed: %w", err)
 	}
 
 	logger.Auth.Info().
-		Str("nickname", created.Nickname).
-		Str("id", created.ID).
-		Bool("pending", created.Pending).
+		Str("nickname", result.Nickname).
+		Str("userId", result.UserID).
+		Bool("pending", result.Pending).
+		Bool("hasApikey", result.Apikey != "").
 		Msg("Registration request submitted")
 
-	return created, nil
+	return result, nil
 }

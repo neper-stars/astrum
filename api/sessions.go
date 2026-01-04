@@ -11,6 +11,15 @@ func (c *Client) ListSessions(ctx context.Context) ([]Session, error) {
 	return sessions, nil
 }
 
+// ListSessionsIncludeArchived retrieves all sessions including archived ones
+func (c *Client) ListSessionsIncludeArchived(ctx context.Context) ([]Session, error) {
+	var sessions []Session
+	if err := c.get(ctx, SessionsBase+"?include_archived=true", &sessions); err != nil {
+		return nil, err
+	}
+	return sessions, nil
+}
+
 // GetSession retrieves a specific session by ID
 func (c *Client) GetSession(ctx context.Context, sessionID string) (*Session, error) {
 	var session Session
@@ -238,4 +247,9 @@ func (c *Client) CreateRace(ctx context.Context, userProfileID string, race *Rac
 // DeleteRace deletes a race from a user profile
 func (c *Client) DeleteRace(ctx context.Context, userProfileID, raceID string) error {
 	return c.delete(ctx, UserProfileRacePath(userProfileID, raceID))
+}
+
+// ArchiveSession archives a finished session (manager only)
+func (c *Client) ArchiveSession(ctx context.Context, sessionID string) error {
+	return c.post(ctx, SessionArchivePath(sessionID), nil, nil)
 }

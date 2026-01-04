@@ -57,7 +57,7 @@ func (a *App) GetSessions(serverURL string) ([]SessionInfo, error) {
 			IsPublic:          !s.Private,
 			Members:           s.Members,
 			Managers:          s.Managers,
-			Started:           s.Started,
+			State:             s.State,
 			RulesIsSet:        s.RulesIsSet,
 			Players:           convertPlayers(s.Players),
 			PendingInvitation: s.PendingInvitation,
@@ -66,6 +66,40 @@ func (a *App) GetSessions(serverURL string) ([]SessionInfo, error) {
 
 	// Archive any local session directories that no longer exist on the server
 	go a.archiveOrphanedSessions(serverURL, serverSessionIDs)
+
+	return result, nil
+}
+
+// GetSessionsIncludeArchived returns all sessions including archived ones for a server
+func (a *App) GetSessionsIncludeArchived(serverURL string) ([]SessionInfo, error) {
+	a.mu.RLock()
+	client, ok := a.clients[serverURL]
+	mgr, mgrOk := a.authManagers[serverURL]
+	a.mu.RUnlock()
+
+	if !ok || !mgrOk {
+		return nil, fmt.Errorf("not connected to server: %s", serverURL)
+	}
+
+	sessions, err := client.ListSessionsIncludeArchived(mgr.GetContext())
+	if err != nil {
+		return nil, fmt.Errorf("failed to get sessions: %w", err)
+	}
+
+	result := make([]SessionInfo, len(sessions))
+	for i, s := range sessions {
+		result[i] = SessionInfo{
+			ID:                s.ID,
+			Name:              s.Name,
+			IsPublic:          !s.Private,
+			Members:           s.Members,
+			Managers:          s.Managers,
+			State:             s.State,
+			RulesIsSet:        s.RulesIsSet,
+			Players:           convertPlayers(s.Players),
+			PendingInvitation: s.PendingInvitation,
+		}
+	}
 
 	return result, nil
 }
@@ -109,7 +143,7 @@ func (a *App) GetSession(serverURL, sessionID string) (*SessionInfo, error) {
 		IsPublic:          !session.Private,
 		Members:           session.Members,
 		Managers:          session.Managers,
-		Started:           session.Started,
+		State:             session.State,
 		RulesIsSet:        session.RulesIsSet,
 		Players:           convertPlayers(session.Players),
 		PendingInvitation: session.PendingInvitation,
@@ -153,7 +187,7 @@ func (a *App) CreateSession(serverURL, name string, isPublic bool) (*SessionInfo
 		IsPublic:          !created.Private,
 		Members:           created.Members,
 		Managers:          created.Managers,
-		Started:           created.Started,
+		State:             created.State,
 		RulesIsSet:        created.RulesIsSet,
 		Players:           convertPlayers(created.Players),
 		PendingInvitation: created.PendingInvitation,
@@ -192,7 +226,7 @@ func (a *App) JoinSession(serverURL, sessionID string) (*SessionInfo, error) {
 		IsPublic:          !session.Private,
 		Members:           session.Members,
 		Managers:          session.Managers,
-		Started:           session.Started,
+		State:             session.State,
 		RulesIsSet:        session.RulesIsSet,
 		Players:           convertPlayers(session.Players),
 		PendingInvitation: session.PendingInvitation,
@@ -269,6 +303,25 @@ func (a *App) PromoteMember(serverURL, sessionID, memberID string) error {
 	}
 
 	logger.App.Info().Str("sessionId", sessionID).Str("memberId", memberID).Msg("Promoted member to manager")
+	return nil
+}
+
+// ArchiveSession archives a finished session (manager only)
+func (a *App) ArchiveSession(serverURL, sessionID string) error {
+	a.mu.RLock()
+	client, ok := a.clients[serverURL]
+	mgr, mgrOk := a.authManagers[serverURL]
+	a.mu.RUnlock()
+
+	if !ok || !mgrOk {
+		return fmt.Errorf("not connected to server: %s", serverURL)
+	}
+
+	if err := client.ArchiveSession(mgr.GetContext(), sessionID); err != nil {
+		return fmt.Errorf("failed to archive session: %w", err)
+	}
+
+	logger.App.Info().Str("sessionId", sessionID).Msg("Archived session")
 	return nil
 }
 

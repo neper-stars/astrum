@@ -234,6 +234,13 @@ function initPorts(app) {
         });
     }
 
+    if (app.ports.getSessionsIncludeArchived) {
+        app.ports.getSessionsIncludeArchived.subscribe(async (serverUrl) => {
+            callGoWithContext(app.ports.archivedSessionsReceived, serverUrl,
+                window.go.main.App.GetSessionsIncludeArchived(serverUrl));
+        });
+    }
+
     if (app.ports.getSession) {
         app.ports.getSession.subscribe(async (data) => {
             callGoWithContext(app.ports.sessionReceived, data.serverUrl,
@@ -273,6 +280,13 @@ function initPorts(app) {
         app.ports.promoteMember.subscribe(async (data) => {
             callGoWithContext(app.ports.memberPromoted, data.serverUrl,
                 window.go.main.App.PromoteMember(data.serverUrl, data.sessionId, data.memberId));
+        });
+    }
+
+    if (app.ports.archiveSession) {
+        app.ports.archiveSession.subscribe(async (data) => {
+            callGoWithContext(app.ports.sessionArchived, data.serverUrl,
+                window.go.main.App.ArchiveSession(data.serverUrl, data.sessionId));
         });
     }
 
@@ -881,13 +895,22 @@ function initWailsEvents(app) {
         });
     });
 
-    // Pending registration notifications (for global managers)
+    // Pending registration notifications (for global managers and approved users)
     const pendingActions = ["created", "approved", "rejected"];
     pendingActions.forEach(action => {
         const eventName = `notification:pending_registration:${action}`;
-        window.runtime.EventsOn(eventName, (serverUrl, id) => {
+        window.runtime.EventsOn(eventName, (serverUrl, id, metadata) => {
             if (app.ports.notificationPendingRegistration) {
-                app.ports.notificationPendingRegistration.send({ serverUrl: serverUrl, id: id, action: action });
+                // For approved/rejected, include metadata (user_profile_id, nickname)
+                const userProfileId = metadata && metadata.user_profile_id ? metadata.user_profile_id : null;
+                const nickname = metadata && metadata.nickname ? metadata.nickname : null;
+                app.ports.notificationPendingRegistration.send({
+                    serverUrl: serverUrl,
+                    id: id,
+                    action: action,
+                    userProfileId: userProfileId,
+                    nickname: nickname
+                });
             }
         });
     });

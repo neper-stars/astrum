@@ -9,6 +9,7 @@ import (
 	"github.com/wailsapp/wails/v2/pkg/runtime"
 
 	"github.com/neper-stars/astrum/api"
+	"github.com/neper-stars/astrum/api/models"
 	astrum "github.com/neper-stars/astrum/lib"
 	"github.com/neper-stars/astrum/lib/filehash"
 	"github.com/neper-stars/astrum/lib/logger"
@@ -55,7 +56,7 @@ func (a *App) startMonitoringForServer(serverURL string) {
 
 	// Find sessions where we are participating (started and we were ready)
 	for _, session := range sessions {
-		if !session.Started {
+		if session.State != models.SessionStateStarted {
 			continue
 		}
 
@@ -269,7 +270,7 @@ func (a *App) checkAndStartMonitoring(serverURL, sessionID string) {
 	}
 
 	// Only interested in started sessions
-	if !session.Started {
+	if session.State != models.SessionStateStarted {
 		return
 	}
 

@@ -274,6 +274,19 @@ depends = ["fetch-govulncheck"]
 run = "govulncheck ./..."
 
 # ===========================================================================
+# DEPENDENCIES
+# ===========================================================================
+
+[tasks.deps]
+description = "Sync external dependencies with vendir"
+depends = ["fetch-vendir"]
+run = "vendir sync"
+
+[tasks."fetch-vendir"]
+description = "Install vendir"
+run = "go install carvel.dev/vendir/cmd/vendir@latest"
+
+# ===========================================================================
 # CODE GENERATION
 # ===========================================================================
 
@@ -283,7 +296,7 @@ depends = ["generate:api-types", "generate:async-types"]
 
 [tasks."generate:api-types"]
 description = "Generate Go types from neper API swagger spec"
-depends = ["fetch-swagger"]
+depends = ["deps", "fetch-swagger"]
 run = """
 cat > /tmp/api-types-spec.yaml << 'EOF'
 swagger: "2.0"
@@ -303,7 +316,7 @@ rm /tmp/api-types-spec.yaml
 
 [tasks."generate:async-types"]
 description = "Generate Go types from async types swagger spec"
-depends = ["fetch-swagger"]
+depends = ["deps", "fetch-swagger"]
 run = """
 cat > /tmp/async-types-spec.yaml << 'EOF'
 swagger: "2.0"

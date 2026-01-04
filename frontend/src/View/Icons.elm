@@ -1,7 +1,8 @@
 module View.Icons exposing
-    ( download
-    , expand
+    ( archive
     , collapse
+    , download
+    , expand
     )
 
 {-| Unicode icon constants used across the application.
@@ -27,3 +28,10 @@ expand =
 collapse : String
 collapse =
     "▶"
+
+
+{-| Archive/box icon (📦)
+-}
+archive : String
+archive =
+    "📦"

@@ -48,6 +48,13 @@ type ConnectResult struct {
 	SerialKey string `json:"serialKey,omitempty"`
 }
 
+// RegistrationResultInfo is the result of a successful registration
+type RegistrationResultInfo struct {
+	UserID   string `json:"userId"`
+	Nickname string `json:"nickname"`
+	Pending  bool   `json:"pending"` // True if user needs admin approval
+}
+
 // =============================================================================
 // SESSION TYPES
 // =============================================================================
@@ -59,7 +66,7 @@ type SessionInfo struct {
 	IsPublic          bool                `json:"isPublic"`
 	Members           []string            `json:"members"`
 	Managers          []string            `json:"managers"`
-	Started           bool                `json:"started"`
+	State             string              `json:"state"` // "pending", "started", "archived"
 	RulesIsSet        bool                `json:"rulesIsSet"`
 	Players           []SessionPlayerInfo `json:"players"`
 	PendingInvitation bool                `json:"pending_invitation"`
@@ -83,6 +90,7 @@ type UserProfileInfo struct {
 	Email     string `json:"email"`
 	IsActive  bool   `json:"isActive"`
 	IsManager bool   `json:"isManager"`
+	Pending   bool   `json:"pending"`           // True if registration is pending approval
 	Message   string `json:"message,omitempty"` // Registration message (for pending users)
 }
 

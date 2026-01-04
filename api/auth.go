@@ -126,13 +126,14 @@ type RegistrationRequest struct {
 }
 
 // Register submits a registration request for a new user account.
-// The user will be pending approval by a global manager.
-func (c *Client) Register(ctx context.Context, req *RegistrationRequest) (*UserProfile, error) {
-	var created UserProfile
-	if err := c.postNoAuth(ctx, AuthRegister, req, &created); err != nil {
+// Returns a RegistrationResult containing the API key.
+// If pending is true, the user needs admin approval for full access.
+func (c *Client) Register(ctx context.Context, req *RegistrationRequest) (*RegistrationResult, error) {
+	var result RegistrationResult
+	if err := c.postNoAuth(ctx, AuthRegister, req, &result); err != nil {
 		return nil, err
 	}
-	return &created, nil
+	return &result, nil
 }
 
 // CreateUserProfile creates a new user profile (admin only)

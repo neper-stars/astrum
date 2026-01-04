@@ -114,6 +114,11 @@ func SessionBackupPath(sessionID string) string {
 	return fmt.Sprintf("%s/%s/backup", SessionsBase, sessionID)
 }
 
+// SessionArchivePath returns the path to archive a session
+func SessionArchivePath(sessionID string) string {
+	return fmt.Sprintf("%s/%s/archive", SessionsBase, sessionID)
+}
+
 // =============================================================================
 // Invitation URL builders
 // =============================================================================

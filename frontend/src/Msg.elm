@@ -56,7 +56,7 @@ type Msg
     | SubmitConnect String -- serverUrl
     | SubmitRegister String -- serverUrl
     | ConnectResult String (Result String { username : String, userId : String, isManager : Bool, serialKey : String }) -- serverUrl, result
-    | RegisterResult String (Result String ()) -- serverUrl, result
+    | RegisterResult String (Result String { userId : String, nickname : String, pending : Bool }) -- serverUrl, result
     | Disconnect String -- serverUrl
     | DisconnectResult String (Result String ()) -- serverUrl, result
       -- =========================================================================
@@ -67,6 +67,8 @@ type Msg
     | GotFetchEndTime String (Result String (List Session)) Time.Posix -- sessionId
     | SetSessionFilter SessionFilter
     | RefreshSessions
+    | FetchArchivedSessions -- Fetch sessions including archived
+    | GotArchivedSessions String (Result String (List Session)) -- serverUrl, sessions result
     | GotSession String (Result String Session) -- serverUrl, result
       -- =========================================================================
       -- Session Creation Messages
@@ -96,6 +98,11 @@ type Msg
       -- =========================================================================
     | PromoteMember String String -- sessionId, memberId
     | MemberPromoted String (Result String ()) -- serverUrl, result
+      -- =========================================================================
+      -- Session Archive Messages
+      -- =========================================================================
+    | ArchiveSession String -- sessionId
+    | SessionArchived String (Result String ()) -- serverUrl, result
       -- =========================================================================
       -- Session Detail & Invitation Messages
       -- =========================================================================
@@ -358,7 +365,7 @@ type Msg
     | NotificationRuleset String String String -- serverUrl, sessionId, action
     | NotificationPlayerRace String String String -- serverUrl, id, action
     | NotificationOrderStatus String String String -- serverUrl, sessionId, action
-    | NotificationPendingRegistration String String String -- serverUrl, id, action (created/approved/rejected)
+    | NotificationPendingRegistration String String String (Maybe String) (Maybe String) -- serverUrl, id, action, userProfileId, nickname
       -- =========================================================================
       -- User Menu Messages
       -- =========================================================================
