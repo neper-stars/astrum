@@ -6,7 +6,7 @@ module View.SessionDetail exposing (viewSessionDetail)
 import Api.Invitation exposing (Invitation)
 import Api.OrdersStatus exposing (OrdersStatus)
 import Api.Race exposing (Race)
-import Api.Session exposing (Session, SessionPlayer, isStarted)
+import Api.Session exposing (Session, SessionPlayer, isArchived, isStarted)
 import Api.TurnFiles exposing (TurnFiles)
 import Api.UserProfile exposing (UserProfile)
 import Dict
@@ -272,11 +272,15 @@ viewSessionDetail session detail availableTurns ordersStatusByYear model =
                                 [ class "session-detail__value"
                                 , classList
                                     [ ( "session-detail__value--started", isStarted session )
-                                    , ( "session-detail__value--not-started", not (isStarted session) )
+                                    , ( "session-detail__value--archived", isArchived session )
+                                    , ( "session-detail__value--not-started", not (isStarted session) && not (isArchived session) )
                                     ]
                                 ]
                                 [ text
-                                    (if isStarted session then
+                                    (if isArchived session then
+                                        "Archived"
+
+                                     else if isStarted session then
                                         "Started"
 
                                      else

@@ -196,6 +196,11 @@
       color: $color-warning;
       font-weight: $font-weight-medium;
     }
+
+    &--archived {
+      color: $text-muted;
+      font-weight: $font-weight-medium;
+    }
   }
 
   &__members {

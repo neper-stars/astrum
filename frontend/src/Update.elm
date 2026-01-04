@@ -2742,14 +2742,14 @@ update msg model =
         -- WebSocket Notifications
         -- =====================================================================
         NotificationSession serverUrl sessionId action ->
-            -- Refresh session data when notified (for any server, not just selected)
+            -- Handle session notifications by fetching only the specific session
             let
                 isSelectedServer =
                     model.selectedServerUrl == Just serverUrl
             in
             case action of
                 "deleted" ->
-                    -- Close detail view if we're viewing the deleted session on selected server
+                    -- Remove the session from the list locally and close detail if viewing it
                     let
                         closeDetail =
                             isSelectedServer
@@ -2761,15 +2761,19 @@ update msg model =
                                             False
                                    )
 
-                        -- Also clear lastViewedSession if it was the deleted session
+                        -- Remove session from list and clear lastViewedSession if it was the deleted session
                         updatedServerData =
                             updateServerData serverUrl
                                 (\sd ->
-                                    if sd.lastViewedSession == Just sessionId then
-                                        { sd | lastViewedSession = Nothing }
+                                    { sd
+                                        | sessions = List.filter (\s -> s.id /= sessionId) sd.sessions
+                                        , lastViewedSession =
+                                            if sd.lastViewedSession == Just sessionId then
+                                                Nothing
 
-                                    else
-                                        sd
+                                            else
+                                                sd.lastViewedSession
+                                    }
                                 )
                                 model.serverData
                     in
@@ -2778,30 +2782,14 @@ update msg model =
 
                       else
                         { model | serverData = updatedServerData }
-                    , Ports.getSessions serverUrl
+                    , Cmd.none
                     )
 
                 _ ->
-                    -- For created/updated, refetch sessions for this server
+                    -- For created/updated, fetch only the specific session
+                    -- GotSession will upsert it into the sessions list
                     ( model
-                    , Cmd.batch
-                        [ Ports.getSessions serverUrl
-                        , -- Also refresh the specific session if viewing it on selected server
-                          if isSelectedServer then
-                            case model.sessionDetail of
-                                Just detail ->
-                                    if detail.sessionId == sessionId then
-                                        Ports.getSession (Encode.getSession serverUrl sessionId)
-
-                                    else
-                                        Cmd.none
-
-                                Nothing ->
-                                    Cmd.none
-
-                          else
-                            Cmd.none
-                        ]
+                    , Ports.getSession (Encode.getSession serverUrl sessionId)
                     )
 
         NotificationInvitation serverUrl invitationId action ->

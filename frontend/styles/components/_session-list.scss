@@ -149,6 +149,11 @@
       background-color: rgba($color-warning, 0.2);
       color: $color-warning;
     }
+
+    &.is-archived {
+      background-color: rgba($text-muted, 0.2);
+      color: $text-muted;
+    }
   }
 
   // ---------------------------------------------------------------------------

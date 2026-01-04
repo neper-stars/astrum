@@ -101,27 +101,32 @@ viewFilterButtonWithTooltip filter label activeFilter tooltip =
 
 filterSessions : Maybe String -> SessionFilter -> List Session -> Dict.Dict String (Dict.Dict Int OrdersStatus) -> List Session
 filterSessions maybeUserId filter sessions ordersStatusDict =
+    let
+        notArchived s =
+            not (isArchived s)
+    in
     case filter of
         AllSessions ->
-            sessions
+            List.filter notArchived sessions
 
         MySessions ->
             case maybeUserId of
                 Just userId ->
-                    List.filter (isUserInSession userId) sessions
+                    List.filter (\s -> isUserInSession userId s && notArchived s) sessions
 
                 Nothing ->
                     []
 
         PublicSessions ->
-            List.filter .isPublic sessions
+            List.filter (\s -> s.isPublic && notArchived s) sessions
 
         InvitedSessions ->
-            List.filter .pendingInvitation sessions
+            List.filter (\s -> s.pendingInvitation && notArchived s) sessions
 
         MyTurn ->
             case maybeUserId of
                 Just userId ->
+                    -- hasUnsubmittedTurn already checks isStarted, which excludes archived
                     List.filter (hasUnsubmittedTurn userId ordersStatusDict) sessions
 
                 Nothing ->
@@ -246,11 +251,15 @@ viewSessionCard maybeUserId allSessionTurns allSessionOrdersStatus session =
                     [ class "session-card__badge"
                     , classList
                         [ ( "is-started", isStarted session )
-                        , ( "is-not-started", not (isStarted session) )
+                        , ( "is-archived", isArchived session )
+                        , ( "is-not-started", not (isStarted session) && not (isArchived session) )
                         ]
                     ]
                     [ text
-                        (if isStarted session then
+                        (if isArchived session then
+                            "Archived"
+
+                         else if isStarted session then
                             "Started"
 
                          else
