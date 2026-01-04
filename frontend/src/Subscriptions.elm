@@ -82,6 +82,8 @@ subscriptions model =
         , Ports.serverAdded (decodeResult Decode.server ServerAdded)
         , Ports.serverUpdated (decodeResult (D.succeed ()) ServerUpdated)
         , Ports.serverRemoved (decodeResult (D.succeed ()) ServerRemoved)
+        , Ports.hasDefaultServerResult (decodeResult D.bool GotHasDefaultServer)
+        , Ports.defaultServerAdded (decodeResult Decode.server DefaultServerAdded)
 
         -- Authentication results
         , Ports.connectResult decodeConnectResult

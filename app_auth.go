@@ -262,13 +262,51 @@ func (a *App) showTurnReadyNotification(serverURL, sessionID string, metadata in
 }
 
 // showRegistrationApprovedNotification shows a desktop notification when a registration is approved
+// Only shows the notification if the approved user is the current user
 func (a *App) showRegistrationApprovedNotification(serverURL string, metadata interface{}) {
+	metaMap, ok := metadata.(map[string]interface{})
+	if !ok {
+		return
+	}
+
+	// Get the approved user's profile ID from metadata
+	approvedUserID := ""
+	if userIDVal, ok := metaMap["user_profile_id"]; ok {
+		if s, ok := userIDVal.(string); ok {
+			approvedUserID = s
+		}
+	}
+
+	// Get the current user's ID
+	a.mu.RLock()
+	authMgr := a.authManagers[serverURL]
+	a.mu.RUnlock()
+
+	if authMgr == nil {
+		return
+	}
+
+	userInfo := authMgr.GetUserInfo()
+	if userInfo == nil {
+		return
+	}
+	currentUserID := userInfo.User.ID
+
+	// Only show notification if the approved user is the current user
+	if approvedUserID == "" || currentUserID == "" || approvedUserID != currentUserID {
+		logger.App.Debug().
+			Str("serverUrl", serverURL).
+			Str("approvedUserID", approvedUserID).
+			Str("currentUserID", currentUserID).
+			Msg("Skipping registration approval notification (not for current user)")
+		return
+	}
+
+	// Extract nickname from metadata
 	nickname := ""
-	if metaMap, ok := metadata.(map[string]interface{}); ok {
-		if nicknameVal, ok := metaMap["nickname"]; ok {
-			if s, ok := nicknameVal.(string); ok {
-				nickname = s
-			}
+	if nicknameVal, ok := metaMap["nickname"]; ok {
+		if s, ok := nicknameVal.(string); ok {
+			nickname = s
 		}
 	}
 

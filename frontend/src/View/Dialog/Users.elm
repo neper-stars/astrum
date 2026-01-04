@@ -357,8 +357,8 @@ viewPendingPane state =
         ApprovingUser _ nickname ->
             viewApprovingUser nickname
 
-        ApproveComplete nickname apikey ->
-            viewApproveComplete nickname apikey
+        ApproveComplete nickname ->
+            viewApproveComplete nickname
 
         ApproveError nickname err ->
             viewApproveError nickname err
@@ -418,7 +418,11 @@ viewUserListItem currentUserId user =
 
                       else
                         text ""
-                    , if user.isActive then
+                    , if user.pending then
+                        span [ class "users-list-dialog__badge users-list-dialog__badge--pending" ]
+                            [ text "Pending" ]
+
+                      else if user.isActive then
                         span [ class "users-list-dialog__badge users-list-dialog__badge--active" ]
                             [ text "Active" ]
 
@@ -760,18 +764,16 @@ viewApprovingUser nickname =
         ]
 
 
-{-| View showing the new API key after approval.
+{-| View showing approval success message.
 -}
-viewApproveComplete : String -> String -> Html Msg
-viewApproveComplete nickname newApikey =
+viewApproveComplete : String -> Html Msg
+viewApproveComplete nickname =
     div [ class "users-list-dialog__result" ]
         [ div [ class "users-list-dialog__result-icon" ] [ text "\u{2713}" ]
         , h3 [ class "users-list-dialog__result-title" ]
             [ text ("Registration Approved: " ++ nickname) ]
-        , div [ class "users-list-dialog__result-warning" ]
-            [ text "Please save this API key as the server will not show it again:" ]
-        , div [ class "users-list-dialog__result-key" ]
-            [ text newApikey ]
+        , p [ class "users-list-dialog__result-message" ]
+            [ text "The user has been notified and their client will automatically update with the new permissions." ]
         , button
             [ class "btn btn--primary"
             , onClick CancelApproveRegistration

@@ -55,6 +55,7 @@ module Model exposing
     , emptySetupRaceForm
     , emptyTurnFilesForm
     , emptyUsersListState
+    , defaultServerUrl
     , getConnectionState
     , getCurrentServerData
     , getServerByUrl
@@ -82,6 +83,19 @@ import Api.TurnFiles exposing (TurnFiles)
 import Api.UserProfile exposing (UserProfile)
 import Dict exposing (Dict)
 import Set exposing (Set)
+
+
+
+-- =============================================================================
+-- DEFAULT SERVER
+-- =============================================================================
+
+
+{-| The URL of the default Neper server.
+-}
+defaultServerUrl : String
+defaultServerUrl =
+    "https://neper.fly.dev"
 
 
 
@@ -132,6 +146,7 @@ type alias Model =
     { -- Server list (from config)
       servers : List Server
     , selectedServerUrl : Maybe String
+    , hasDefaultServer : Bool -- Whether the default Neper server exists
 
     -- Per-server data (sessions, invitations, races, etc.)
     , serverData : Dict String ServerData
@@ -233,6 +248,7 @@ init : ( Model, Cmd msg )
 init =
     ( { servers = []
       , selectedServerUrl = Nothing
+      , hasDefaultServer = False -- Checked on startup via hasDefaultServer port
       , serverData = Dict.empty
       , appSettings = Nothing
       , wineCheckInProgress = False
@@ -295,6 +311,7 @@ type SessionFilter
     | MySessions
     | PublicSessions
     | InvitedSessions
+    | JoinableSessions
     | MyTurn
     | ArchivedSessions
 
@@ -374,7 +391,7 @@ type PendingActionState
     | ViewingMessage String String String -- userId, nickname, message
     | ConfirmingApprove String String -- userId, nickname
     | ApprovingUser String String -- userId, nickname (submitting)
-    | ApproveComplete String String -- nickname, newApikey
+    | ApproveComplete String -- nickname (API key is sent directly to user now)
     | ApproveError String String -- nickname, error message
     | ConfirmingReject String String -- userId, nickname
     | RejectingUser String String -- userId, nickname (submitting)
@@ -945,10 +962,11 @@ emptyHabitabilityDisplay =
 
 
 {-| Empty users list state for admin dialog.
+Filters out pending users from the main users list (they appear in Pending pane).
 -}
 emptyUsersListState : String -> List UserProfile -> UsersListState
 emptyUsersListState currentUserId users =
-    { users = users
+    { users = List.filter (\u -> not u.pending) users
     , pendingUsers = []
     , currentUserId = currentUserId
     , activePane = UsersPane

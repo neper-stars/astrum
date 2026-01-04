@@ -194,11 +194,40 @@ update msg model =
                         | dialog = Nothing
                         , selectedServerUrl = Nothing
                       }
-                    , Ports.getServers ()
+                    , Cmd.batch [ Ports.getServers (), Ports.hasDefaultServer () ]
                     )
 
                 Err err ->
                     ( { model | error = Just err }
+                    , Cmd.none
+                    )
+
+        GotHasDefaultServer result ->
+            case result of
+                Ok hasDefault ->
+                    ( { model | hasDefaultServer = hasDefault }
+                    , Cmd.none
+                    )
+
+                Err _ ->
+                    ( model, Cmd.none )
+
+        AddDefaultServer ->
+            ( model, Ports.addDefaultServer () )
+
+        DefaultServerAdded result ->
+            case result of
+                Ok server ->
+                    ( { model
+                        | servers = model.servers ++ [ server ]
+                        , hasDefaultServer = True
+                        , dialog = Nothing
+                      }
+                    , Cmd.none
+                    )
+
+                Err err ->
+                    ( updateDialogError model err
                     , Cmd.none
                     )
 
@@ -207,7 +236,7 @@ update msg model =
         -- =====================================================================
         OpenAddServerDialog ->
             ( { model | dialog = Just (AddServerDialog emptyServerForm) }
-            , Cmd.none
+            , Ports.hasDefaultServer ()
             )
 
         OpenEditServerDialog serverUrl ->
@@ -241,9 +270,24 @@ update msg model =
             )
 
         CloseDialog ->
-            ( { model | dialog = Nothing }
-            , Cmd.none
-            )
+            -- Check if we're closing a successful registration dialog
+            -- If so, trigger auto-connect
+            case model.dialog of
+                Just (RegisterDialog serverUrl form) ->
+                    if form.success then
+                        ( { model | dialog = Nothing }
+                        , Ports.autoConnect serverUrl
+                        )
+
+                    else
+                        ( { model | dialog = Nothing }
+                        , Cmd.none
+                        )
+
+                _ ->
+                    ( { model | dialog = Nothing }
+                    , Cmd.none
+                    )
 
         UpdateServerFormName name ->
             ( updateServerForm model (\form -> { form | name = name })
@@ -449,10 +493,11 @@ update msg model =
                             -- Some other dialog is open, just update connection state
                             ( modelWithError, Cmd.none )
 
-        RegisterResult serverUrl result ->
+        RegisterResult _ result ->
             case result of
                 Ok regResult ->
-                    -- API key is saved, auto-connect to the server
+                    -- API key is saved, show success message
+                    -- Auto-connect will happen when user closes the dialog (serverUrl is in the dialog)
                     -- If pending, user can create races but not join/create sessions
                     ( updateRegisterForm model
                         (\f ->
@@ -462,7 +507,7 @@ update msg model =
                                 , pending = regResult.pending
                             }
                         )
-                    , Ports.autoConnect serverUrl
+                    , Cmd.none
                     )
 
                 Err err ->
@@ -1186,6 +1231,12 @@ update msg model =
             case result of
                 Ok profiles ->
                     let
+                        pendingNicknames =
+                            List.filter .pending profiles |> List.map .nickname
+
+                        nonPendingNicknames =
+                            List.filter (\u -> not u.pending) profiles |> List.map .nickname
+
                         updatedModel =
                             { model
                                 | serverData =
@@ -1195,15 +1246,21 @@ update msg model =
                             }
 
                         -- Also update the UsersListDialog if it's open
+                        -- Filter out pending users (they appear in Pending pane)
                         finalModel =
                             case model.dialog of
                                 Just (UsersListDialog state) ->
-                                    { updatedModel | dialog = Just (UsersListDialog { state | users = profiles }) }
+                                    { updatedModel | dialog = Just (UsersListDialog { state | users = List.filter (\u -> not u.pending) profiles }) }
 
                                 _ ->
                                     updatedModel
                     in
-                    ( finalModel, Cmd.none )
+                    ( finalModel
+                    , Cmd.batch
+                        [ Ports.logDebug ("GotUserProfiles - pending: " ++ String.join ", " pendingNicknames)
+                        , Ports.logDebug ("GotUserProfiles - non-pending: " ++ String.join ", " nonPendingNicknames)
+                        ]
+                    )
 
                 Err _ ->
                     ( model, Cmd.none )
@@ -2949,9 +3006,12 @@ update msg model =
                         _ ->
                             Nothing
 
-                -- Check if this approval is for the current user
+                -- Check if this approval/rejection is for the current user
                 isCurrentUserApproved =
                     action == "approved" && maybeUserProfileId == currentUserId && currentUserId /= Nothing
+
+                isCurrentUserRejected =
+                    action == "rejected" && maybeUserProfileId == currentUserId && currentUserId /= Nothing
 
                 -- If current user was approved, reconnect to refresh their permissions
                 reconnectCmd =
@@ -2963,13 +3023,29 @@ update msg model =
 
                     else
                         Cmd.none
+
+                -- Show toast and update model for current user approval/rejection
+                ( updatedModel, toastCmd ) =
+                    if isCurrentUserApproved then
+                        ( { model | toast = Just "Your registration has been approved! Reconnecting..." }
+                        , Process.sleep 3000 |> Task.perform (\_ -> HideToast)
+                        )
+
+                    else if isCurrentUserRejected then
+                        ( { model | toast = Just "Your registration has been rejected." }
+                        , Process.sleep 3000 |> Task.perform (\_ -> HideToast)
+                        )
+
+                    else
+                        ( model, Cmd.none )
             in
             -- Refetch pending registrations when notified (created/approved/rejected)
             -- This keeps the count and dialog in sync with the server
-            ( model
+            ( updatedModel
             , Cmd.batch
                 [ Ports.getPendingRegistrations serverUrl
                 , reconnectCmd
+                , toastCmd
                 ]
             )
 
@@ -3844,6 +3920,7 @@ update msg model =
                                     , email = user.email
                                     , isActive = False
                                     , isManager = False
+                                    , pending = True
                                     , message = Nothing
                                     }
                             in
@@ -4067,6 +4144,7 @@ update msg model =
                                     , email = p.email
                                     , isActive = False
                                     , isManager = False
+                                    , pending = True
                                     , message = p.message
                                     }
                                 )
@@ -4156,7 +4234,8 @@ update msg model =
             case model.dialog of
                 Just (UsersListDialog state) ->
                     case result of
-                        Ok apikey ->
+                        Ok _ ->
+                            -- API key is now sent directly to the user, admin doesn't need it
                             let
                                 nickname =
                                     case state.pendingActionState of
@@ -4178,7 +4257,7 @@ update msg model =
                                     List.filter (\u -> u.id /= approvedUserId) state.pendingUsers
                             in
                             -- Note: pendingRegistrationsCount is updated via notification
-                            ( { model | dialog = Just (UsersListDialog { state | pendingUsers = updatedPending, pendingActionState = ApproveComplete nickname apikey }) }
+                            ( { model | dialog = Just (UsersListDialog { state | pendingUsers = updatedPending, pendingActionState = ApproveComplete nickname }) }
                             , Ports.getUserProfiles serverUrl
                             )
 

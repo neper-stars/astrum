@@ -13,6 +13,79 @@ import (
 )
 
 // =============================================================================
+// DEFAULT SERVER
+// =============================================================================
+
+const (
+	DefaultServerName = "Neper"
+	DefaultServerURL  = "https://neper.fly.dev"
+)
+
+// EnsureDefaultServer creates the default Neper server if no servers exist.
+// This is called at startup to provide a ready-to-use experience.
+func (a *App) EnsureDefaultServer() error {
+	servers, err := a.config.GetServers()
+	if err != nil {
+		return fmt.Errorf("failed to get servers: %w", err)
+	}
+
+	logger.App.Debug().
+		Int("serverCount", len(servers)).
+		Msg("EnsureDefaultServer: checking existing servers")
+
+	// Only create default server if no servers exist at all
+	if len(servers) > 0 {
+		logger.App.Debug().Msg("EnsureDefaultServer: servers already exist, skipping default creation")
+		return nil
+	}
+
+	logger.App.Info().Msg("No servers configured, creating default Neper server")
+
+	server := model.Server{
+		Name:  DefaultServerName,
+		URL:   DefaultServerURL,
+		Order: 0,
+	}
+
+	if err := a.config.AddServer(server); err != nil {
+		return fmt.Errorf("failed to create default server: %w", err)
+	}
+
+	logger.App.Info().
+		Str("name", DefaultServerName).
+		Str("url", DefaultServerURL).
+		Msg("Created default Neper server")
+
+	return nil
+}
+
+// HasDefaultServer checks if the default Neper server exists
+func (a *App) HasDefaultServer() (bool, error) {
+	servers, err := a.config.GetServers()
+	if err != nil {
+		return false, fmt.Errorf("failed to get servers: %w", err)
+	}
+
+	for _, srv := range servers {
+		if srv.URL == DefaultServerURL {
+			return true, nil
+		}
+	}
+
+	return false, nil
+}
+
+// IsDefaultServer checks if a server URL is the default Neper server
+func (a *App) IsDefaultServer(serverURL string) bool {
+	return serverURL == DefaultServerURL
+}
+
+// AddDefaultServer adds the default Neper server
+func (a *App) AddDefaultServer() (*ServerInfo, error) {
+	return a.AddServer(DefaultServerName, DefaultServerURL)
+}
+
+// =============================================================================
 // SERVER MANAGEMENT
 // =============================================================================
 

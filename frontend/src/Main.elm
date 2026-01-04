@@ -41,5 +41,6 @@ init _ =
     , Cmd.batch
         [ cmd
         , Ports.getServers ()
+        , Ports.hasDefaultServer ()
         ]
     )

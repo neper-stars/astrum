@@ -64,13 +64,18 @@ viewContextMenu maybeMenu serverData =
                             else
                                 []
                            )
-                        ++ [ div [ class "context-menu__separator" ] []
-                           , div
-                                [ class "context-menu__item is-danger"
-                                , onClick (OpenRemoveServerDialog menu.serverUrl "")
+                        ++ (if isServerConnected then
+                                []
+
+                            else
+                                [ div [ class "context-menu__separator" ] []
+                                , div
+                                    [ class "context-menu__item is-danger"
+                                    , onClick (OpenRemoveServerDialog menu.serverUrl "")
+                                    ]
+                                    [ text "Remove Server" ]
                                 ]
-                                [ text "Remove Server" ]
-                           ]
+                           )
                     )
                 ]
 

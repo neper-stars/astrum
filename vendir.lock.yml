@@ -2,10 +2,10 @@ apiVersion: vendir.k14s.io/v1alpha1
 directories:
 - contents:
   - git:
-      commitTitle: Release v0.9.1
-      sha: 95a1c239db8ba53a19ad184066820cc4e9d2478e
+      commitTitle: Release v0.9.4
+      sha: c66a0087996cb506abc1bb8498d82ff52b8ab278
       tags:
-      - v0.9.1
+      - v0.9.4
     path: .
   path: dependencies/neper
 kind: LockConfig

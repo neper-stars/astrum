@@ -4,6 +4,8 @@ import {main} from '../models';
 
 export function AcceptInvitation(arg1:string,arg2:string):Promise<main.SessionInfo>;
 
+export function AddDefaultServer():Promise<main.ServerInfo>;
+
 export function AddServer(arg1:string,arg2:string):Promise<main.ServerInfo>;
 
 export function ApprovePendingRegistration(arg1:string,arg2:string):Promise<string>;
@@ -45,6 +47,8 @@ export function DownloadHistoricBackup(arg1:string,arg2:string):Promise<void>;
 export function DownloadRace(arg1:string,arg2:string):Promise<string>;
 
 export function DownloadSessionBackup(arg1:string,arg2:string):Promise<void>;
+
+export function EnsureDefaultServer():Promise<void>;
 
 export function FSExists(arg1:string,arg2:string):Promise<boolean>;
 
@@ -106,9 +110,13 @@ export function GetTurn(arg1:string,arg2:string,arg3:number,arg4:boolean):Promis
 
 export function GetUserProfiles(arg1:string):Promise<Array<main.UserProfileInfo>>;
 
+export function HasDefaultServer():Promise<boolean>;
+
 export function HasStarsExe(arg1:string,arg2:string):Promise<boolean>;
 
 export function InviteUser(arg1:string,arg2:string,arg3:string):Promise<main.InvitationInfo>;
+
+export function IsDefaultServer(arg1:string):Promise<boolean>;
 
 export function JoinSession(arg1:string,arg2:string):Promise<main.SessionInfo>;
 

@@ -89,6 +89,11 @@ func (a *App) startup(ctx context.Context) {
 		logger.App.Warn().Err(err).Msg("Failed to create servers directory")
 	}
 
+	// Ensure default server exists if no servers are configured
+	if err := a.EnsureDefaultServer(); err != nil {
+		logger.App.Warn().Err(err).Msg("Failed to ensure default server")
+	}
+
 	// Restore window geometry from previous session
 	a.restoreWindowGeometry(ctx)
 

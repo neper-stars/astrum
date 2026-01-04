@@ -45,7 +45,7 @@ viewDialog model =
                     ]
                     [ case dialog of
                         AddServerDialog form ->
-                            viewAddServerDialog form
+                            viewAddServerDialog model.hasDefaultServer form
 
                         EditServerDialog serverUrl form ->
                             viewEditServerDialog serverUrl form

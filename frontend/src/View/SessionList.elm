@@ -53,6 +53,7 @@ viewSessionList model =
                 , viewFilterButton MySessions "My Sessions" model.sessionFilter
                 , viewFilterButton PublicSessions "Public" model.sessionFilter
                 , viewFilterButton InvitedSessions "Invited" model.sessionFilter
+                , viewFilterButtonWithTooltip JoinableSessions "Joinable" model.sessionFilter "Sessions you can join (public or invited, with available player slots)"
                 , viewFilterButtonWithTooltip MyTurn "My Turn" model.sessionFilter "Sessions where you have a turn to submit"
                 , viewFilterButtonWithTooltip ArchivedSessions "Archived" model.sessionFilter "Finished sessions that have been archived"
                 ]
@@ -123,6 +124,31 @@ filterSessions maybeUserId filter sessions ordersStatusDict =
         InvitedSessions ->
             List.filter (\s -> s.pendingInvitation && notArchived s) sessions
 
+        JoinableSessions ->
+            case maybeUserId of
+                Just userId ->
+                    List.filter
+                        (\s ->
+                            notArchived s
+                                && not (isStarted s)
+                                && not (isUserInSession userId s)
+                                && not (isPlayerInSession userId s)
+                                && (s.isPublic || s.pendingInvitation)
+                                && (List.length s.players < 16)
+                        )
+                        sessions
+
+                Nothing ->
+                    -- Not logged in, show public sessions with available slots
+                    List.filter
+                        (\s ->
+                            notArchived s
+                                && not (isStarted s)
+                                && s.isPublic
+                                && (List.length s.players < 16)
+                        )
+                        sessions
+
         MyTurn ->
             case maybeUserId of
                 Just userId ->
@@ -141,6 +167,13 @@ filterSessions maybeUserId filter sessions ordersStatusDict =
 isUserInSession : String -> Session -> Bool
 isUserInSession userId session =
     List.member userId session.members || List.member userId session.managers
+
+
+{-| Check if a user is a player in a session.
+-}
+isPlayerInSession : String -> Session -> Bool
+isPlayerInSession userId session =
+    List.any (\p -> p.userProfileId == userId) session.players
 
 
 {-| Check if a user has an unsubmitted turn in a started session.

@@ -10,15 +10,15 @@ module View.Dialog.Server exposing
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
-import Model exposing (ServerForm)
+import Model exposing (ServerForm, defaultServerUrl)
 import Msg exposing (Msg(..))
 import View.Helpers exposing (viewFormError)
 
 
 {-| Dialog for adding a new server.
 -}
-viewAddServerDialog : ServerForm -> Html Msg
-viewAddServerDialog form =
+viewAddServerDialog : Bool -> ServerForm -> Html Msg
+viewAddServerDialog hasDefaultServer form =
     div []
         [ div [ class "dialog__header" ]
             [ h2 [ class "dialog__title" ] [ text "Add Server" ]
@@ -30,6 +30,20 @@ viewAddServerDialog form =
             ]
         , div [ class "dialog__body" ]
             [ viewFormError form.error
+            , if not hasDefaultServer then
+                div [ class "dialog__info" ]
+                    [ div [ class "dialog__info-content" ]
+                        [ p [] [ text "The official free Neper server is not configured." ]
+                        , button
+                            [ class "btn btn-primary btn-sm"
+                            , onClick AddDefaultServer
+                            ]
+                            [ text "Add Neper Server" ]
+                        ]
+                    ]
+
+              else
+                text ""
             , div [ class "form-group" ]
                 [ label [ class "form-label" ] [ text "Server Name" ]
                 , input
@@ -146,11 +160,25 @@ viewEditServerDialog serverUrl form =
 -}
 viewRemoveServerDialog : String -> Html Msg
 viewRemoveServerDialog serverUrl =
+    let
+        isDefaultServer =
+            serverUrl == defaultServerUrl
+    in
     div [ class "confirm-dialog" ]
         [ div [ class "confirm-dialog__icon is-danger" ] [ text "!" ]
         , h2 [ class "confirm-dialog__title" ] [ text "Remove Server?" ]
         , p [ class "confirm-dialog__message" ]
             [ text "Are you sure you want to remove this server? This action cannot be undone." ]
+        , if isDefaultServer then
+            div [ class "dialog__warning" ]
+                [ span [ class "dialog__warning-icon" ] [ text "⚠" ]
+                , div [ class "dialog__warning-text" ]
+                    [ text "This is the official free Neper server hosted for everyone. You can re-add it later from the Add Server dialog."
+                    ]
+                ]
+
+          else
+            text ""
         , div [ class "confirm-dialog__actions" ]
             [ button
                 [ class "btn btn-secondary"

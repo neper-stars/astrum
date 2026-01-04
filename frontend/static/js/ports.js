@@ -156,6 +156,18 @@ function initPorts(app) {
         });
     }
 
+    if (app.ports.hasDefaultServer) {
+        app.ports.hasDefaultServer.subscribe(async () => {
+            callGo(app.ports.hasDefaultServerResult, window.go.main.App.HasDefaultServer());
+        });
+    }
+
+    if (app.ports.addDefaultServer) {
+        app.ports.addDefaultServer.subscribe(async () => {
+            callGo(app.ports.defaultServerAdded, window.go.main.App.AddDefaultServer());
+        });
+    }
+
     // =========================================================================
     // Authentication
     // =========================================================================

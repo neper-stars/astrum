@@ -6,6 +6,10 @@ export function AcceptInvitation(arg1, arg2) {
   return window['go']['main']['App']['AcceptInvitation'](arg1, arg2);
 }
 
+export function AddDefaultServer() {
+  return window['go']['main']['App']['AddDefaultServer']();
+}
+
 export function AddServer(arg1, arg2) {
   return window['go']['main']['App']['AddServer'](arg1, arg2);
 }
@@ -88,6 +92,10 @@ export function DownloadRace(arg1, arg2) {
 
 export function DownloadSessionBackup(arg1, arg2) {
   return window['go']['main']['App']['DownloadSessionBackup'](arg1, arg2);
+}
+
+export function EnsureDefaultServer() {
+  return window['go']['main']['App']['EnsureDefaultServer']();
 }
 
 export function FSExists(arg1, arg2) {
@@ -210,12 +218,20 @@ export function GetUserProfiles(arg1) {
   return window['go']['main']['App']['GetUserProfiles'](arg1);
 }
 
+export function HasDefaultServer() {
+  return window['go']['main']['App']['HasDefaultServer']();
+}
+
 export function HasStarsExe(arg1, arg2) {
   return window['go']['main']['App']['HasStarsExe'](arg1, arg2);
 }
 
 export function InviteUser(arg1, arg2, arg3) {
   return window['go']['main']['App']['InviteUser'](arg1, arg2, arg3);
+}
+
+export function IsDefaultServer(arg1) {
+  return window['go']['main']['App']['IsDefaultServer'](arg1);
 }
 
 export function JoinSession(arg1, arg2) {

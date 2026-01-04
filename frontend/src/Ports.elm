@@ -1,5 +1,6 @@
 port module Ports exposing
     ( acceptInvitation
+    , addDefaultServer
     , addServer
     , animatedMapGenerated
     , apiKeyReceived
@@ -32,6 +33,7 @@ port module Ports exposing
     , deleteSession
     , deleteUser
     , deleteUserResult
+    , defaultServerAdded
     , disconnect
     , disconnectResult
     , downloadHistoricBackup
@@ -62,6 +64,8 @@ port module Ports exposing
     , gifSaved
       -- Events from Go
     , hasStarsExeResult
+    , hasDefaultServer
+    , hasDefaultServerResult
     , historicBackupDownloaded
     , invitationAccepted
     , invitationDeclined
@@ -159,6 +163,7 @@ port module Ports exposing
     , winePrefixesDirSelected
     , zoomKeyPressed
     , zoomLevelSet
+    , logDebug
     )
 
 {-| Ports for communication between Elm and the Go backend via JavaScript.
@@ -209,6 +214,18 @@ port updateServer : E.Value -> Cmd msg
 
 
 port removeServer : String -> Cmd msg
+
+
+port hasDefaultServer : () -> Cmd msg
+
+
+port addDefaultServer : () -> Cmd msg
+
+
+port hasDefaultServerResult : (E.Value -> msg) -> Sub msg
+
+
+port defaultServerAdded : (E.Value -> msg) -> Sub msg
 
 
 

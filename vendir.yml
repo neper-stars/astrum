@@ -6,7 +6,7 @@ directories:
       - path: .
         git:
           url: https://github.com/neper-stars/neper
-          ref: v0.9.1
+          ref: v0.9.4
         includePaths:
           - neper-types.yaml
           - neper-async-types.yaml

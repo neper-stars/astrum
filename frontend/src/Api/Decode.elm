@@ -146,6 +146,7 @@ userProfile =
         |> required "email" D.string
         |> optional "isActive" D.bool True
         |> optional "isManager" D.bool False
+        |> optional "pending" D.bool False
         |> optional "message" (D.maybe D.string) Nothing
 
 

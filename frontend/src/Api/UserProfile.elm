@@ -15,5 +15,6 @@ type alias UserProfile =
     , email : String
     , isActive : Bool
     , isManager : Bool
+    , pending : Bool -- True if registration is pending approval
     , message : Maybe String -- Registration message (for pending users)
     }

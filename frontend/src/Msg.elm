@@ -29,6 +29,9 @@ type Msg
     | ServerAdded (Result String Server)
     | ServerUpdated (Result String ())
     | ServerRemoved (Result String ())
+    | GotHasDefaultServer (Result String Bool)
+    | AddDefaultServer
+    | DefaultServerAdded (Result String Server)
       -- =========================================================================
       -- Server Dialog Messages
       -- =========================================================================
