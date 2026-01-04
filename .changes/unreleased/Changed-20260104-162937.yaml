@@ -1,3 +1,0 @@
-kind: Changed
-body: Optimized session notification handling to fetch only the updated session instead of all sessions
-time: 2026-01-04T16:29:37.933239408+01:00
