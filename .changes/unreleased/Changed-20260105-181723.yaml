@@ -1,0 +1,3 @@
+kind: Changed
+body: 'Refactored frontend: split update code into multiple files'
+time: 2026-01-05T18:17:23.052442551+01:00
