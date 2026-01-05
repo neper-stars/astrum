@@ -376,6 +376,11 @@
       color: $text-muted;
       background-color: rgba($text-muted, 0.15);
     }
+
+    &--bot {
+      color: $color-info;
+      background-color: rgba($color-info, 0.15);
+    }
   }
 
   // Turns section

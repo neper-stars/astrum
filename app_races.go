@@ -276,3 +276,37 @@ func (a *App) SetPlayerReady(serverURL, sessionID string, ready bool) error {
 
 	return nil
 }
+
+// AddBotPlayer adds a bot player to a session
+// Only session managers or global managers can add bots
+// raceID must be 0-6 (bot race types), botLevel must be 0-4 (difficulty)
+func (a *App) AddBotPlayer(serverURL, sessionID string, raceID string, botLevel int) error {
+	a.mu.RLock()
+	client, ok := a.clients[serverURL]
+	mgr, mgrOk := a.authManagers[serverURL]
+	a.mu.RUnlock()
+
+	if !ok || !mgrOk {
+		return fmt.Errorf("not connected to server: %s", serverURL)
+	}
+
+	botLevelInt64 := int64(botLevel)
+	playerRace := &api.SessionPlayerRace{
+		RaceID:   raceID,
+		IsBot:    true,
+		BotLevel: &botLevelInt64,
+	}
+
+	_, err := client.SetSessionPlayerRace(mgr.GetContext(), sessionID, playerRace)
+	if err != nil {
+		return fmt.Errorf("failed to add bot player: %w", err)
+	}
+
+	logger.App.Info().
+		Str("raceId", raceID).
+		Int("botLevel", botLevel).
+		Str("sessionId", sessionID).
+		Msg("Added bot player to session")
+
+	return nil
+}

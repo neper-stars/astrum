@@ -29,13 +29,8 @@ func (a *App) EnsureDefaultServer() error {
 		return fmt.Errorf("failed to get servers: %w", err)
 	}
 
-	logger.App.Debug().
-		Int("serverCount", len(servers)).
-		Msg("EnsureDefaultServer: checking existing servers")
-
 	// Only create default server if no servers exist at all
 	if len(servers) > 0 {
-		logger.App.Debug().Msg("EnsureDefaultServer: servers already exist, skipping default creation")
 		return nil
 	}
 

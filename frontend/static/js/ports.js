@@ -504,6 +504,13 @@ function initPorts(app) {
         });
     }
 
+    if (app.ports.addBotPlayer) {
+        app.ports.addBotPlayer.subscribe(async (data) => {
+            callGoWithContext(app.ports.botPlayerAdded, data.serverUrl,
+                window.go.main.App.AddBotPlayer(data.serverUrl, data.sessionId, data.raceId, data.botLevel));
+        });
+    }
+
     // =========================================================================
     // Race Builder
     // =========================================================================

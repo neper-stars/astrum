@@ -37,10 +37,6 @@ func (a *App) GetUserProfiles(serverURL string) ([]UserProfileInfo, error) {
 			IsManager: p.IsManager,
 			Pending:   p.Pending,
 		}
-		logger.App.Debug().
-			Str("nickname", p.Nickname).
-			Bool("pending", p.Pending).
-			Msg("GetUserProfiles: user profile")
 	}
 
 	return result, nil

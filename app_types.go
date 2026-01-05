@@ -74,9 +74,11 @@ type SessionInfo struct {
 
 // SessionPlayerInfo is the JSON-friendly representation of a session player
 type SessionPlayerInfo struct {
-	UserProfileID string `json:"userProfileId"`
-	Ready         bool   `json:"ready"`
-	PlayerOrder   int    `json:"playerOrder"`
+	UserProfileID string  `json:"userProfileId"`
+	Ready         bool    `json:"ready"`
+	PlayerOrder   int     `json:"playerOrder"`
+	IsBot         bool    `json:"isBot"`
+	BotRaceName   *string `json:"botRaceName,omitempty"`
 }
 
 // =============================================================================

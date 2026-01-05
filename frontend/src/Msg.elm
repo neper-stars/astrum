@@ -215,6 +215,14 @@ type Msg
     | SetPlayerReady String Bool -- sessionId, ready
     | PlayerReadyResult String (Result String ()) -- serverUrl, result
       -- =========================================================================
+      -- Bot Player Messages
+      -- =========================================================================
+    | OpenAddBotDialog String -- sessionId
+    | SelectBotRace Int -- raceId (0-6)
+    | SelectBotLevel Int -- level (0-4)
+    | SubmitAddBot
+    | AddBotResult String (Result String ()) -- serverUrl, result
+      -- =========================================================================
       -- Start Game Messages
       -- =========================================================================
     | StartGame String -- sessionId

@@ -2,10 +2,10 @@ apiVersion: vendir.k14s.io/v1alpha1
 directories:
 - contents:
   - git:
-      commitTitle: Release v0.9.4
-      sha: c66a0087996cb506abc1bb8498d82ff52b8ab278
+      commitTitle: sessionPlayer requests return an optional race name for bots
+      sha: bb6cdab605faa015431f6acffb27dcd14186ccce
       tags:
-      - v0.9.4
+      - v0.9.4-3-gbb6cdab
     path: .
   path: dependencies/neper
 kind: LockConfig

@@ -1,5 +1,6 @@
 port module Ports exposing
     ( acceptInvitation
+    , addBotPlayer
     , addDefaultServer
     , addServer
     , animatedMapGenerated
@@ -11,6 +12,7 @@ port module Ports exposing
     , archiveSession
     , autoConnect
     , autoDownloadStarsSet
+    , botPlayerAdded
     , buildAndSaveRace
     , cancelSentInvitation
     , changeApikeyResult
@@ -340,6 +342,9 @@ port uploadAndSetSessionRace : E.Value -> Cmd msg
 port setPlayerReady : E.Value -> Cmd msg
 
 
+port addBotPlayer : E.Value -> Cmd msg
+
+
 port getSessionPlayerRace : E.Value -> Cmd msg
 
 
@@ -609,6 +614,9 @@ port uploadAndSetSessionRaceResult : (D.Value -> msg) -> Sub msg
 
 
 port playerReadyResult : (D.Value -> msg) -> Sub msg
+
+
+port botPlayerAdded : (D.Value -> msg) -> Sub msg
 
 
 port sessionPlayerRaceReceived : (D.Value -> msg) -> Sub msg

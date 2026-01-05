@@ -50,4 +50,6 @@ type alias SessionPlayer =
     { userProfileId : String
     , ready : Bool
     , playerOrder : Int
+    , isBot : Bool
+    , botRaceName : Maybe String
     }

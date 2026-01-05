@@ -711,6 +711,8 @@ export namespace main {
 	    userProfileId: string;
 	    ready: boolean;
 	    playerOrder: number;
+	    isBot: boolean;
+	    botRaceName?: string;
 	
 	    static createFrom(source: any = {}) {
 	        return new SessionPlayerInfo(source);
@@ -721,6 +723,8 @@ export namespace main {
 	        this.userProfileId = source["userProfileId"];
 	        this.ready = source["ready"];
 	        this.playerOrder = source["playerOrder"];
+	        this.isBot = source["isBot"];
+	        this.botRaceName = source["botRaceName"];
 	    }
 	}
 	export class SessionInfo {

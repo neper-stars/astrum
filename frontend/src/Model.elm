@@ -1,5 +1,6 @@
 module Model exposing
-    ( AppSettings
+    ( AddBotForm
+    , AppSettings
     , ChangeApikeyState(..)
     , ConnectForm
     , ConnectedInfo
@@ -43,6 +44,7 @@ module Model exposing
     , UsersListPane(..)
     , UsersListState
     , defaultRaceConfig
+    , emptyAddBotForm
     , emptyConnectForm
     , emptyCreateUserForm
     , emptyHabitabilityDisplay
@@ -343,6 +345,7 @@ type Dialog
     | CreateUserDialog CreateUserForm -- admin create user
     | ChangeApikeyDialog ChangeApikeyState -- change own API key
     | MapViewerDialog MapViewerForm -- embedded Stars! browser
+    | AddBotDialog AddBotForm -- add bot player to session
 
 
 {-| Which pane is active in the users list dialog.
@@ -563,6 +566,29 @@ emptyInviteForm : String -> InviteForm
 emptyInviteForm sessionId =
     { sessionId = sessionId
     , selectedUserId = Nothing
+    , error = Nothing
+    , submitting = False
+    }
+
+
+{-| Form state for adding a bot player to a session.
+-}
+type alias AddBotForm =
+    { sessionId : String
+    , selectedRace : Int -- 0-6 (bot race types)
+    , selectedLevel : Int -- 0-4 (difficulty levels)
+    , error : Maybe String
+    , submitting : Bool
+    }
+
+
+{-| Empty add bot form with default values (Random race, Standard difficulty).
+-}
+emptyAddBotForm : String -> AddBotForm
+emptyAddBotForm sessionId =
+    { sessionId = sessionId
+    , selectedRace = 0 -- Random
+    , selectedLevel = 2 -- Standard
     , error = Nothing
     , submitting = False
     }

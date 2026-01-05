@@ -124,10 +124,12 @@ sessionList =
 -}
 sessionPlayer : Decoder SessionPlayer
 sessionPlayer =
-    D.map3 SessionPlayer
+    D.map5 SessionPlayer
         (D.field "userProfileId" D.string)
         (D.oneOf [ D.field "ready" D.bool, D.succeed False ])
         (D.oneOf [ D.field "playerOrder" D.int, D.succeed 0 ])
+        (D.oneOf [ D.field "isBot" D.bool, D.succeed False ])
+        (D.maybe (D.field "botRaceName" D.string))
 
 
 

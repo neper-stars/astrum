@@ -41,6 +41,19 @@ viewSessionDetail session detail availableTurns ordersStatusByYear model =
                 Nothing ->
                     False
 
+        -- Check if current user is a global (server) manager
+        isGlobalManager =
+            case serverData.connectionState of
+                Connected info ->
+                    info.isManager
+
+                _ ->
+                    False
+
+        -- Can add bot: session or global manager, session not started, less than 16 players
+        canAddBot =
+            (isManager || isGlobalManager) && not (isStarted session) && List.length session.players < 16
+
         -- Check if current user is a member or manager
         isMemberOrManager =
             case currentUserId of
@@ -403,6 +416,16 @@ viewSessionDetail session detail availableTurns ordersStatusByYear model =
 
                       else
                         text ""
+                    , if canAddBot then
+                        button
+                            [ class "btn btn-secondary btn-sm"
+                            , onClick (OpenAddBotDialog session.id)
+                            , title "Add a bot player to this session"
+                            ]
+                            [ text "+ Add Bot" ]
+
+                      else
+                        text ""
                     ]
                 , if detail.playersExpanded then
                     div [ class "session-detail__players" ]
@@ -535,9 +558,17 @@ viewPlayerRow userProfiles myRace sessionId currentUserId isManager sessionStart
         nickname =
             getNickname userProfiles player.userProfileId
 
-        -- For the current user, show race name if available
+        -- For bot players, show the race name if available, otherwise "Bot #N"
         displayName =
-            if isCurrentUser then
+            if player.isBot then
+                case player.botRaceName of
+                    Just raceName ->
+                        raceName
+
+                    Nothing ->
+                        "Bot #" ++ String.fromInt playerNumber
+
+            else if isCurrentUser then
                 case myRace of
                     Just race ->
                         nickname ++ " (" ++ race.namePlural ++ ")"
@@ -608,11 +639,15 @@ viewPlayerRow userProfiles myRace sessionId currentUserId isManager sessionStart
                     [ class "session-detail__player-status"
                     , classList
                         [ ( "session-detail__player-status--ready", player.ready )
-                        , ( "session-detail__player-status--not-ready", not player.ready )
+                        , ( "session-detail__player-status--not-ready", not player.ready && not player.isBot )
+                        , ( "session-detail__player-status--bot", player.isBot )
                         ]
                     ]
                     [ text
-                        (if player.ready then
+                        (if player.isBot then
+                            "AI Player"
+
+                         else if player.ready then
                             "Ready"
 
                          else

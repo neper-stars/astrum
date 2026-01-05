@@ -4,6 +4,8 @@ import {main} from '../models';
 
 export function AcceptInvitation(arg1:string,arg2:string):Promise<main.SessionInfo>;
 
+export function AddBotPlayer(arg1:string,arg2:string,arg3:string,arg4:number):Promise<void>;
+
 export function AddDefaultServer():Promise<main.ServerInfo>;
 
 export function AddServer(arg1:string,arg2:string):Promise<main.ServerInfo>;

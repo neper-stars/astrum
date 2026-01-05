@@ -21,6 +21,8 @@ func convertPlayers(players []*api.SessionPlayer) []SessionPlayerInfo {
 			UserProfileID: p.UserProfileID,
 			Ready:         p.Ready,
 			PlayerOrder:   int(p.PlayerOrder),
+			IsBot:         p.IsBot,
+			BotRaceName:   p.BotRaceName,
 		}
 	}
 	// Sort by PlayerOrder

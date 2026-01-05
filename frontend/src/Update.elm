@@ -1231,12 +1231,6 @@ update msg model =
             case result of
                 Ok profiles ->
                     let
-                        pendingNicknames =
-                            List.filter .pending profiles |> List.map .nickname
-
-                        nonPendingNicknames =
-                            List.filter (\u -> not u.pending) profiles |> List.map .nickname
-
                         updatedModel =
                             { model
                                 | serverData =
@@ -1255,12 +1249,7 @@ update msg model =
                                 _ ->
                                     updatedModel
                     in
-                    ( finalModel
-                    , Cmd.batch
-                        [ Ports.logDebug ("GotUserProfiles - pending: " ++ String.join ", " pendingNicknames)
-                        , Ports.logDebug ("GotUserProfiles - non-pending: " ++ String.join ", " nonPendingNicknames)
-                        ]
-                    )
+                    ( finalModel, Cmd.none )
 
                 Err _ ->
                     ( model, Cmd.none )
@@ -4096,6 +4085,78 @@ update msg model =
 
                         Err err ->
                             ( { model | error = Just err, dialog = Just (UsersListDialog { state | resetState = NoReset }) }
+                            , Cmd.none
+                            )
+
+                _ ->
+                    ( model, Cmd.none )
+
+        -- =====================================================================
+        -- Bot Player Messages
+        -- =====================================================================
+        OpenAddBotDialog sessionId ->
+            ( { model | dialog = Just (AddBotDialog (emptyAddBotForm sessionId)) }
+            , Cmd.none
+            )
+
+        SelectBotRace raceId ->
+            case model.dialog of
+                Just (AddBotDialog form) ->
+                    ( { model | dialog = Just (AddBotDialog { form | selectedRace = raceId }) }
+                    , Cmd.none
+                    )
+
+                _ ->
+                    ( model, Cmd.none )
+
+        SelectBotLevel level ->
+            case model.dialog of
+                Just (AddBotDialog form) ->
+                    ( { model | dialog = Just (AddBotDialog { form | selectedLevel = level }) }
+                    , Cmd.none
+                    )
+
+                _ ->
+                    ( model, Cmd.none )
+
+        SubmitAddBot ->
+            case ( model.dialog, model.selectedServerUrl ) of
+                ( Just (AddBotDialog form), Just serverUrl ) ->
+                    let
+                        raceId =
+                            String.fromInt form.selectedRace
+                    in
+                    ( { model | dialog = Just (AddBotDialog { form | submitting = True, error = Nothing }) }
+                    , Ports.addBotPlayer
+                        (E.object
+                            [ ( "serverUrl", E.string serverUrl )
+                            , ( "sessionId", E.string form.sessionId )
+                            , ( "raceId", E.string raceId )
+                            , ( "botLevel", E.int form.selectedLevel )
+                            ]
+                        )
+                    )
+
+                _ ->
+                    ( model, Cmd.none )
+
+        AddBotResult serverUrl result ->
+            case model.dialog of
+                Just (AddBotDialog form) ->
+                    case result of
+                        Ok () ->
+                            -- Close dialog and refresh session to see the new bot player
+                            ( { model | dialog = Nothing }
+                            , Ports.getSession
+                                (E.object
+                                    [ ( "serverUrl", E.string serverUrl )
+                                    , ( "sessionId", E.string form.sessionId )
+                                    ]
+                                )
+                            )
+
+                        Err err ->
+                            ( { model | dialog = Just (AddBotDialog { form | submitting = False, error = Just err }) }
                             , Cmd.none
                             )
 
