@@ -783,7 +783,7 @@ handleStartGame : Model -> String -> ( Model, Cmd Msg )
 handleStartGame model sessionId =
     case model.selectedServerUrl of
         Just serverUrl ->
-            ( model
+            ( { model | startingSessionId = Just sessionId }
             , Ports.startGame
                 (E.object
                     [ ( "serverUrl", E.string serverUrl )
@@ -805,7 +805,7 @@ handleGameStarted model serverUrl result =
             -- Refresh sessions to update the state
             case model.sessionDetail of
                 Just detail ->
-                    ( model
+                    ( { model | startingSessionId = Nothing }
                     , Cmd.batch
                         [ Ports.getSessions serverUrl
                         , Ports.getSession (Encode.getSession serverUrl detail.sessionId)
@@ -813,12 +813,12 @@ handleGameStarted model serverUrl result =
                     )
 
                 Nothing ->
-                    ( model
+                    ( { model | startingSessionId = Nothing }
                     , Ports.getSessions serverUrl
                     )
 
         Err err ->
-            ( { model | error = Just err }
+            ( { model | startingSessionId = Nothing, error = Just err }
             , Cmd.none
             )
 

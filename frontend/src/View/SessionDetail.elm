@@ -679,6 +679,15 @@ viewPlayerRow userProfiles myRace sessionId currentUserId isManager sessionStart
                         )
                     ]
 
+              else if player.isBot && isManager && not sessionStarted then
+                -- Remove bot button (only for managers, before game starts)
+                button
+                    [ class "btn btn-danger btn-sm session-detail__remove-bot"
+                    , onClick (RemoveBotPlayer sessionId player.id)
+                    , title "Remove bot player"
+                    ]
+                    [ text "×" ]
+
               else
                 text ""
             ]

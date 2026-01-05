@@ -329,6 +329,13 @@
     min-width: 70px; // Fixed width for consistent row alignment
   }
 
+  &__remove-bot {
+    padding: $spacing-xs $spacing-sm;
+    font-size: $font-size-md;
+    line-height: 1;
+    min-width: auto;
+  }
+
   &__player-number {
     display: flex;
     align-items: center;

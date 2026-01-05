@@ -74,6 +74,11 @@ func SessionPlayerReadyPath(sessionID string) string {
 	return fmt.Sprintf("%s/%s/player_race/ready", SessionsBase, sessionID)
 }
 
+// SessionPlayerRaceDeletePath returns the path to delete a player race from a session
+func SessionPlayerRaceDeletePath(sessionID, playerRaceID string) string {
+	return fmt.Sprintf("%s/%s/player_race/%s", SessionsBase, sessionID, playerRaceID)
+}
+
 // SessionReorderPlayersPath returns the path to reorder players in a session
 func SessionReorderPlayersPath(sessionID string) string {
 	return fmt.Sprintf("%s/%s/reorder_players", SessionsBase, sessionID)

@@ -18,6 +18,7 @@ func convertPlayers(players []*api.SessionPlayer) []SessionPlayerInfo {
 	result := make([]SessionPlayerInfo, len(players))
 	for i, p := range players {
 		result[i] = SessionPlayerInfo{
+			ID:            p.ID,
 			UserProfileID: p.UserProfileID,
 			Ready:         p.Ready,
 			PlayerOrder:   int(p.PlayerOrder),

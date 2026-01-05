@@ -13,6 +13,7 @@ port module Ports exposing
     , autoConnect
     , autoDownloadStarsSet
     , botPlayerAdded
+    , botPlayerRemoved
     , buildAndSaveRace
     , cancelSentInvitation
     , changeApikeyResult
@@ -114,6 +115,7 @@ port module Ports exposing
     , registerResult
     , rejectRegistration
     , rejectRegistrationResult
+    , removeBotPlayer
     , removeServer
     , reorderPlayers
     , reorderServers
@@ -343,6 +345,9 @@ port setPlayerReady : E.Value -> Cmd msg
 
 
 port addBotPlayer : E.Value -> Cmd msg
+
+
+port removeBotPlayer : E.Value -> Cmd msg
 
 
 port getSessionPlayerRace : E.Value -> Cmd msg
@@ -617,6 +622,9 @@ port playerReadyResult : (D.Value -> msg) -> Sub msg
 
 
 port botPlayerAdded : (D.Value -> msg) -> Sub msg
+
+
+port botPlayerRemoved : (D.Value -> msg) -> Sub msg
 
 
 port sessionPlayerRaceReceived : (D.Value -> msg) -> Sub msg

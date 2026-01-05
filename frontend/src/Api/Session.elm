@@ -47,7 +47,8 @@ type alias Session =
 {-| A player in a session with ready state.
 -}
 type alias SessionPlayer =
-    { userProfileId : String
+    { id : String
+    , userProfileId : String
     , ready : Bool
     , playerOrder : Int
     , isBot : Bool

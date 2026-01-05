@@ -8,5 +8,6 @@ directories:
           url: https://github.com/neper-stars/neper
           ref: master
         includePaths:
+          - neper-api.yaml
           - neper-types.yaml
           - neper-async-types.yaml

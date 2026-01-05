@@ -511,6 +511,13 @@ function initPorts(app) {
         });
     }
 
+    if (app.ports.removeBotPlayer) {
+        app.ports.removeBotPlayer.subscribe(async (data) => {
+            callGoWithContext(app.ports.botPlayerRemoved, data.serverUrl,
+                window.go.main.App.RemoveBotPlayer(data.serverUrl, data.sessionId, data.playerRaceId));
+        });
+    }
+
     // =========================================================================
     // Race Builder
     // =========================================================================

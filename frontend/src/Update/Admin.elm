@@ -2,6 +2,8 @@ module Update.Admin exposing
     ( handleAddBotResult
     , handleApproveRegistrationResult
     , handleCancelApproveRegistration
+    , handleRemoveBotPlayer
+    , handleRemoveBotResult
     , handleCancelChangeApikey
     , handleCancelDeleteUser
     , handleCancelRejectRegistration
@@ -529,6 +531,43 @@ handleAddBotResult model serverUrl result =
 
         _ ->
             ( model, Cmd.none )
+
+
+{-| Handle remove bot player.
+-}
+handleRemoveBotPlayer : Model -> String -> String -> ( Model, Cmd Msg )
+handleRemoveBotPlayer model sessionId playerRaceId =
+    case model.selectedServerUrl of
+        Just serverUrl ->
+            ( model
+            , Ports.removeBotPlayer
+                (E.object
+                    [ ( "serverUrl", E.string serverUrl )
+                    , ( "sessionId", E.string sessionId )
+                    , ( "playerRaceId", E.string playerRaceId )
+                    ]
+                )
+            )
+
+        Nothing ->
+            ( model, Cmd.none )
+
+
+{-| Handle remove bot result.
+-}
+handleRemoveBotResult : Model -> String -> Result String () -> ( Model, Cmd Msg )
+handleRemoveBotResult model serverUrl result =
+    case result of
+        Ok () ->
+            -- Refresh sessions to see the updated player list
+            ( model
+            , Ports.getSessions serverUrl
+            )
+
+        Err err ->
+            ( { model | error = Just err }
+            , Cmd.none
+            )
 
 
 

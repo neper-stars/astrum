@@ -138,6 +138,8 @@ export function Register(arg1:string,arg2:string,arg3:string,arg4:string):Promis
 
 export function RejectPendingRegistration(arg1:string,arg2:string):Promise<void>;
 
+export function RemoveBotPlayer(arg1:string,arg2:string,arg3:string):Promise<void>;
+
 export function RemoveServer(arg1:string):Promise<void>;
 
 export function ReorderPlayers(arg1:string,arg2:string,arg3:Array<Record<string, any>>):Promise<void>;

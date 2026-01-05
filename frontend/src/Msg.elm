@@ -222,6 +222,8 @@ type Msg
     | SelectBotLevel Int -- level (0-4)
     | SubmitAddBot
     | AddBotResult String (Result String ()) -- serverUrl, result
+    | RemoveBotPlayer String String -- sessionId, playerRaceId (userProfileId for bots)
+    | RemoveBotResult String (Result String ()) -- serverUrl, result
       -- =========================================================================
       -- Start Game Messages
       -- =========================================================================

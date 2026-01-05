@@ -2,10 +2,11 @@ apiVersion: vendir.k14s.io/v1alpha1
 directories:
 - contents:
   - git:
-      commitTitle: sessionPlayer requests return an optional race name for bots
-      sha: bb6cdab605faa015431f6acffb27dcd14186ccce
+      commitTitle: Added the id in the SessionPlayerRace to allow easy deletion from
+        client side
+      sha: 168e90a49bc405c3fbe1b21e1425cfdec551f06f
       tags:
-      - v0.9.4-3-gbb6cdab
+      - v0.9.4-6-g168e90a
     path: .
   path: dependencies/neper
 kind: LockConfig

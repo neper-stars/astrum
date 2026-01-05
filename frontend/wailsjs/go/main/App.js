@@ -274,6 +274,10 @@ export function RejectPendingRegistration(arg1, arg2) {
   return window['go']['main']['App']['RejectPendingRegistration'](arg1, arg2);
 }
 
+export function RemoveBotPlayer(arg1, arg2, arg3) {
+  return window['go']['main']['App']['RemoveBotPlayer'](arg1, arg2, arg3);
+}
+
 export function RemoveServer(arg1) {
   return window['go']['main']['App']['RemoveServer'](arg1);
 }

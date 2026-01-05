@@ -140,6 +140,11 @@ func (c *Client) SetPlayerReady(ctx context.Context, sessionID string, ready boo
 	return &updated, nil
 }
 
+// DeleteSessionPlayerRace removes a player from a session (manager only for bots)
+func (c *Client) DeleteSessionPlayerRace(ctx context.Context, sessionID, playerRaceID string) error {
+	return c.delete(ctx, SessionPlayerRaceDeletePath(sessionID, playerRaceID))
+}
+
 // ReorderPlayers updates the player order in a session (manager only)
 func (c *Client) ReorderPlayers(ctx context.Context, sessionID string, playerOrders []PlayerOrder) ([]PlayerOrder, error) {
 	var updated []PlayerOrder

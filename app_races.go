@@ -310,3 +310,29 @@ func (a *App) AddBotPlayer(serverURL, sessionID string, raceID string, botLevel 
 
 	return nil
 }
+
+// RemoveBotPlayer removes a bot player from a session
+// Only session managers or global managers can remove bots
+// playerRaceID is the ID of the player race mapping (userProfileId for bots)
+func (a *App) RemoveBotPlayer(serverURL, sessionID, playerRaceID string) error {
+	a.mu.RLock()
+	client, ok := a.clients[serverURL]
+	mgr, mgrOk := a.authManagers[serverURL]
+	a.mu.RUnlock()
+
+	if !ok || !mgrOk {
+		return fmt.Errorf("not connected to server: %s", serverURL)
+	}
+
+	err := client.DeleteSessionPlayerRace(mgr.GetContext(), sessionID, playerRaceID)
+	if err != nil {
+		return fmt.Errorf("failed to remove bot player: %w", err)
+	}
+
+	logger.App.Info().
+		Str("playerRaceId", playerRaceID).
+		Str("sessionId", sessionID).
+		Msg("Removed bot player from session")
+
+	return nil
+}

@@ -877,6 +877,12 @@ update msg model =
         AddBotResult serverUrl result ->
             Admin.handleAddBotResult model serverUrl result
 
+        RemoveBotPlayer sessionId playerRaceId ->
+            Admin.handleRemoveBotPlayer model sessionId playerRaceId
+
+        RemoveBotResult serverUrl result ->
+            Admin.handleRemoveBotResult model serverUrl result
+
         -- =====================================================================
         -- Pending Registration Messages
         -- =====================================================================

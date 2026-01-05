@@ -5282,40 +5282,40 @@ var $author$project$Msg$AddBotResult = F2(
 		return {$: 140, a: a, b: b};
 	});
 var $author$project$Msg$AnimatedMapGenerated = function (a) {
-	return {$: 287, a: a};
+	return {$: 289, a: a};
 };
 var $author$project$Msg$AutoDownloadStarsSet = function (a) {
-	return {$: 207, a: a};
+	return {$: 209, a: a};
 };
 var $author$project$Msg$ChangeApikeyResult = function (a) {
-	return {$: 250, a: a};
+	return {$: 252, a: a};
 };
 var $author$project$Msg$DefaultServerAdded = function (a) {
 	return {$: 8, a: a};
 };
 var $author$project$Msg$EnableBrowserStarsSet = function (a) {
-	return {$: 219, a: a};
+	return {$: 221, a: a};
 };
-var $author$project$Msg$EscapePressed = {$: 292};
+var $author$project$Msg$EscapePressed = {$: 294};
 var $author$project$Msg$GameStarted = F2(
 	function (a, b) {
-		return {$: 142, a: a, b: b};
+		return {$: 144, a: a, b: b};
 	});
 var $author$project$Msg$GifSaved = function (a) {
-	return {$: 289, a: a};
+	return {$: 291, a: a};
 };
 var $author$project$Msg$GotApiKey = F2(
 	function (a, b) {
-		return {$: 261, a: a, b: b};
+		return {$: 263, a: a, b: b};
 	});
 var $author$project$Msg$GotAppSettings = function (a) {
-	return {$: 204, a: a};
+	return {$: 206, a: a};
 };
 var $author$project$Msg$GotHasDefaultServer = function (a) {
 	return {$: 6, a: a};
 };
 var $author$project$Msg$GotHasStarsExe = function (a) {
-	return {$: 196, a: a};
+	return {$: 198, a: a};
 };
 var $author$project$Msg$GotRaces = F2(
 	function (a, b) {
@@ -5331,7 +5331,7 @@ var $author$project$Msg$GotUserProfiles = F2(
 var $author$project$Msg$HabButtonTick = {$: 112};
 var $author$project$Msg$HistoricBackupDownloaded = F2(
 	function (a, b) {
-		return {$: 200, a: a, b: b};
+		return {$: 202, a: a, b: b};
 	});
 var $author$project$Msg$InvitationAccepted = F2(
 	function (a, b) {
@@ -5346,13 +5346,13 @@ var $author$project$Msg$InviteResult = F2(
 		return {$: 63, a: a, b: b};
 	});
 var $author$project$Msg$LaunchStarsResult = function (a) {
-	return {$: 195, a: a};
+	return {$: 197, a: a};
 };
 var $author$project$Msg$MapGenerated = function (a) {
-	return {$: 280, a: a};
+	return {$: 282, a: a};
 };
 var $author$project$Msg$MapSaved = function (a) {
-	return {$: 282, a: a};
+	return {$: 284, a: a};
 };
 var $author$project$Msg$MemberPromoted = F2(
 	function (a, b) {
@@ -5360,35 +5360,35 @@ var $author$project$Msg$MemberPromoted = F2(
 	});
 var $author$project$Msg$MouseMoveWhileDragging = F2(
 	function (a, b) {
-		return {$: 144, a: a, b: b};
+		return {$: 146, a: a, b: b};
 	});
-var $author$project$Msg$MouseUpEndDrag = {$: 147};
+var $author$project$Msg$MouseUpEndDrag = {$: 149};
 var $author$project$Msg$NotificationInvitation = F3(
-	function (a, b, c) {
-		return {$: 252, a: a, b: b, c: c};
-	});
-var $author$project$Msg$NotificationOrderStatus = F3(
-	function (a, b, c) {
-		return {$: 256, a: a, b: b, c: c};
-	});
-var $author$project$Msg$NotificationPlayerRace = F3(
-	function (a, b, c) {
-		return {$: 255, a: a, b: b, c: c};
-	});
-var $author$project$Msg$NotificationRace = F3(
-	function (a, b, c) {
-		return {$: 253, a: a, b: b, c: c};
-	});
-var $author$project$Msg$NotificationRuleset = F3(
 	function (a, b, c) {
 		return {$: 254, a: a, b: b, c: c};
 	});
+var $author$project$Msg$NotificationOrderStatus = F3(
+	function (a, b, c) {
+		return {$: 258, a: a, b: b, c: c};
+	});
+var $author$project$Msg$NotificationPlayerRace = F3(
+	function (a, b, c) {
+		return {$: 257, a: a, b: b, c: c};
+	});
+var $author$project$Msg$NotificationRace = F3(
+	function (a, b, c) {
+		return {$: 255, a: a, b: b, c: c};
+	});
+var $author$project$Msg$NotificationRuleset = F3(
+	function (a, b, c) {
+		return {$: 256, a: a, b: b, c: c};
+	});
 var $author$project$Msg$NotificationSession = F3(
 	function (a, b, c) {
-		return {$: 251, a: a, b: b, c: c};
+		return {$: 253, a: a, b: b, c: c};
 	});
 var $author$project$Msg$NtvdmChecked = function (a) {
-	return {$: 215, a: a};
+	return {$: 217, a: a};
 };
 var $author$project$Msg$PlayerReadyResult = F2(
 	function (a, b) {
@@ -5396,7 +5396,7 @@ var $author$project$Msg$PlayerReadyResult = F2(
 	});
 var $author$project$Msg$PlayersReordered = F2(
 	function (a, b) {
-		return {$: 148, a: a, b: b};
+		return {$: 150, a: a, b: b};
 	});
 var $author$project$Msg$RaceBuilderSaved = function (a) {
 	return {$: 133, a: a};
@@ -5421,12 +5421,16 @@ var $author$project$Msg$RaceUploaded = F2(
 	function (a, b) {
 		return {$: 77, a: a, b: b};
 	});
+var $author$project$Msg$RemoveBotResult = F2(
+	function (a, b) {
+		return {$: 142, a: a, b: b};
+	});
 var $author$project$Msg$ResetApikeyResult = function (a) {
-	return {$: 234, a: a};
+	return {$: 236, a: a};
 };
 var $author$project$Msg$RulesSet = F2(
 	function (a, b) {
-		return {$: 185, a: a, b: b};
+		return {$: 187, a: a, b: b};
 	});
 var $author$project$Msg$SentInvitationCanceled = F2(
 	function (a, b) {
@@ -5435,9 +5439,9 @@ var $author$project$Msg$SentInvitationCanceled = F2(
 var $author$project$Msg$ServerAdded = function (a) {
 	return {$: 3, a: a};
 };
-var $author$project$Msg$ServerDragEnd = {$: 153};
+var $author$project$Msg$ServerDragEnd = {$: 155};
 var $author$project$Msg$ServerDragMove = function (a) {
-	return {$: 150, a: a};
+	return {$: 152, a: a};
 };
 var $author$project$Msg$ServerRemoved = function (a) {
 	return {$: 5, a: a};
@@ -5446,10 +5450,10 @@ var $author$project$Msg$ServerUpdated = function (a) {
 	return {$: 4, a: a};
 };
 var $author$project$Msg$ServersDirSelected = function (a) {
-	return {$: 205, a: a};
+	return {$: 207, a: a};
 };
 var $author$project$Msg$ServersReordered = function (a) {
-	return {$: 154, a: a};
+	return {$: 156, a: a};
 };
 var $author$project$Msg$SessionArchived = F2(
 	function (a, b) {
@@ -5457,7 +5461,7 @@ var $author$project$Msg$SessionArchived = F2(
 	});
 var $author$project$Msg$SessionBackupDownloaded = F2(
 	function (a, b) {
-		return {$: 198, a: a, b: b};
+		return {$: 200, a: a, b: b};
 	});
 var $author$project$Msg$SessionCreated = F2(
 	function (a, b) {
@@ -5476,23 +5480,23 @@ var $author$project$Msg$SessionQuitResult = F2(
 		return {$: 51, a: a, b: b};
 	});
 var $author$project$Msg$SessionsUpdated = function (a) {
-	return {$: 186, a: a};
+	return {$: 188, a: a};
 };
 var $author$project$Msg$SetupRaceResult = F2(
 	function (a, b) {
 		return {$: 85, a: a, b: b};
 	});
 var $author$project$Msg$UseWineSet = function (a) {
-	return {$: 209, a: a};
-};
-var $author$project$Msg$WineInstallChecked = function (a) {
-	return {$: 213, a: a};
-};
-var $author$project$Msg$WinePrefixesDirSelected = function (a) {
 	return {$: 211, a: a};
 };
+var $author$project$Msg$WineInstallChecked = function (a) {
+	return {$: 215, a: a};
+};
+var $author$project$Msg$WinePrefixesDirSelected = function (a) {
+	return {$: 213, a: a};
+};
 var $author$project$Msg$ZoomLevelSet = function (a) {
-	return {$: 267, a: a};
+	return {$: 269, a: a};
 };
 var $elm$json$Json$Decode$value = _Json_decodeValue;
 var $author$project$Ports$animatedMapGenerated = _Platform_incomingPort('animatedMapGenerated', $elm$json$Json$Decode$value);
@@ -5547,13 +5551,14 @@ var $author$project$Ports$archivedSessionsReceived = _Platform_incomingPort('arc
 var $author$project$Ports$autoDownloadStarsSet = _Platform_incomingPort('autoDownloadStarsSet', $elm$json$Json$Decode$value);
 var $elm$core$Platform$Sub$batch = _Platform_batch;
 var $author$project$Ports$botPlayerAdded = _Platform_incomingPort('botPlayerAdded', $elm$json$Json$Decode$value);
+var $author$project$Ports$botPlayerRemoved = _Platform_incomingPort('botPlayerRemoved', $elm$json$Json$Decode$value);
 var $author$project$Ports$changeApikeyResult = _Platform_incomingPort('changeApikeyResult', $elm$json$Json$Decode$value);
 var $author$project$Ports$connectResult = _Platform_incomingPort('connectResult', $elm$json$Json$Decode$value);
 var $author$project$Ports$connectionChanged = _Platform_incomingPort('connectionChanged', $elm$json$Json$Decode$value);
 var $author$project$Ports$createUserResult = _Platform_incomingPort('createUserResult', $elm$json$Json$Decode$value);
 var $author$project$Msg$ApproveRegistrationResult = F2(
 	function (a, b) {
-		return {$: 242, a: a, b: b};
+		return {$: 244, a: a, b: b};
 	});
 var $elm$json$Json$Decode$decodeValue = _Json_run;
 var $elm$core$Tuple$pair = F2(
@@ -5664,11 +5669,11 @@ var $NoRedInk$elm_json_decode_pipeline$Json$Decode$Pipeline$required = F3(
 			A2($elm$json$Json$Decode$field, key, valDecoder),
 			decoder);
 	});
-var $author$project$Api$Session$SessionPlayer = F5(
-	function (userProfileId, ready, playerOrder, isBot, botRaceName) {
-		return {dd: botRaceName, d2: isBot, eF: playerOrder, eQ: ready, fA: userProfileId};
+var $author$project$Api$Session$SessionPlayer = F6(
+	function (id, userProfileId, ready, playerOrder, isBot, botRaceName) {
+		return {dd: botRaceName, dW: id, d2: isBot, eF: playerOrder, eQ: ready, fA: userProfileId};
 	});
-var $elm$json$Json$Decode$map5 = _Json_map5;
+var $elm$json$Json$Decode$map6 = _Json_map6;
 var $elm$json$Json$Decode$maybe = function (decoder) {
 	return $elm$json$Json$Decode$oneOf(
 		_List_fromArray(
@@ -5677,9 +5682,10 @@ var $elm$json$Json$Decode$maybe = function (decoder) {
 				$elm$json$Json$Decode$succeed($elm$core$Maybe$Nothing)
 			]));
 };
-var $author$project$Api$Decode$sessionPlayer = A6(
-	$elm$json$Json$Decode$map5,
+var $author$project$Api$Decode$sessionPlayer = A7(
+	$elm$json$Json$Decode$map6,
 	$author$project$Api$Session$SessionPlayer,
+	A2($elm$json$Json$Decode$field, 'id', $elm$json$Json$Decode$string),
 	A2($elm$json$Json$Decode$field, 'userProfileId', $elm$json$Json$Decode$string),
 	$elm$json$Json$Decode$oneOf(
 		_List_fromArray(
@@ -5870,7 +5876,7 @@ var $author$project$Subscriptions$decodeConnectResult = function (value) {
 };
 var $author$project$Msg$ConnectionChanged = F2(
 	function (a, b) {
-		return {$: 187, a: a, b: b};
+		return {$: 189, a: a, b: b};
 	});
 var $author$project$Msg$NoOp = {$: 0};
 var $author$project$Subscriptions$decodeConnectionChanged = function (value) {
@@ -5889,7 +5895,7 @@ var $author$project$Subscriptions$decodeConnectionChanged = function (value) {
 };
 var $author$project$Msg$CreateUserResult = F2(
 	function (a, b) {
-		return {$: 226, a: a, b: b};
+		return {$: 228, a: a, b: b};
 	});
 var $elm$json$Json$Decode$map3 = _Json_map3;
 var $author$project$Subscriptions$decodeCreateUserResult = function (value) {
@@ -5935,7 +5941,7 @@ var $author$project$Subscriptions$decodeCreateUserResult = function (value) {
 };
 var $author$project$Msg$DeleteUserResult = F2(
 	function (a, b) {
-		return {$: 230, a: a, b: b};
+		return {$: 232, a: a, b: b};
 	});
 var $author$project$Subscriptions$decodeDeleteUserResult = function (value) {
 	var decoder = A3(
@@ -6088,7 +6094,7 @@ var $author$project$Subscriptions$decodeInvitationsReceived = function (value) {
 };
 var $author$project$Msg$GotLatestTurn = F2(
 	function (a, b) {
-		return {$: 191, a: a, b: b};
+		return {$: 193, a: a, b: b};
 	});
 var $author$project$Api$TurnFiles$TurnFiles = F4(
 	function (sessionId, year, universe, turn) {
@@ -6151,7 +6157,7 @@ var $author$project$Subscriptions$decodeNotification = F2(
 	});
 var $author$project$Msg$OrderConflictReceived = F3(
 	function (a, b, c) {
-		return {$: 188, a: a, b: b, c: c};
+		return {$: 190, a: a, b: b, c: c};
 	});
 var $author$project$Subscriptions$decodeOrderConflict = function (value) {
 	var decoder = A4(
@@ -6170,7 +6176,7 @@ var $author$project$Subscriptions$decodeOrderConflict = function (value) {
 };
 var $author$project$Msg$GotOrdersStatus = F2(
 	function (a, b) {
-		return {$: 201, a: a, b: b};
+		return {$: 203, a: a, b: b};
 	});
 var $author$project$Api$OrdersStatus$OrdersStatus = F3(
 	function (sessionId, pendingYear, players) {
@@ -6230,8 +6236,9 @@ var $author$project$Subscriptions$decodeOrdersStatusReceived = function (value) 
 };
 var $author$project$Msg$NotificationPendingRegistration = F5(
 	function (a, b, c, d, e) {
-		return {$: 257, a: a, b: b, c: c, d: d, e: e};
+		return {$: 259, a: a, b: b, c: c, d: d, e: e};
 	});
+var $elm$json$Json$Decode$map5 = _Json_map5;
 var $elm$json$Json$Decode$nullable = function (decoder) {
 	return $elm$json$Json$Decode$oneOf(
 		_List_fromArray(
@@ -6265,7 +6272,7 @@ var $author$project$Subscriptions$decodePendingRegistrationNotification = functi
 };
 var $author$project$Msg$GotPendingRegistrations = F2(
 	function (a, b) {
-		return {$: 236, a: a, b: b};
+		return {$: 238, a: a, b: b};
 	});
 var $author$project$Subscriptions$decodePendingRegistrationsReceived = function (value) {
 	var userDecoder = A5(
@@ -6360,7 +6367,7 @@ var $author$project$Subscriptions$decodeRegisterResult = function (value) {
 };
 var $author$project$Msg$RejectRegistrationResult = F2(
 	function (a, b) {
-		return {$: 246, a: a, b: b};
+		return {$: 248, a: a, b: b};
 	});
 var $author$project$Subscriptions$decodeRejectRegistrationResult = function (value) {
 	var decoder = A3(
@@ -6457,7 +6464,7 @@ var $author$project$Subscriptions$decodeResultWithServerUrl = F3(
 	});
 var $author$project$Msg$GotRules = F3(
 	function (a, b, c) {
-		return {$: 156, a: a, b: b, c: c};
+		return {$: 158, a: a, b: b, c: c};
 	});
 var $author$project$Api$Rules$Rules = function (universeSize) {
 	return function (density) {
@@ -6822,7 +6829,7 @@ var $author$project$Subscriptions$decodeSessionReceived = function (value) {
 };
 var $author$project$Msg$NotificationSessionTurn = F4(
 	function (a, b, c, d) {
-		return {$: 192, a: a, b: b, c: c, d: d};
+		return {$: 194, a: a, b: b, c: c, d: d};
 	});
 var $author$project$Subscriptions$decodeSessionTurnNotification = function (value) {
 	var decoder = A5(
@@ -6881,7 +6888,7 @@ var $author$project$Subscriptions$decodeSessionsReceived = function (value) {
 };
 var $author$project$Msg$GotTurnFiles = F2(
 	function (a, b) {
-		return {$: 190, a: a, b: b};
+		return {$: 192, a: a, b: b};
 	});
 var $author$project$Subscriptions$decodeTurnReceived = function (value) {
 	var decoder = A3(
@@ -6915,9 +6922,9 @@ var $author$project$Subscriptions$decodeTurnReceived = function (value) {
 				'Failed to decode turn files response: ' + $elm$json$Json$Decode$errorToString(err)));
 	}
 };
-var $author$project$Msg$ZoomIn = {$: 264};
-var $author$project$Msg$ZoomOut = {$: 265};
-var $author$project$Msg$ZoomReset = {$: 266};
+var $author$project$Msg$ZoomIn = {$: 266};
+var $author$project$Msg$ZoomOut = {$: 267};
+var $author$project$Msg$ZoomReset = {$: 268};
 var $author$project$Subscriptions$decodeZoomKey = function (key) {
 	switch (key) {
 		case 'in':
@@ -8278,6 +8285,11 @@ var $author$project$Subscriptions$subscriptions = function (model) {
 								$author$project$Subscriptions$decodeResultWithServerUrl,
 								$elm$json$Json$Decode$succeed(0),
 								$author$project$Msg$AddBotResult)),
+							$author$project$Ports$botPlayerRemoved(
+							A2(
+								$author$project$Subscriptions$decodeResultWithServerUrl,
+								$elm$json$Json$Decode$succeed(0),
+								$author$project$Msg$RemoveBotResult)),
 							$author$project$Ports$raceBuilderValidation(
 							A2($author$project$Subscriptions$decodeResult, $author$project$Api$Decode$raceValidation, $author$project$Msg$RaceBuilderValidationReceived)),
 							$author$project$Ports$raceTemplateReceived(
@@ -9858,7 +9870,9 @@ var $author$project$Update$Sessions$handleGameStarted = F3(
 			if (!_v1.$) {
 				var detail = _v1.a;
 				return _Utils_Tuple2(
-					model,
+					_Utils_update(
+						model,
+						{cN: $elm$core$Maybe$Nothing}),
 					$elm$core$Platform$Cmd$batch(
 						_List_fromArray(
 							[
@@ -9868,7 +9882,9 @@ var $author$project$Update$Sessions$handleGameStarted = F3(
 							])));
 			} else {
 				return _Utils_Tuple2(
-					model,
+					_Utils_update(
+						model,
+						{cN: $elm$core$Maybe$Nothing}),
 					$author$project$Ports$getSessions(serverUrl));
 			}
 		} else {
@@ -9877,7 +9893,8 @@ var $author$project$Update$Sessions$handleGameStarted = F3(
 				_Utils_update(
 					model,
 					{
-						c: $elm$core$Maybe$Just(err)
+						c: $elm$core$Maybe$Just(err),
+						cN: $elm$core$Maybe$Nothing
 					}),
 				$elm$core$Platform$Cmd$none);
 		}
@@ -10083,7 +10100,7 @@ var $author$project$Update$MapViewer$handleGifSaved = F2(
 			return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
 		}
 	});
-var $author$project$Msg$HideToast = {$: 263};
+var $author$project$Msg$HideToast = {$: 265};
 var $elm$core$Process$sleep = _Process_sleep;
 var $author$project$Update$Admin$handleGotApiKey = F2(
 	function (model, result) {
@@ -13911,6 +13928,49 @@ var $author$project$Update$Admin$handleRejectRegistrationResult = F2(
 			return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
 		}
 	});
+var $author$project$Ports$removeBotPlayer = _Platform_outgoingPort('removeBotPlayer', $elm$core$Basics$identity);
+var $author$project$Update$Admin$handleRemoveBotPlayer = F3(
+	function (model, sessionId, playerRaceId) {
+		var _v0 = model.aR;
+		if (!_v0.$) {
+			var serverUrl = _v0.a;
+			return _Utils_Tuple2(
+				model,
+				$author$project$Ports$removeBotPlayer(
+					$elm$json$Json$Encode$object(
+						_List_fromArray(
+							[
+								_Utils_Tuple2(
+								'serverUrl',
+								$elm$json$Json$Encode$string(serverUrl)),
+								_Utils_Tuple2(
+								'sessionId',
+								$elm$json$Json$Encode$string(sessionId)),
+								_Utils_Tuple2(
+								'playerRaceId',
+								$elm$json$Json$Encode$string(playerRaceId))
+							]))));
+		} else {
+			return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
+		}
+	});
+var $author$project$Update$Admin$handleRemoveBotResult = F3(
+	function (model, serverUrl, result) {
+		if (!result.$) {
+			return _Utils_Tuple2(
+				model,
+				$author$project$Ports$getSessions(serverUrl));
+		} else {
+			var err = result.a;
+			return _Utils_Tuple2(
+				_Utils_update(
+					model,
+					{
+						c: $elm$core$Maybe$Just(err)
+					}),
+				$elm$core$Platform$Cmd$none);
+		}
+	});
 var $author$project$Update$UI$handleRequestEnableBrowserStars = F2(
 	function (model, enabled) {
 		return enabled ? _Utils_Tuple2(
@@ -15012,7 +15072,11 @@ var $author$project$Update$Sessions$handleStartGame = F2(
 		if (!_v0.$) {
 			var serverUrl = _v0.a;
 			return _Utils_Tuple2(
-				model,
+				_Utils_update(
+					model,
+					{
+						cN: $elm$core$Maybe$Just(sessionId)
+					}),
 				$author$project$Ports$startGame(
 					$elm$json$Json$Encode$object(
 						_List_fromArray(
@@ -17640,13 +17704,13 @@ var $author$project$Update$update = F2(
 				var serverUrl = msg.a;
 				var result = msg.b;
 				return A3($author$project$Update$Sessions$handleSessionArchived, model, serverUrl, result);
-			case 186:
+			case 188:
 				var serverUrl = msg.a;
 				return A2($author$project$Update$Sessions$handleSessionsUpdated, model, serverUrl);
-			case 141:
+			case 143:
 				var sessionId = msg.a;
 				return A2($author$project$Update$Sessions$handleStartGame, model, sessionId);
-			case 142:
+			case 144:
 				var serverUrl = msg.a;
 				var result = msg.b;
 				return A3($author$project$Update$Sessions$handleGameStarted, model, serverUrl, result);
@@ -17758,276 +17822,276 @@ var $author$project$Update$update = F2(
 				return A4($author$project$Update$Races$handleGotSessionPlayerRace, model, serverUrl, sessionId, result);
 			case 86:
 				return $author$project$Update$Races$handleUploadAndSetRace(model);
-			case 155:
+			case 157:
 				var sessionId = msg.a;
 				var rulesIsSet = msg.b;
 				return A3($author$project$Update$Rules$handleOpenRulesDialog, model, sessionId, rulesIsSet);
-			case 156:
+			case 158:
 				var serverUrl = msg.a;
 				var sessionId = msg.b;
 				var result = msg.c;
 				return A4($author$project$Update$Rules$handleGotRules, model, serverUrl, sessionId, result);
-			case 184:
+			case 186:
 				return $author$project$Update$Rules$handleSubmitRules(model);
-			case 185:
+			case 187:
 				var serverUrl = msg.a;
 				var result = msg.b;
 				return A3($author$project$Update$Rules$handleRulesSet, model, serverUrl, result);
-			case 157:
-				var val = msg.a;
-				return A2($author$project$Update$Rules$handleUpdateRulesUniverseSize, model, val);
-			case 158:
-				var val = msg.a;
-				return A2($author$project$Update$Rules$handleUpdateRulesDensity, model, val);
 			case 159:
 				var val = msg.a;
-				return A2($author$project$Update$Rules$handleUpdateRulesStartingDistance, model, val);
+				return A2($author$project$Update$Rules$handleUpdateRulesUniverseSize, model, val);
 			case 160:
 				var val = msg.a;
-				return A2($author$project$Update$Rules$handleUpdateRulesMaximumMinerals, model, val);
+				return A2($author$project$Update$Rules$handleUpdateRulesDensity, model, val);
 			case 161:
 				var val = msg.a;
-				return A2($author$project$Update$Rules$handleUpdateRulesSlowerTechAdvances, model, val);
+				return A2($author$project$Update$Rules$handleUpdateRulesStartingDistance, model, val);
 			case 162:
 				var val = msg.a;
-				return A2($author$project$Update$Rules$handleUpdateRulesAcceleratedBbsPlay, model, val);
+				return A2($author$project$Update$Rules$handleUpdateRulesMaximumMinerals, model, val);
 			case 163:
 				var val = msg.a;
-				return A2($author$project$Update$Rules$handleUpdateRulesNoRandomEvents, model, val);
+				return A2($author$project$Update$Rules$handleUpdateRulesSlowerTechAdvances, model, val);
 			case 164:
 				var val = msg.a;
-				return A2($author$project$Update$Rules$handleUpdateRulesComputerPlayersFormAlliances, model, val);
+				return A2($author$project$Update$Rules$handleUpdateRulesAcceleratedBbsPlay, model, val);
 			case 165:
 				var val = msg.a;
-				return A2($author$project$Update$Rules$handleUpdateRulesPublicPlayerScores, model, val);
+				return A2($author$project$Update$Rules$handleUpdateRulesNoRandomEvents, model, val);
 			case 166:
 				var val = msg.a;
-				return A2($author$project$Update$Rules$handleUpdateRulesGalaxyClumping, model, val);
+				return A2($author$project$Update$Rules$handleUpdateRulesComputerPlayersFormAlliances, model, val);
 			case 167:
 				var val = msg.a;
-				return A2($author$project$Update$Rules$handleUpdateRulesVcOwnsPercentOfPlanets, model, val);
+				return A2($author$project$Update$Rules$handleUpdateRulesPublicPlayerScores, model, val);
 			case 168:
 				var val = msg.a;
-				return A2($author$project$Update$Rules$handleUpdateRulesVcOwnsPercentOfPlanetsValue, model, val);
+				return A2($author$project$Update$Rules$handleUpdateRulesGalaxyClumping, model, val);
 			case 169:
 				var val = msg.a;
-				return A2($author$project$Update$Rules$handleUpdateRulesVcAttainTechInFields, model, val);
+				return A2($author$project$Update$Rules$handleUpdateRulesVcOwnsPercentOfPlanets, model, val);
 			case 170:
 				var val = msg.a;
-				return A2($author$project$Update$Rules$handleUpdateRulesVcAttainTechInFieldsTechValue, model, val);
+				return A2($author$project$Update$Rules$handleUpdateRulesVcOwnsPercentOfPlanetsValue, model, val);
 			case 171:
 				var val = msg.a;
-				return A2($author$project$Update$Rules$handleUpdateRulesVcAttainTechInFieldsFieldsValue, model, val);
+				return A2($author$project$Update$Rules$handleUpdateRulesVcAttainTechInFields, model, val);
 			case 172:
 				var val = msg.a;
-				return A2($author$project$Update$Rules$handleUpdateRulesVcExceedScoreOf, model, val);
+				return A2($author$project$Update$Rules$handleUpdateRulesVcAttainTechInFieldsTechValue, model, val);
 			case 173:
 				var val = msg.a;
-				return A2($author$project$Update$Rules$handleUpdateRulesVcExceedScoreOfValue, model, val);
+				return A2($author$project$Update$Rules$handleUpdateRulesVcAttainTechInFieldsFieldsValue, model, val);
 			case 174:
 				var val = msg.a;
-				return A2($author$project$Update$Rules$handleUpdateRulesVcExceedNextPlayerScoreBy, model, val);
+				return A2($author$project$Update$Rules$handleUpdateRulesVcExceedScoreOf, model, val);
 			case 175:
 				var val = msg.a;
-				return A2($author$project$Update$Rules$handleUpdateRulesVcExceedNextPlayerScoreByValue, model, val);
+				return A2($author$project$Update$Rules$handleUpdateRulesVcExceedScoreOfValue, model, val);
 			case 176:
 				var val = msg.a;
-				return A2($author$project$Update$Rules$handleUpdateRulesVcHasProductionCapacityOf, model, val);
+				return A2($author$project$Update$Rules$handleUpdateRulesVcExceedNextPlayerScoreBy, model, val);
 			case 177:
 				var val = msg.a;
-				return A2($author$project$Update$Rules$handleUpdateRulesVcHasProductionCapacityOfValue, model, val);
+				return A2($author$project$Update$Rules$handleUpdateRulesVcExceedNextPlayerScoreByValue, model, val);
 			case 178:
 				var val = msg.a;
-				return A2($author$project$Update$Rules$handleUpdateRulesVcOwnsCapitalShips, model, val);
+				return A2($author$project$Update$Rules$handleUpdateRulesVcHasProductionCapacityOf, model, val);
 			case 179:
 				var val = msg.a;
-				return A2($author$project$Update$Rules$handleUpdateRulesVcOwnsCapitalShipsValue, model, val);
+				return A2($author$project$Update$Rules$handleUpdateRulesVcHasProductionCapacityOfValue, model, val);
 			case 180:
 				var val = msg.a;
-				return A2($author$project$Update$Rules$handleUpdateRulesVcHaveHighestScoreAfterYears, model, val);
+				return A2($author$project$Update$Rules$handleUpdateRulesVcOwnsCapitalShips, model, val);
 			case 181:
 				var val = msg.a;
-				return A2($author$project$Update$Rules$handleUpdateRulesVcHaveHighestScoreAfterYearsValue, model, val);
+				return A2($author$project$Update$Rules$handleUpdateRulesVcOwnsCapitalShipsValue, model, val);
 			case 182:
 				var val = msg.a;
-				return A2($author$project$Update$Rules$handleUpdateRulesVcWinnerMustMeet, model, val);
+				return A2($author$project$Update$Rules$handleUpdateRulesVcHaveHighestScoreAfterYears, model, val);
 			case 183:
 				var val = msg.a;
+				return A2($author$project$Update$Rules$handleUpdateRulesVcHaveHighestScoreAfterYearsValue, model, val);
+			case 184:
+				var val = msg.a;
+				return A2($author$project$Update$Rules$handleUpdateRulesVcWinnerMustMeet, model, val);
+			case 185:
+				var val = msg.a;
 				return A2($author$project$Update$Rules$handleUpdateRulesVcMinYearsBeforeWinner, model, val);
-			case 189:
+			case 191:
 				var sessionId = msg.a;
 				var year = msg.b;
 				var isLatestYear = msg.c;
 				return A4($author$project$Update$TurnFiles$handleOpenTurnFilesDialog, model, sessionId, year, isLatestYear);
-			case 190:
+			case 192:
 				var serverUrl = msg.a;
 				var result = msg.b;
 				return A3($author$project$Update$TurnFiles$handleGotTurnFiles, model, serverUrl, result);
-			case 191:
+			case 193:
 				var serverUrl = msg.a;
 				var result = msg.b;
 				return A3($author$project$Update$TurnFiles$handleGotLatestTurn, model, serverUrl, result);
-			case 201:
+			case 203:
 				var serverUrl = msg.a;
 				var result = msg.b;
 				return A3($author$project$Update$TurnFiles$handleGotOrdersStatus, model, serverUrl, result);
-			case 193:
+			case 195:
 				var sessionId = msg.a;
 				return A2($author$project$Update$TurnFiles$handleOpenGameDir, model, sessionId);
-			case 194:
+			case 196:
 				var sessionId = msg.a;
 				return A2($author$project$Update$TurnFiles$handleLaunchStars, model, sessionId);
-			case 195:
+			case 197:
 				var result = msg.a;
 				return A2($author$project$Update$TurnFiles$handleLaunchStarsResult, model, result);
-			case 196:
+			case 198:
 				var result = msg.a;
 				return A2($author$project$Update$TurnFiles$handleGotHasStarsExe, model, result);
-			case 197:
-				var sessionId = msg.a;
-				return A2($author$project$Update$Sessions$handleDownloadSessionBackup, model, sessionId);
-			case 198:
-				var serverUrl = msg.a;
-				var result = msg.b;
-				return A3($author$project$Update$Sessions$handleSessionBackupDownloaded, model, serverUrl, result);
 			case 199:
 				var sessionId = msg.a;
-				return A2($author$project$Update$Sessions$handleDownloadHistoricBackup, model, sessionId);
+				return A2($author$project$Update$Sessions$handleDownloadSessionBackup, model, sessionId);
 			case 200:
 				var serverUrl = msg.a;
 				var result = msg.b;
+				return A3($author$project$Update$Sessions$handleSessionBackupDownloaded, model, serverUrl, result);
+			case 201:
+				var sessionId = msg.a;
+				return A2($author$project$Update$Sessions$handleDownloadHistoricBackup, model, sessionId);
+			case 202:
+				var serverUrl = msg.a;
+				var result = msg.b;
 				return A3($author$project$Update$Sessions$handleHistoricBackupDownloaded, model, serverUrl, result);
-			case 143:
+			case 145:
 				var playerId = msg.a;
 				var playerName = msg.b;
 				var x = msg.c;
 				var y = msg.d;
 				return A5($author$project$Update$DragDrop$handleMouseDownOnPlayer, model, playerId, playerName, x, y);
-			case 144:
+			case 146:
 				var x = msg.a;
 				var y = msg.b;
 				return A3($author$project$Update$DragDrop$handleMouseMoveWhileDragging, model, x, y);
-			case 145:
+			case 147:
 				var playerId = msg.a;
 				return A2($author$project$Update$DragDrop$handleMouseEnterPlayer, model, playerId);
-			case 146:
-				return $author$project$Update$DragDrop$handleMouseLeavePlayer(model);
-			case 147:
-				return $author$project$Update$DragDrop$handleMouseUpEndDrag(model);
 			case 148:
+				return $author$project$Update$DragDrop$handleMouseLeavePlayer(model);
+			case 149:
+				return $author$project$Update$DragDrop$handleMouseUpEndDrag(model);
+			case 150:
 				var serverUrl = msg.a;
 				var result = msg.b;
 				return A3($author$project$Update$DragDrop$handlePlayersReordered, model, serverUrl, result);
-			case 149:
+			case 151:
 				var serverUrl = msg.a;
 				var y = msg.b;
 				return A3($author$project$Update$DragDrop$handleServerDragStart, model, serverUrl, y);
-			case 150:
+			case 152:
 				var y = msg.a;
 				return A2($author$project$Update$DragDrop$handleServerDragMove, model, y);
-			case 151:
+			case 153:
 				var serverUrl = msg.a;
 				return A2($author$project$Update$DragDrop$handleServerDragEnter, model, serverUrl);
-			case 152:
-				return $author$project$Update$DragDrop$handleServerDragLeave(model);
-			case 153:
-				return $author$project$Update$DragDrop$handleServerDragEnd(model);
 			case 154:
+				return $author$project$Update$DragDrop$handleServerDragLeave(model);
+			case 155:
+				return $author$project$Update$DragDrop$handleServerDragEnd(model);
+			case 156:
 				var result = msg.a;
 				return A2($author$project$Update$DragDrop$handleServersReordered, model, result);
-			case 202:
-				return $author$project$Update$Settings$handleOpenSettingsDialog(model);
 			case 204:
+				return $author$project$Update$Settings$handleOpenSettingsDialog(model);
+			case 206:
 				var result = msg.a;
 				return A2($author$project$Update$Settings$handleGotAppSettings, model, result);
-			case 203:
-				return $author$project$Update$Settings$handleSelectServersDir(model);
 			case 205:
-				var result = msg.a;
-				return A2($author$project$Update$Settings$handleServersDirSelected, model, result);
-			case 206:
-				var enabled = msg.a;
-				return A2($author$project$Update$Settings$handleSetAutoDownloadStars, model, enabled);
+				return $author$project$Update$Settings$handleSelectServersDir(model);
 			case 207:
 				var result = msg.a;
-				return A2($author$project$Update$Settings$handleAutoDownloadStarsSet, model, result);
+				return A2($author$project$Update$Settings$handleServersDirSelected, model, result);
 			case 208:
-				var useWine = msg.a;
-				return A2($author$project$Update$Settings$handleSetUseWine, model, useWine);
+				var enabled = msg.a;
+				return A2($author$project$Update$Settings$handleSetAutoDownloadStars, model, enabled);
 			case 209:
 				var result = msg.a;
-				return A2($author$project$Update$Settings$handleUseWineSet, model, result);
+				return A2($author$project$Update$Settings$handleAutoDownloadStarsSet, model, result);
 			case 210:
-				return $author$project$Update$Settings$handleSelectWinePrefixesDir(model);
+				var useWine = msg.a;
+				return A2($author$project$Update$Settings$handleSetUseWine, model, useWine);
 			case 211:
 				var result = msg.a;
-				return A2($author$project$Update$Settings$handleWinePrefixesDirSelected, model, result);
+				return A2($author$project$Update$Settings$handleUseWineSet, model, result);
 			case 212:
-				return $author$project$Update$Settings$handleCheckWineInstall(model);
+				return $author$project$Update$Settings$handleSelectWinePrefixesDir(model);
 			case 213:
 				var result = msg.a;
-				return A2($author$project$Update$Settings$handleWineInstallChecked, model, result);
+				return A2($author$project$Update$Settings$handleWinePrefixesDirSelected, model, result);
 			case 214:
-				return $author$project$Update$Settings$handleCheckNtvdmSupport(model);
+				return $author$project$Update$Settings$handleCheckWineInstall(model);
 			case 215:
 				var result = msg.a;
+				return A2($author$project$Update$Settings$handleWineInstallChecked, model, result);
+			case 216:
+				return $author$project$Update$Settings$handleCheckNtvdmSupport(model);
+			case 217:
+				var result = msg.a;
 				return A2($author$project$Update$Settings$handleNtvdmChecked, model, result);
-			case 268:
+			case 270:
 				var sessionId = msg.a;
 				var year = msg.b;
 				var raceName = msg.c;
 				var playerNumber = msg.d;
 				return A5($author$project$Update$MapViewer$handleOpenMapViewer, model, sessionId, year, raceName, playerNumber);
-			case 269:
+			case 271:
 				var val = msg.a;
 				return A2($author$project$Update$MapViewer$handleUpdateMapWidth, model, val);
-			case 270:
+			case 272:
 				var val = msg.a;
 				return A2($author$project$Update$MapViewer$handleUpdateMapHeight, model, val);
-			case 271:
+			case 273:
 				var preset = msg.a;
 				return A2($author$project$Update$MapViewer$handleSelectMapPreset, model, preset);
-			case 272:
-				return $author$project$Update$MapViewer$handleToggleShowNames(model);
-			case 273:
-				return $author$project$Update$MapViewer$handleToggleShowFleets(model);
 			case 274:
+				return $author$project$Update$MapViewer$handleToggleShowNames(model);
+			case 275:
+				return $author$project$Update$MapViewer$handleToggleShowFleets(model);
+			case 276:
 				var val = msg.a;
 				return A2($author$project$Update$MapViewer$handleUpdateShowFleetPaths, model, val);
-			case 275:
-				return $author$project$Update$MapViewer$handleToggleShowMines(model);
-			case 276:
-				return $author$project$Update$MapViewer$handleToggleShowWormholes(model);
 			case 277:
-				return $author$project$Update$MapViewer$handleToggleShowLegend(model);
+				return $author$project$Update$MapViewer$handleToggleShowMines(model);
 			case 278:
-				return $author$project$Update$MapViewer$handleToggleShowScannerCoverage(model);
+				return $author$project$Update$MapViewer$handleToggleShowWormholes(model);
 			case 279:
-				return $author$project$Update$MapViewer$handleGenerateMap(model);
+				return $author$project$Update$MapViewer$handleToggleShowLegend(model);
 			case 280:
-				var result = msg.a;
-				return A2($author$project$Update$MapViewer$handleMapGenerated, model, result);
+				return $author$project$Update$MapViewer$handleToggleShowScannerCoverage(model);
 			case 281:
-				return $author$project$Update$MapViewer$handleSaveMap(model);
+				return $author$project$Update$MapViewer$handleGenerateMap(model);
 			case 282:
 				var result = msg.a;
-				return A2($author$project$Update$MapViewer$handleMapSaved, model, result);
+				return A2($author$project$Update$MapViewer$handleMapGenerated, model, result);
 			case 283:
-				return $author$project$Update$MapViewer$handleToggleMapFullscreen(model);
+				return $author$project$Update$MapViewer$handleSaveMap(model);
 			case 284:
+				var result = msg.a;
+				return A2($author$project$Update$MapViewer$handleMapSaved, model, result);
+			case 285:
+				return $author$project$Update$MapViewer$handleToggleMapFullscreen(model);
+			case 286:
 				var format = msg.a;
 				return A2($author$project$Update$MapViewer$handleSelectMapFormat, model, format);
-			case 285:
+			case 287:
 				var delay = msg.a;
 				return A2($author$project$Update$MapViewer$handleUpdateGifDelay, model, delay);
-			case 286:
+			case 288:
 				return $author$project$Update$MapViewer$handleGenerateAnimatedMap(model);
-			case 287:
+			case 289:
 				var result = msg.a;
 				return A2($author$project$Update$MapViewer$handleAnimatedMapGenerated, model, result);
-			case 288:
+			case 290:
 				return $author$project$Update$MapViewer$handleSaveGif(model);
-			case 289:
+			case 291:
 				var result = msg.a;
 				return A2($author$project$Update$MapViewer$handleGifSaved, model, result);
 			case 88:
@@ -18164,103 +18228,103 @@ var $author$project$Update$update = F2(
 			case 133:
 				var result = msg.a;
 				return A2($author$project$Update$RaceBuilder$handleRaceBuilderSaved, model, result);
-			case 187:
+			case 189:
 				var serverUrl = msg.a;
 				var state = msg.b;
 				return A3($author$project$Update$Notifications$handleConnectionChanged, model, serverUrl, state);
-			case 188:
+			case 190:
 				var serverUrl = msg.a;
 				var sessionId = msg.b;
 				var year = msg.c;
 				return A4($author$project$Update$Notifications$handleOrderConflictReceived, model, serverUrl, sessionId, year);
-			case 251:
-				var serverUrl = msg.a;
-				var id = msg.b;
-				var action = msg.c;
-				return A4($author$project$Update$Notifications$handleNotificationSession, model, serverUrl, id, action);
-			case 252:
-				var serverUrl = msg.a;
-				var id = msg.b;
-				var action = msg.c;
-				return A4($author$project$Update$Notifications$handleNotificationInvitation, model, serverUrl, id, action);
 			case 253:
 				var serverUrl = msg.a;
 				var id = msg.b;
 				var action = msg.c;
-				return A4($author$project$Update$Notifications$handleNotificationRace, model, serverUrl, id, action);
+				return A4($author$project$Update$Notifications$handleNotificationSession, model, serverUrl, id, action);
+			case 254:
+				var serverUrl = msg.a;
+				var id = msg.b;
+				var action = msg.c;
+				return A4($author$project$Update$Notifications$handleNotificationInvitation, model, serverUrl, id, action);
 			case 255:
 				var serverUrl = msg.a;
 				var id = msg.b;
 				var action = msg.c;
+				return A4($author$project$Update$Notifications$handleNotificationRace, model, serverUrl, id, action);
+			case 257:
+				var serverUrl = msg.a;
+				var id = msg.b;
+				var action = msg.c;
 				return A4($author$project$Update$Notifications$handleNotificationPlayerRace, model, serverUrl, id, action);
-			case 254:
+			case 256:
 				var serverUrl = msg.a;
 				var sessionId = msg.b;
 				var action = msg.c;
 				return A4($author$project$Update$Notifications$handleNotificationRuleset, model, serverUrl, sessionId, action);
-			case 192:
+			case 194:
 				var serverUrl = msg.a;
 				var sessionId = msg.b;
 				var action = msg.c;
 				var maybeYear = msg.d;
 				return A5($author$project$Update$Notifications$handleNotificationSessionTurn, model, serverUrl, sessionId, action, maybeYear);
-			case 256:
+			case 258:
 				var serverUrl = msg.a;
 				var sessionId = msg.b;
 				var action = msg.c;
 				return A4($author$project$Update$Notifications$handleNotificationOrderStatus, model, serverUrl, sessionId, action);
-			case 257:
+			case 259:
 				var serverUrl = msg.a;
 				var id = msg.b;
 				var action = msg.c;
 				var maybeUserProfileId = msg.d;
 				var maybeNickname = msg.e;
 				return A6($author$project$Update$Notifications$handleNotificationPendingRegistration, model, serverUrl, id, action, maybeUserProfileId, maybeNickname);
-			case 290:
+			case 292:
 				var serverUrl = msg.a;
 				var sessionId = msg.b;
 				return A3($author$project$Update$Admin$handleOpenStarsBrowser, model, serverUrl, sessionId);
-			case 220:
+			case 222:
 				return $author$project$Update$Admin$handleOpenUsersListDialog(model);
-			case 221:
+			case 223:
 				var query = msg.a;
 				return A2($author$project$Update$Admin$handleUpdateUsersListFilter, model, query);
-			case 222:
+			case 224:
 				return $author$project$Update$Admin$handleOpenCreateUserDialog(model);
-			case 223:
+			case 225:
 				var nickname = msg.a;
 				return A2($author$project$Update$Admin$handleUpdateCreateUserNickname, model, nickname);
-			case 224:
+			case 226:
 				var email = msg.a;
 				return A2($author$project$Update$Admin$handleUpdateCreateUserEmail, model, email);
-			case 225:
+			case 227:
 				return $author$project$Update$Admin$handleSubmitCreateUser(model);
-			case 226:
+			case 228:
 				var serverUrl = msg.a;
 				var result = msg.b;
 				return A3($author$project$Update$Admin$handleCreateUserResult, model, serverUrl, result);
-			case 227:
+			case 229:
 				var userId = msg.a;
 				var nickname = msg.b;
 				return A3($author$project$Update$Admin$handleConfirmDeleteUser, model, userId, nickname);
-			case 228:
+			case 230:
 				return $author$project$Update$Admin$handleCancelDeleteUser(model);
-			case 229:
+			case 231:
 				var userId = msg.a;
 				return A2($author$project$Update$Admin$handleSubmitDeleteUser, model, userId);
-			case 230:
+			case 232:
 				var serverUrl = msg.a;
 				var result = msg.b;
 				return A3($author$project$Update$Admin$handleDeleteUserResult, model, serverUrl, result);
-			case 231:
-				var userId = msg.a;
-				return A2($author$project$Update$Admin$handleConfirmResetApikey, model, userId);
-			case 232:
-				return $author$project$Update$Admin$handleCancelResetApikey(model);
 			case 233:
 				var userId = msg.a;
-				return A2($author$project$Update$Admin$handleSubmitResetApikey, model, userId);
+				return A2($author$project$Update$Admin$handleConfirmResetApikey, model, userId);
 			case 234:
+				return $author$project$Update$Admin$handleCancelResetApikey(model);
+			case 235:
+				var userId = msg.a;
+				return A2($author$project$Update$Admin$handleSubmitResetApikey, model, userId);
+			case 236:
 				var result = msg.a;
 				return A2($author$project$Update$Admin$handleResetApikeyResult, model, result);
 			case 136:
@@ -18278,87 +18342,95 @@ var $author$project$Update$update = F2(
 				var serverUrl = msg.a;
 				var result = msg.b;
 				return A3($author$project$Update$Admin$handleAddBotResult, model, serverUrl, result);
-			case 235:
+			case 141:
+				var sessionId = msg.a;
+				var playerRaceId = msg.b;
+				return A3($author$project$Update$Admin$handleRemoveBotPlayer, model, sessionId, playerRaceId);
+			case 142:
+				var serverUrl = msg.a;
+				var result = msg.b;
+				return A3($author$project$Update$Admin$handleRemoveBotResult, model, serverUrl, result);
+			case 237:
 				return $author$project$Update$Admin$handleSwitchUsersListPane(model);
-			case 236:
+			case 238:
 				var serverUrl = msg.a;
 				var result = msg.b;
 				return A3($author$project$Update$Admin$handleGotPendingRegistrations, model, serverUrl, result);
-			case 237:
+			case 239:
 				var userId = msg.a;
 				var nickname = msg.b;
 				var message = msg.c;
 				return A4($author$project$Update$Admin$handleViewRegistrationMessage, model, userId, nickname, message);
-			case 238:
+			case 240:
 				return $author$project$Update$Admin$handleCloseRegistrationMessage(model);
-			case 239:
+			case 241:
 				var userId = msg.a;
 				var nickname = msg.b;
 				return A3($author$project$Update$Admin$handleConfirmApproveRegistration, model, userId, nickname);
-			case 240:
+			case 242:
 				return $author$project$Update$Admin$handleCancelApproveRegistration(model);
-			case 241:
+			case 243:
 				var userId = msg.a;
 				return A2($author$project$Update$Admin$handleSubmitApproveRegistration, model, userId);
-			case 242:
+			case 244:
 				var serverUrl = msg.a;
 				var result = msg.b;
 				return A3($author$project$Update$Admin$handleApproveRegistrationResult, model, serverUrl, result);
-			case 243:
+			case 245:
 				var userId = msg.a;
 				var nickname = msg.b;
 				return A3($author$project$Update$Admin$handleConfirmRejectRegistration, model, userId, nickname);
-			case 244:
+			case 246:
 				return $author$project$Update$Admin$handleCancelRejectRegistration(model);
-			case 245:
+			case 247:
 				var userId = msg.a;
 				return A2($author$project$Update$Admin$handleSubmitRejectRegistration, model, userId);
-			case 246:
+			case 248:
 				var result = msg.b;
 				return A2($author$project$Update$Admin$handleRejectRegistrationResult, model, result);
-			case 247:
-				return $author$project$Update$Admin$handleOpenChangeApikeyDialog(model);
-			case 248:
-				return $author$project$Update$Admin$handleCancelChangeApikey(model);
 			case 249:
-				return $author$project$Update$Admin$handleSubmitChangeApikey(model);
+				return $author$project$Update$Admin$handleOpenChangeApikeyDialog(model);
 			case 250:
+				return $author$project$Update$Admin$handleCancelChangeApikey(model);
+			case 251:
+				return $author$project$Update$Admin$handleSubmitChangeApikey(model);
+			case 252:
 				var result = msg.a;
 				return A2($author$project$Update$Admin$handleChangeApikeyResult, model, result);
-			case 258:
-				return $author$project$Update$Admin$handleToggleUserMenu(model);
-			case 259:
-				return $author$project$Update$Admin$handleHideUserMenu(model);
 			case 260:
+				return $author$project$Update$Admin$handleToggleUserMenu(model);
+			case 261:
+				return $author$project$Update$Admin$handleHideUserMenu(model);
+			case 262:
 				var serverUrl = msg.a;
 				return A2($author$project$Update$Admin$handleCopyApiKey, model, serverUrl);
-			case 261:
+			case 263:
 				var result = msg.b;
 				return A2($author$project$Update$Admin$handleGotApiKey, model, result);
-			case 262:
+			case 264:
 				var text = msg.a;
 				return A2($author$project$Update$Admin$handleCopyToClipboard, model, text);
-			case 263:
-				return $author$project$Update$Admin$handleHideToast(model);
-			case 291:
-				return $author$project$Update$UI$handleClearError(model);
-			case 292:
-				return $author$project$Update$UI$handleEscapePressed(model);
-			case 264:
-				return $author$project$Update$UI$handleZoomIn(model);
 			case 265:
-				return $author$project$Update$UI$handleZoomOut(model);
+				return $author$project$Update$Admin$handleHideToast(model);
+			case 293:
+				return $author$project$Update$UI$handleClearError(model);
+			case 294:
+				return $author$project$Update$UI$handleEscapePressed(model);
 			case 266:
-				return $author$project$Update$UI$handleZoomReset(model);
+				return $author$project$Update$UI$handleZoomIn(model);
 			case 267:
+				return $author$project$Update$UI$handleZoomOut(model);
+			case 268:
+				return $author$project$Update$UI$handleZoomReset(model);
+			case 269:
 				var result = msg.a;
 				return A2($author$project$Update$UI$handleZoomLevelSet, model, result);
-			case 216:
+			case 218:
 				var enabled = msg.a;
 				return A2($author$project$Update$UI$handleRequestEnableBrowserStars, model, enabled);
-			case 217:
+			case 219:
 				return $author$project$Update$UI$handleConfirmEnableBrowserStars(model);
-			case 218:
+			case 220:
 				return $author$project$Update$UI$handleCancelEnableBrowserStars(model);
 			default:
 				var result = msg.a;
@@ -19038,7 +19110,7 @@ var $author$project$View$Dialog$Server$viewAddServerDialog = F2(
 						]))
 				]));
 	});
-var $author$project$Msg$CancelChangeApikey = {$: 248};
+var $author$project$Msg$CancelChangeApikey = {$: 250};
 var $elm$html$Html$h3 = _VirtualDom_node('h3');
 var $author$project$View$Dialog$ApiKey$viewChangeApikeyComplete = function (newApikey) {
 	return A2(
@@ -19129,7 +19201,7 @@ var $author$project$View$Dialog$ApiKey$viewChangingApikey = A2(
 			_List_Nil),
 			$elm$html$Html$text('Changing your API key...')
 		]));
-var $author$project$Msg$SubmitChangeApikey = {$: 249};
+var $author$project$Msg$SubmitChangeApikey = {$: 251};
 var $elm$html$Html$br = _VirtualDom_node('br');
 var $author$project$View$Dialog$ApiKey$viewConfirmChangeApikey = A2(
 	$elm$html$Html$div,
@@ -19623,13 +19695,13 @@ var $author$project$View$Dialog$Session$viewCreateSessionDialog = function (form
 					]))
 			]));
 };
-var $author$project$Msg$OpenUsersListDialog = {$: 220};
-var $author$project$Msg$SubmitCreateUser = {$: 225};
+var $author$project$Msg$OpenUsersListDialog = {$: 222};
+var $author$project$Msg$SubmitCreateUser = {$: 227};
 var $author$project$Msg$UpdateCreateUserEmail = function (a) {
-	return {$: 224, a: a};
+	return {$: 226, a: a};
 };
 var $author$project$Msg$UpdateCreateUserNickname = function (a) {
-	return {$: 223, a: a};
+	return {$: 225, a: a};
 };
 var $author$project$View$Dialog$Users$viewCreateUserForm = function (form) {
 	return A2(
@@ -20573,7 +20645,7 @@ var $author$project$View$Dialog$Users$viewInviteUserDialog = F2(
 						]))
 				]));
 	});
-var $author$project$Msg$ToggleMapFullscreen = {$: 283};
+var $author$project$Msg$ToggleMapFullscreen = {$: 285};
 var $elm$html$Html$Attributes$alt = $elm$html$Html$Attributes$stringProperty('alt');
 var $elm$html$Html$Attributes$id = $elm$html$Html$Attributes$stringProperty('id');
 var $elm$html$Html$img = _VirtualDom_node('img');
@@ -20716,12 +20788,12 @@ var $author$project$View$Dialog$MapViewer$viewMapDisplay = function (form) {
 				$author$project$View$Dialog$MapViewer$viewMapContent(form)
 			]));
 };
-var $author$project$Msg$ToggleShowFleets = {$: 273};
-var $author$project$Msg$ToggleShowLegend = {$: 277};
-var $author$project$Msg$ToggleShowMines = {$: 275};
-var $author$project$Msg$ToggleShowNames = {$: 272};
-var $author$project$Msg$ToggleShowScannerCoverage = {$: 278};
-var $author$project$Msg$ToggleShowWormholes = {$: 276};
+var $author$project$Msg$ToggleShowFleets = {$: 275};
+var $author$project$Msg$ToggleShowLegend = {$: 279};
+var $author$project$Msg$ToggleShowMines = {$: 277};
+var $author$project$Msg$ToggleShowNames = {$: 274};
+var $author$project$Msg$ToggleShowScannerCoverage = {$: 280};
+var $author$project$Msg$ToggleShowWormholes = {$: 278};
 var $author$project$View$Dialog$MapViewer$viewCheckbox = F3(
 	function (labelText, isChecked, msg) {
 		return A2(
@@ -20745,7 +20817,7 @@ var $author$project$View$Dialog$MapViewer$viewCheckbox = F3(
 				]));
 	});
 var $author$project$Msg$UpdateShowFleetPaths = function (a) {
-	return {$: 274, a: a};
+	return {$: 276, a: a};
 };
 var $elm$html$Html$Attributes$max = $elm$html$Html$Attributes$stringProperty('max');
 var $elm$html$Html$Attributes$min = $elm$html$Html$Attributes$stringProperty('min');
@@ -20799,11 +20871,11 @@ var $author$project$View$Dialog$MapViewer$viewDisplayOptions = function (options
 			]));
 };
 var $author$project$Msg$SelectMapFormat = function (a) {
-	return {$: 284, a: a};
+	return {$: 286, a: a};
 };
 var $elm$html$Html$Attributes$name = $elm$html$Html$Attributes$stringProperty('name');
 var $author$project$Msg$UpdateGifDelay = function (a) {
-	return {$: 285, a: a};
+	return {$: 287, a: a};
 };
 var $elm$html$Html$Attributes$step = function (n) {
 	return A2($elm$html$Html$Attributes$stringProperty, 'step', n);
@@ -20901,13 +20973,13 @@ var $author$project$View$Dialog$MapViewer$viewFormatOptions = function (options)
 			]));
 };
 var $author$project$Msg$SelectMapPreset = function (a) {
-	return {$: 271, a: a};
+	return {$: 273, a: a};
 };
 var $author$project$Msg$UpdateMapHeight = function (a) {
-	return {$: 270, a: a};
+	return {$: 272, a: a};
 };
 var $author$project$Msg$UpdateMapWidth = function (a) {
-	return {$: 269, a: a};
+	return {$: 271, a: a};
 };
 var $author$project$View$Dialog$MapViewer$viewResolutionOptions = function (options) {
 	return A2(
@@ -21103,8 +21175,8 @@ var $author$project$View$Dialog$MapViewer$viewBody = function (form) {
 				$author$project$View$Dialog$MapViewer$viewMapDisplay(form)
 			]));
 };
-var $author$project$Msg$GenerateAnimatedMap = {$: 286};
-var $author$project$Msg$GenerateMap = {$: 279};
+var $author$project$Msg$GenerateAnimatedMap = {$: 288};
+var $author$project$Msg$GenerateMap = {$: 281};
 var $author$project$View$Dialog$MapViewer$viewGenerateButton = function (form) {
 	var _v0 = form.b$.b4;
 	if (!_v0) {
@@ -21143,8 +21215,8 @@ var $author$project$View$Dialog$MapViewer$viewGenerateButton = function (form) {
 			]);
 	}
 };
-var $author$project$Msg$SaveGif = {$: 288};
-var $author$project$Msg$SaveMap = {$: 281};
+var $author$project$Msg$SaveGif = {$: 290};
+var $author$project$Msg$SaveMap = {$: 283};
 var $author$project$View$Dialog$MapViewer$viewSaveButton = function (form) {
 	var _v0 = _Utils_Tuple2(form.bs, form.br);
 	if (!_v0.a.$) {
@@ -23580,87 +23652,87 @@ var $author$project$View$Dialog$Server$viewRemoveServerDialog = function (server
 					]))
 			]));
 };
-var $author$project$Msg$SubmitRules = {$: 184};
+var $author$project$Msg$SubmitRules = {$: 186};
 var $author$project$Msg$UpdateRulesAcceleratedBbsPlay = function (a) {
-	return {$: 162, a: a};
-};
-var $author$project$Msg$UpdateRulesComputerPlayersFormAlliances = function (a) {
 	return {$: 164, a: a};
 };
-var $author$project$Msg$UpdateRulesDensity = function (a) {
-	return {$: 158, a: a};
-};
-var $author$project$Msg$UpdateRulesGalaxyClumping = function (a) {
+var $author$project$Msg$UpdateRulesComputerPlayersFormAlliances = function (a) {
 	return {$: 166, a: a};
 };
-var $author$project$Msg$UpdateRulesMaximumMinerals = function (a) {
+var $author$project$Msg$UpdateRulesDensity = function (a) {
 	return {$: 160, a: a};
 };
-var $author$project$Msg$UpdateRulesNoRandomEvents = function (a) {
-	return {$: 163, a: a};
-};
-var $author$project$Msg$UpdateRulesPublicPlayerScores = function (a) {
-	return {$: 165, a: a};
-};
-var $author$project$Msg$UpdateRulesSlowerTechAdvances = function (a) {
-	return {$: 161, a: a};
-};
-var $author$project$Msg$UpdateRulesStartingDistance = function (a) {
-	return {$: 159, a: a};
-};
-var $author$project$Msg$UpdateRulesUniverseSize = function (a) {
-	return {$: 157, a: a};
-};
-var $author$project$Msg$UpdateRulesVcAttainTechInFields = function (a) {
-	return {$: 169, a: a};
-};
-var $author$project$Msg$UpdateRulesVcAttainTechInFieldsFieldsValue = function (a) {
-	return {$: 171, a: a};
-};
-var $author$project$Msg$UpdateRulesVcAttainTechInFieldsTechValue = function (a) {
-	return {$: 170, a: a};
-};
-var $author$project$Msg$UpdateRulesVcExceedNextPlayerScoreBy = function (a) {
-	return {$: 174, a: a};
-};
-var $author$project$Msg$UpdateRulesVcExceedNextPlayerScoreByValue = function (a) {
-	return {$: 175, a: a};
-};
-var $author$project$Msg$UpdateRulesVcExceedScoreOf = function (a) {
-	return {$: 172, a: a};
-};
-var $author$project$Msg$UpdateRulesVcExceedScoreOfValue = function (a) {
-	return {$: 173, a: a};
-};
-var $author$project$Msg$UpdateRulesVcHasProductionCapacityOf = function (a) {
-	return {$: 176, a: a};
-};
-var $author$project$Msg$UpdateRulesVcHasProductionCapacityOfValue = function (a) {
-	return {$: 177, a: a};
-};
-var $author$project$Msg$UpdateRulesVcHaveHighestScoreAfterYears = function (a) {
-	return {$: 180, a: a};
-};
-var $author$project$Msg$UpdateRulesVcHaveHighestScoreAfterYearsValue = function (a) {
-	return {$: 181, a: a};
-};
-var $author$project$Msg$UpdateRulesVcMinYearsBeforeWinner = function (a) {
-	return {$: 183, a: a};
-};
-var $author$project$Msg$UpdateRulesVcOwnsCapitalShips = function (a) {
-	return {$: 178, a: a};
-};
-var $author$project$Msg$UpdateRulesVcOwnsCapitalShipsValue = function (a) {
-	return {$: 179, a: a};
-};
-var $author$project$Msg$UpdateRulesVcOwnsPercentOfPlanets = function (a) {
-	return {$: 167, a: a};
-};
-var $author$project$Msg$UpdateRulesVcOwnsPercentOfPlanetsValue = function (a) {
+var $author$project$Msg$UpdateRulesGalaxyClumping = function (a) {
 	return {$: 168, a: a};
 };
-var $author$project$Msg$UpdateRulesVcWinnerMustMeet = function (a) {
+var $author$project$Msg$UpdateRulesMaximumMinerals = function (a) {
+	return {$: 162, a: a};
+};
+var $author$project$Msg$UpdateRulesNoRandomEvents = function (a) {
+	return {$: 165, a: a};
+};
+var $author$project$Msg$UpdateRulesPublicPlayerScores = function (a) {
+	return {$: 167, a: a};
+};
+var $author$project$Msg$UpdateRulesSlowerTechAdvances = function (a) {
+	return {$: 163, a: a};
+};
+var $author$project$Msg$UpdateRulesStartingDistance = function (a) {
+	return {$: 161, a: a};
+};
+var $author$project$Msg$UpdateRulesUniverseSize = function (a) {
+	return {$: 159, a: a};
+};
+var $author$project$Msg$UpdateRulesVcAttainTechInFields = function (a) {
+	return {$: 171, a: a};
+};
+var $author$project$Msg$UpdateRulesVcAttainTechInFieldsFieldsValue = function (a) {
+	return {$: 173, a: a};
+};
+var $author$project$Msg$UpdateRulesVcAttainTechInFieldsTechValue = function (a) {
+	return {$: 172, a: a};
+};
+var $author$project$Msg$UpdateRulesVcExceedNextPlayerScoreBy = function (a) {
+	return {$: 176, a: a};
+};
+var $author$project$Msg$UpdateRulesVcExceedNextPlayerScoreByValue = function (a) {
+	return {$: 177, a: a};
+};
+var $author$project$Msg$UpdateRulesVcExceedScoreOf = function (a) {
+	return {$: 174, a: a};
+};
+var $author$project$Msg$UpdateRulesVcExceedScoreOfValue = function (a) {
+	return {$: 175, a: a};
+};
+var $author$project$Msg$UpdateRulesVcHasProductionCapacityOf = function (a) {
+	return {$: 178, a: a};
+};
+var $author$project$Msg$UpdateRulesVcHasProductionCapacityOfValue = function (a) {
+	return {$: 179, a: a};
+};
+var $author$project$Msg$UpdateRulesVcHaveHighestScoreAfterYears = function (a) {
 	return {$: 182, a: a};
+};
+var $author$project$Msg$UpdateRulesVcHaveHighestScoreAfterYearsValue = function (a) {
+	return {$: 183, a: a};
+};
+var $author$project$Msg$UpdateRulesVcMinYearsBeforeWinner = function (a) {
+	return {$: 185, a: a};
+};
+var $author$project$Msg$UpdateRulesVcOwnsCapitalShips = function (a) {
+	return {$: 180, a: a};
+};
+var $author$project$Msg$UpdateRulesVcOwnsCapitalShipsValue = function (a) {
+	return {$: 181, a: a};
+};
+var $author$project$Msg$UpdateRulesVcOwnsPercentOfPlanets = function (a) {
+	return {$: 169, a: a};
+};
+var $author$project$Msg$UpdateRulesVcOwnsPercentOfPlanetsValue = function (a) {
+	return {$: 170, a: a};
+};
+var $author$project$Msg$UpdateRulesVcWinnerMustMeet = function (a) {
+	return {$: 184, a: a};
 };
 var $elm$html$Html$Events$targetChecked = A2(
 	$elm$json$Json$Decode$at,
@@ -24352,22 +24424,22 @@ var $author$project$View$Dialog$Rules$viewRulesDialog = function (form) {
 					]))
 			]));
 };
-var $author$project$Msg$CheckNtvdmSupport = {$: 214};
-var $author$project$Msg$CheckWineInstall = {$: 212};
+var $author$project$Msg$CheckNtvdmSupport = {$: 216};
+var $author$project$Msg$CheckWineInstall = {$: 214};
 var $author$project$Msg$RequestEnableBrowserStars = function (a) {
-	return {$: 216, a: a};
+	return {$: 218, a: a};
 };
-var $author$project$Msg$SelectServersDir = {$: 203};
-var $author$project$Msg$SelectWinePrefixesDir = {$: 210};
+var $author$project$Msg$SelectServersDir = {$: 205};
+var $author$project$Msg$SelectWinePrefixesDir = {$: 212};
 var $author$project$Msg$SetAutoDownloadStars = function (a) {
-	return {$: 206, a: a};
-};
-var $author$project$Msg$SetUseWine = function (a) {
 	return {$: 208, a: a};
 };
+var $author$project$Msg$SetUseWine = function (a) {
+	return {$: 210, a: a};
+};
 var $elm$core$Basics$ge = _Utils_ge;
-var $author$project$Msg$CancelEnableBrowserStars = {$: 218};
-var $author$project$Msg$ConfirmEnableBrowserStars = {$: 217};
+var $author$project$Msg$CancelEnableBrowserStars = {$: 220};
+var $author$project$Msg$ConfirmEnableBrowserStars = {$: 219};
 var $elm$html$Html$li = _VirtualDom_node('li');
 var $elm$html$Html$ul = _VirtualDom_node('ul');
 var $author$project$View$Dialog$Settings$viewBrowserStarsConfirmation = function (show) {
@@ -25455,11 +25527,11 @@ var $author$project$View$Dialog$Races$viewSetupRaceDialog = F2(
 				]));
 	});
 var $author$project$Msg$OpenGameDir = function (a) {
-	return {$: 193, a: a};
+	return {$: 195, a: a};
 };
 var $author$project$Msg$OpenMapViewer = F4(
 	function (a, b, c, d) {
-		return {$: 268, a: a, b: b, c: c, d: d};
+		return {$: 270, a: a, b: b, c: c, d: d};
 	});
 var $author$project$View$Dialog$TurnFiles$base64ToRealSize = function (base64Length) {
 	return ((base64Length * 3) / 4) | 0;
@@ -25852,10 +25924,10 @@ var $author$project$View$Dialog$TurnFiles$viewTurnFilesDialog = F2(
 						]))
 				]));
 	});
-var $author$project$Msg$OpenCreateUserDialog = {$: 222};
-var $author$project$Msg$SwitchUsersListPane = {$: 235};
+var $author$project$Msg$OpenCreateUserDialog = {$: 224};
+var $author$project$Msg$SwitchUsersListPane = {$: 237};
 var $author$project$Msg$UpdateUsersListFilter = function (a) {
-	return {$: 221, a: a};
+	return {$: 223, a: a};
 };
 var $author$project$View$Dialog$Users$onEscapeClear = function (currentFilter) {
 	return A2(
@@ -25879,7 +25951,7 @@ var $author$project$View$Dialog$Users$userMatchesFilter = F2(
 		var lowerEmail = $elm$core$String$toLower(user.dx);
 		return A2($elm$core$String$contains, lowerQuery, lowerNickname) || A2($elm$core$String$contains, lowerQuery, lowerEmail);
 	});
-var $author$project$Msg$CancelApproveRegistration = {$: 240};
+var $author$project$Msg$CancelApproveRegistration = {$: 242};
 var $author$project$View$Dialog$Users$viewApproveComplete = function (nickname) {
 	return A2(
 		$elm$html$Html$div,
@@ -26016,7 +26088,7 @@ var $author$project$View$Dialog$Users$viewApprovingUser = function (nickname) {
 			]));
 };
 var $author$project$Msg$SubmitApproveRegistration = function (a) {
-	return {$: 241, a: a};
+	return {$: 243, a: a};
 };
 var $author$project$View$Dialog$Users$viewConfirmApprove = F2(
 	function (userId, nickname) {
@@ -26094,9 +26166,9 @@ var $author$project$View$Dialog$Users$viewConfirmApprove = F2(
 						]))
 				]));
 	});
-var $author$project$Msg$CancelRejectRegistration = {$: 244};
+var $author$project$Msg$CancelRejectRegistration = {$: 246};
 var $author$project$Msg$SubmitRejectRegistration = function (a) {
-	return {$: 245, a: a};
+	return {$: 247, a: a};
 };
 var $author$project$View$Dialog$Users$viewConfirmReject = F2(
 	function (userId, nickname) {
@@ -26176,15 +26248,15 @@ var $author$project$View$Dialog$Users$viewConfirmReject = F2(
 	});
 var $author$project$Msg$ConfirmApproveRegistration = F2(
 	function (a, b) {
-		return {$: 239, a: a, b: b};
+		return {$: 241, a: a, b: b};
 	});
 var $author$project$Msg$ConfirmRejectRegistration = F2(
 	function (a, b) {
-		return {$: 243, a: a, b: b};
+		return {$: 245, a: a, b: b};
 	});
 var $author$project$Msg$ViewRegistrationMessage = F3(
 	function (a, b, c) {
-		return {$: 237, a: a, b: b, c: c};
+		return {$: 239, a: a, b: b, c: c};
 	});
 var $author$project$View$Dialog$Users$viewPendingUserItem = function (user) {
 	return A2(
@@ -26282,7 +26354,7 @@ var $author$project$View$Dialog$Users$viewPendingUserItem = function (user) {
 					]))
 			]));
 };
-var $author$project$Msg$CloseRegistrationMessage = {$: 238};
+var $author$project$Msg$CloseRegistrationMessage = {$: 240};
 var $author$project$View$Dialog$Users$viewRegistrationMessage = F3(
 	function (userId, nickname, message) {
 		return A2(
@@ -26522,9 +26594,9 @@ var $author$project$View$Dialog$Users$viewPendingPane = function (state) {
 				A2($elm$core$List$map, $author$project$View$Dialog$Users$viewPendingUserItem, filteredPending)));
 	}
 };
-var $author$project$Msg$CancelDeleteUser = {$: 228};
+var $author$project$Msg$CancelDeleteUser = {$: 230};
 var $author$project$Msg$SubmitDeleteUser = function (a) {
-	return {$: 229, a: a};
+	return {$: 231, a: a};
 };
 var $author$project$View$Dialog$Users$viewConfirmDeleteUser = F2(
 	function (userId, nickname) {
@@ -26602,9 +26674,9 @@ var $author$project$View$Dialog$Users$viewConfirmDeleteUser = F2(
 						]))
 				]));
 	});
-var $author$project$Msg$CancelResetApikey = {$: 232};
+var $author$project$Msg$CancelResetApikey = {$: 234};
 var $author$project$Msg$SubmitResetApikey = function (a) {
-	return {$: 233, a: a};
+	return {$: 235, a: a};
 };
 var $author$project$View$Dialog$Users$viewConfirmResetApikey = F2(
 	function (userId, nickname) {
@@ -26849,10 +26921,10 @@ var $author$project$View$Dialog$Users$viewResettingApikey = function (nickname) 
 };
 var $author$project$Msg$ConfirmDeleteUser = F2(
 	function (a, b) {
-		return {$: 227, a: a, b: b};
+		return {$: 229, a: a, b: b};
 	});
 var $author$project$Msg$ConfirmResetApikey = function (a) {
-	return {$: 231, a: a};
+	return {$: 233, a: a};
 };
 var $author$project$View$Dialog$Users$viewUserListItem = F2(
 	function (currentUserId, user) {
@@ -27350,16 +27422,16 @@ var $author$project$Msg$DeleteSession = function (a) {
 	return {$: 48, a: a};
 };
 var $author$project$Msg$DownloadHistoricBackup = function (a) {
-	return {$: 199, a: a};
+	return {$: 201, a: a};
 };
 var $author$project$Msg$DownloadSessionBackup = function (a) {
-	return {$: 197, a: a};
+	return {$: 199, a: a};
 };
 var $author$project$Msg$JoinSession = function (a) {
 	return {$: 46, a: a};
 };
 var $author$project$Msg$LaunchStars = function (a) {
-	return {$: 194, a: a};
+	return {$: 196, a: a};
 };
 var $author$project$Msg$OpenAddBotDialog = function (a) {
 	return {$: 136, a: a};
@@ -27367,20 +27439,20 @@ var $author$project$Msg$OpenAddBotDialog = function (a) {
 var $author$project$Msg$OpenInviteDialog = {$: 60};
 var $author$project$Msg$OpenRulesDialog = F2(
 	function (a, b) {
-		return {$: 155, a: a, b: b};
+		return {$: 157, a: a, b: b};
 	});
 var $author$project$Msg$OpenSetupRaceDialog = function (a) {
 	return {$: 82, a: a};
 };
 var $author$project$Msg$OpenStarsBrowser = F3(
 	function (a, b, c) {
-		return {$: 290, a: a, b: b, c: c};
+		return {$: 292, a: a, b: b, c: c};
 	});
 var $author$project$Msg$QuitSession = function (a) {
 	return {$: 50, a: a};
 };
 var $author$project$Msg$StartGame = function (a) {
-	return {$: 141, a: a};
+	return {$: 143, a: a};
 };
 var $author$project$Msg$TogglePlayersExpanded = {$: 58};
 var $elm$core$List$all = F2(
@@ -27564,12 +27636,16 @@ var $author$project$View$SessionDetail$viewMemberWithPromote = F4(
 	});
 var $author$project$Msg$MouseDownOnPlayer = F4(
 	function (a, b, c, d) {
-		return {$: 143, a: a, b: b, c: c, d: d};
+		return {$: 145, a: a, b: b, c: c, d: d};
 	});
 var $author$project$Msg$MouseEnterPlayer = function (a) {
-	return {$: 145, a: a};
+	return {$: 147, a: a};
 };
-var $author$project$Msg$MouseLeavePlayer = {$: 146};
+var $author$project$Msg$MouseLeavePlayer = {$: 148};
+var $author$project$Msg$RemoveBotPlayer = F2(
+	function (a, b) {
+		return {$: 141, a: a, b: b};
+	});
 var $author$project$Msg$SetPlayerReady = F2(
 	function (a, b) {
 		return {$: 134, a: a, b: b};
@@ -27755,13 +27831,25 @@ var $author$project$View$SessionDetail$viewPlayerRow = F9(
 								[
 									$elm$html$Html$text(
 									player.eQ ? 'Unready' : 'Ready')
-								])) : $elm$html$Html$text('')
+								])) : ((player.d2 && (isManager && (!sessionStarted))) ? A2(
+							$elm$html$Html$button,
+							_List_fromArray(
+								[
+									$elm$html$Html$Attributes$class('btn btn-danger btn-sm session-detail__remove-bot'),
+									$elm$html$Html$Events$onClick(
+									A2($author$project$Msg$RemoveBotPlayer, sessionId, player.dW)),
+									$elm$html$Html$Attributes$title('Remove bot player')
+								]),
+							_List_fromArray(
+								[
+									$elm$html$Html$text('×')
+								])) : $elm$html$Html$text(''))
 						]))
 				]));
 	});
 var $author$project$Msg$OpenTurnFilesDialog = F3(
 	function (a, b, c) {
-		return {$: 189, a: a, b: b, c: c};
+		return {$: 191, a: a, b: b, c: c};
 	});
 var $author$project$View$SessionList$viewOrdersSummary = function (players) {
 	var total = $elm$core$List$length(players);
@@ -29537,8 +29625,8 @@ var $author$project$View$Layout$viewContent = function (model) {
 				dragPreview
 			]));
 };
-var $author$project$Msg$OpenSettingsDialog = {$: 202};
-var $author$project$Msg$ToggleUserMenu = {$: 258};
+var $author$project$Msg$OpenSettingsDialog = {$: 204};
+var $author$project$Msg$ToggleUserMenu = {$: 260};
 var $elm$html$Html$h1 = _VirtualDom_node('h1');
 var $author$project$View$Layout$viewHeader = function (model) {
 	var serverName = A2(
@@ -29749,7 +29837,7 @@ var $author$project$View$Layout$viewHeader = function (model) {
 				connectionStatus
 			]));
 };
-var $author$project$Msg$ClearError = {$: 291};
+var $author$project$Msg$ClearError = {$: 293};
 var $author$project$View$Layout$viewStatusBar = function (model) {
 	var serverData = $author$project$Model$getCurrentServerData(model);
 	var statusText = function () {
@@ -29910,9 +29998,9 @@ var $author$project$Msg$SelectServer = function (a) {
 	return {$: 2, a: a};
 };
 var $author$project$Msg$ServerDragEnter = function (a) {
-	return {$: 151, a: a};
+	return {$: 153, a: a};
 };
-var $author$project$Msg$ServerDragLeave = {$: 152};
+var $author$project$Msg$ServerDragLeave = {$: 154};
 var $author$project$Msg$ShowContextMenu = F3(
 	function (a, b, c) {
 		return {$: 18, a: a, b: b, c: c};
@@ -29934,7 +30022,7 @@ var $author$project$View$ServerBar$onContextMenu = function (serverUrl) {
 };
 var $author$project$Msg$ServerDragStart = F2(
 	function (a, b) {
-		return {$: 149, a: a, b: b};
+		return {$: 151, a: a, b: b};
 	});
 var $author$project$View$ServerBar$onMouseDownServer = function (serverUrl) {
 	return A2(
@@ -30143,13 +30231,13 @@ var $author$project$View$Layout$viewToast = function (maybeMessage) {
 	}
 };
 var $author$project$Msg$CopyApiKey = function (a) {
-	return {$: 260, a: a};
-};
-var $author$project$Msg$CopyToClipboard = function (a) {
 	return {$: 262, a: a};
 };
-var $author$project$Msg$HideUserMenu = {$: 259};
-var $author$project$Msg$OpenChangeApikeyDialog = {$: 247};
+var $author$project$Msg$CopyToClipboard = function (a) {
+	return {$: 264, a: a};
+};
+var $author$project$Msg$HideUserMenu = {$: 261};
+var $author$project$Msg$OpenChangeApikeyDialog = {$: 249};
 var $author$project$Msg$OpenInvitationsDialog = {$: 64};
 var $author$project$Msg$OpenRacesDialog = {$: 74};
 var $author$project$View$Menus$viewUserMenu = function (model) {

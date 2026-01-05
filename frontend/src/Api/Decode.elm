@@ -124,7 +124,8 @@ sessionList =
 -}
 sessionPlayer : Decoder SessionPlayer
 sessionPlayer =
-    D.map5 SessionPlayer
+    D.map6 SessionPlayer
+        (D.field "id" D.string)
         (D.field "userProfileId" D.string)
         (D.oneOf [ D.field "ready" D.bool, D.succeed False ])
         (D.oneOf [ D.field "playerOrder" D.int, D.succeed 0 ])

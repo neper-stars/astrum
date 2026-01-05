@@ -125,6 +125,7 @@ subscriptions model =
         , Ports.playerReadyResult (decodeResultWithServerUrl (D.succeed ()) PlayerReadyResult)
         , Ports.sessionPlayerRaceReceived decodeSessionPlayerRace
         , Ports.botPlayerAdded (decodeResultWithServerUrl (D.succeed ()) AddBotResult)
+        , Ports.botPlayerRemoved (decodeResultWithServerUrl (D.succeed ()) RemoveBotResult)
 
         -- Race Builder
         , Ports.raceBuilderValidation (decodeResult Decode.raceValidation RaceBuilderValidationReceived)

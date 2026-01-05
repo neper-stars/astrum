@@ -708,6 +708,7 @@ export namespace main {
 	    }
 	}
 	export class SessionPlayerInfo {
+	    id: string;
 	    userProfileId: string;
 	    ready: boolean;
 	    playerOrder: number;
@@ -720,6 +721,7 @@ export namespace main {
 	
 	    constructor(source: any = {}) {
 	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.id = source["id"];
 	        this.userProfileId = source["userProfileId"];
 	        this.ready = source["ready"];
 	        this.playerOrder = source["playerOrder"];
