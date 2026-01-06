@@ -9358,6 +9358,8 @@ var $author$project$Update$Admin$handleHideUserMenu = function (model) {
 			{cL: false}),
 		$elm$core$Platform$Cmd$none);
 };
+var $author$project$Api$BotRace$Random = 0;
+var $author$project$Api$BotLevel$Standard = 2;
 var $author$project$Model$emptyAddBotForm = function (sessionId) {
 	return {c: $elm$core$Maybe$Nothing, cu: 2, cv: 0, e6: sessionId, i: false};
 };
@@ -9652,7 +9654,7 @@ var $author$project$Update$Admin$handleSelectBotLevel = F2(
 		}
 	});
 var $author$project$Update$Admin$handleSelectBotRace = F2(
-	function (model, raceId) {
+	function (model, race) {
 		var _v0 = model.bi;
 		if ((!_v0.$) && (_v0.a.$ === 18)) {
 			var form = _v0.a.a;
@@ -9664,7 +9666,7 @@ var $author$project$Update$Admin$handleSelectBotRace = F2(
 							$author$project$Model$AddBotDialog(
 								_Utils_update(
 									form,
-									{cv: raceId})))
+									{cv: race})))
 					}),
 				$elm$core$Platform$Cmd$none);
 		} else {
@@ -9673,12 +9675,43 @@ var $author$project$Update$Admin$handleSelectBotRace = F2(
 	});
 var $author$project$Ports$addBotPlayer = _Platform_outgoingPort('addBotPlayer', $elm$core$Basics$identity);
 var $elm$json$Json$Encode$int = _Json_wrap;
+var $author$project$Api$BotLevel$toInt = function (level) {
+	switch (level) {
+		case 0:
+			return 0;
+		case 1:
+			return 1;
+		case 2:
+			return 2;
+		case 3:
+			return 3;
+		default:
+			return 4;
+	}
+};
+var $author$project$Api$BotRace$toInt = function (race) {
+	switch (race) {
+		case 0:
+			return 0;
+		case 1:
+			return 1;
+		case 2:
+			return 2;
+		case 3:
+			return 3;
+		case 4:
+			return 4;
+		case 5:
+			return 5;
+		default:
+			return 6;
+	}
+};
 var $author$project$Update$Admin$handleSubmitAddBot = function (model) {
 	var _v0 = _Utils_Tuple2(model.bi, model.aR);
 	if (((!_v0.a.$) && (_v0.a.a.$ === 18)) && (!_v0.b.$)) {
 		var form = _v0.a.a.a;
 		var serverUrl = _v0.b.a;
-		var raceId = $elm$core$String$fromInt(form.cv);
 		return _Utils_Tuple2(
 			_Utils_update(
 				model,
@@ -9701,10 +9734,13 @@ var $author$project$Update$Admin$handleSubmitAddBot = function (model) {
 							$elm$json$Json$Encode$string(form.e6)),
 							_Utils_Tuple2(
 							'raceId',
-							$elm$json$Json$Encode$string(raceId)),
+							$elm$json$Json$Encode$string(
+								$elm$core$String$fromInt(
+									$author$project$Api$BotRace$toInt(form.cv)))),
 							_Utils_Tuple2(
 							'botLevel',
-							$elm$json$Json$Encode$int(form.cu))
+							$elm$json$Json$Encode$int(
+								$author$project$Api$BotLevel$toInt(form.cu)))
 						]))));
 	} else {
 		return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
@@ -10140,8 +10176,8 @@ var $author$project$Update$Admin$update = F2(
 				var sessionId = msg.a;
 				return A2($author$project$Update$Admin$handleOpenAddBotDialog, model, sessionId);
 			case 1:
-				var raceId = msg.a;
-				return A2($author$project$Update$Admin$handleSelectBotRace, model, raceId);
+				var race = msg.a;
+				return A2($author$project$Update$Admin$handleSelectBotRace, model, race);
 			case 2:
 				var level = msg.a;
 				return A2($author$project$Update$Admin$handleSelectBotLevel, model, level);
@@ -18723,42 +18759,20 @@ var $author$project$Update$Admin$SelectBotRace = function (a) {
 	return {$: 1, a: a};
 };
 var $author$project$Update$Admin$SubmitAddBot = {$: 3};
-var $author$project$View$Dialog$Bots$botLevelName = function (index) {
-	switch (index) {
-		case 0:
-			return 'Random';
-		case 1:
-			return 'Easy';
-		case 2:
-			return 'Standard';
-		case 3:
-			return 'Tough';
-		case 4:
-			return 'Expert';
-		default:
-			return 'Unknown';
-	}
-};
-var $author$project$View$Dialog$Bots$botRaceName = function (index) {
-	switch (index) {
-		case 0:
-			return 'Random';
-		case 1:
-			return 'Robotoids';
-		case 2:
-			return 'Turindrones';
-		case 3:
-			return 'Automitrons';
-		case 4:
-			return 'Rototills';
-		case 5:
-			return 'Cybertrons';
-		case 6:
-			return 'Macintis';
-		default:
-			return 'Unknown';
-	}
-};
+var $author$project$Api$BotLevel$Easy = 1;
+var $author$project$Api$BotLevel$Expert = 4;
+var $author$project$Api$BotLevel$Random = 0;
+var $author$project$Api$BotLevel$Tough = 3;
+var $author$project$Api$BotLevel$allLevels = _List_fromArray(
+	[0, 1, 2, 3, 4]);
+var $author$project$Api$BotRace$Automitrons = 3;
+var $author$project$Api$BotRace$Cybertrons = 5;
+var $author$project$Api$BotRace$Macintis = 6;
+var $author$project$Api$BotRace$Robotoids = 1;
+var $author$project$Api$BotRace$Rototills = 4;
+var $author$project$Api$BotRace$Turindrones = 2;
+var $author$project$Api$BotRace$allRaces = _List_fromArray(
+	[0, 1, 2, 3, 4, 5, 6]);
 var $elm$html$Html$button = _VirtualDom_node('button');
 var $elm$html$Html$Attributes$boolProperty = F2(
 	function (key, bool) {
@@ -18768,6 +18782,42 @@ var $elm$html$Html$Attributes$boolProperty = F2(
 			$elm$json$Json$Encode$bool(bool));
 	});
 var $elm$html$Html$Attributes$disabled = $elm$html$Html$Attributes$boolProperty('disabled');
+var $author$project$Api$BotLevel$fromInt = function (n) {
+	switch (n) {
+		case 0:
+			return $elm$core$Maybe$Just(0);
+		case 1:
+			return $elm$core$Maybe$Just(1);
+		case 2:
+			return $elm$core$Maybe$Just(2);
+		case 3:
+			return $elm$core$Maybe$Just(3);
+		case 4:
+			return $elm$core$Maybe$Just(4);
+		default:
+			return $elm$core$Maybe$Nothing;
+	}
+};
+var $author$project$Api$BotRace$fromInt = function (n) {
+	switch (n) {
+		case 0:
+			return $elm$core$Maybe$Just(0);
+		case 1:
+			return $elm$core$Maybe$Just(1);
+		case 2:
+			return $elm$core$Maybe$Just(2);
+		case 3:
+			return $elm$core$Maybe$Just(3);
+		case 4:
+			return $elm$core$Maybe$Just(4);
+		case 5:
+			return $elm$core$Maybe$Just(5);
+		case 6:
+			return $elm$core$Maybe$Just(6);
+		default:
+			return $elm$core$Maybe$Nothing;
+	}
+};
 var $elm$html$Html$h2 = _VirtualDom_node('h2');
 var $elm$html$Html$label = _VirtualDom_node('label');
 var $elm$html$Html$Events$alwaysStop = function (x) {
@@ -18797,10 +18847,78 @@ var $elm$html$Html$Events$onInput = function (tagger) {
 			$elm$html$Html$Events$alwaysStop,
 			A2($elm$json$Json$Decode$map, tagger, $elm$html$Html$Events$targetValue)));
 };
-var $elm$html$Html$option = _VirtualDom_node('option');
 var $elm$html$Html$select = _VirtualDom_node('select');
+var $elm$html$Html$option = _VirtualDom_node('option');
 var $elm$html$Html$Attributes$selected = $elm$html$Html$Attributes$boolProperty('selected');
+var $author$project$Api$BotLevel$toString = function (level) {
+	switch (level) {
+		case 0:
+			return 'Random';
+		case 1:
+			return 'Easy';
+		case 2:
+			return 'Standard';
+		case 3:
+			return 'Tough';
+		default:
+			return 'Expert';
+	}
+};
 var $elm$html$Html$Attributes$value = $elm$html$Html$Attributes$stringProperty('value');
+var $author$project$View$Dialog$Bots$viewBotLevelOption = F2(
+	function (selectedLevel, level) {
+		return A2(
+			$elm$html$Html$option,
+			_List_fromArray(
+				[
+					$elm$html$Html$Attributes$value(
+					$elm$core$String$fromInt(
+						$author$project$Api$BotLevel$toInt(level))),
+					$elm$html$Html$Attributes$selected(
+					_Utils_eq(selectedLevel, level))
+				]),
+			_List_fromArray(
+				[
+					$elm$html$Html$text(
+					$author$project$Api$BotLevel$toString(level))
+				]));
+	});
+var $author$project$Api$BotRace$toString = function (race) {
+	switch (race) {
+		case 0:
+			return 'Random';
+		case 1:
+			return 'Robotoids';
+		case 2:
+			return 'Turindrones';
+		case 3:
+			return 'Automitrons';
+		case 4:
+			return 'Rototills';
+		case 5:
+			return 'Cybertrons';
+		default:
+			return 'Macintis';
+	}
+};
+var $author$project$View$Dialog$Bots$viewBotRaceOption = F2(
+	function (selectedRace, race) {
+		return A2(
+			$elm$html$Html$option,
+			_List_fromArray(
+				[
+					$elm$html$Html$Attributes$value(
+					$elm$core$String$fromInt(
+						$author$project$Api$BotRace$toInt(race))),
+					$elm$html$Html$Attributes$selected(
+					_Utils_eq(selectedRace, race))
+				]),
+			_List_fromArray(
+				[
+					$elm$html$Html$text(
+					$author$project$Api$BotRace$toString(race))
+				]));
+	});
 var $author$project$View$Helpers$viewFormError = function (maybeError) {
 	if (maybeError.$ === 1) {
 		return $elm$html$Html$text('');
@@ -18892,33 +19010,24 @@ var $author$project$View$Dialog$Bots$viewAddBotDialog = function (form) {
 										$elm$html$Html$Attributes$class('form-select'),
 										$elm$html$Html$Events$onInput(
 										function (s) {
-											return $author$project$Msg$AdminMsg(
-												$author$project$Update$Admin$SelectBotRace(
-													A2(
-														$elm$core$Maybe$withDefault,
-														0,
-														$elm$core$String$toInt(s))));
+											var _v0 = A2(
+												$elm$core$Maybe$andThen,
+												$author$project$Api$BotRace$fromInt,
+												$elm$core$String$toInt(s));
+											if (!_v0.$) {
+												var race = _v0.a;
+												return $author$project$Msg$AdminMsg(
+													$author$project$Update$Admin$SelectBotRace(race));
+											} else {
+												return $author$project$Msg$AdminMsg(
+													$author$project$Update$Admin$SelectBotRace(0));
+											}
 										})
 									]),
 								A2(
 									$elm$core$List$map,
-									function (i) {
-										return A2(
-											$elm$html$Html$option,
-											_List_fromArray(
-												[
-													$elm$html$Html$Attributes$value(
-													$elm$core$String$fromInt(i)),
-													$elm$html$Html$Attributes$selected(
-													_Utils_eq(form.cv, i))
-												]),
-											_List_fromArray(
-												[
-													$elm$html$Html$text(
-													$author$project$View$Dialog$Bots$botRaceName(i))
-												]));
-									},
-									A2($elm$core$List$range, 0, 6)))
+									$author$project$View$Dialog$Bots$viewBotRaceOption(form.cv),
+									$author$project$Api$BotRace$allRaces))
 							])),
 						A2(
 						$elm$html$Html$div,
@@ -18945,33 +19054,24 @@ var $author$project$View$Dialog$Bots$viewAddBotDialog = function (form) {
 										$elm$html$Html$Attributes$class('form-select'),
 										$elm$html$Html$Events$onInput(
 										function (s) {
-											return $author$project$Msg$AdminMsg(
-												$author$project$Update$Admin$SelectBotLevel(
-													A2(
-														$elm$core$Maybe$withDefault,
-														2,
-														$elm$core$String$toInt(s))));
+											var _v1 = A2(
+												$elm$core$Maybe$andThen,
+												$author$project$Api$BotLevel$fromInt,
+												$elm$core$String$toInt(s));
+											if (!_v1.$) {
+												var level = _v1.a;
+												return $author$project$Msg$AdminMsg(
+													$author$project$Update$Admin$SelectBotLevel(level));
+											} else {
+												return $author$project$Msg$AdminMsg(
+													$author$project$Update$Admin$SelectBotLevel(2));
+											}
 										})
 									]),
 								A2(
 									$elm$core$List$map,
-									function (i) {
-										return A2(
-											$elm$html$Html$option,
-											_List_fromArray(
-												[
-													$elm$html$Html$Attributes$value(
-													$elm$core$String$fromInt(i)),
-													$elm$html$Html$Attributes$selected(
-													_Utils_eq(form.cu, i))
-												]),
-											_List_fromArray(
-												[
-													$elm$html$Html$text(
-													$author$project$View$Dialog$Bots$botLevelName(i))
-												]));
-									},
-									A2($elm$core$List$range, 0, 4)))
+									$author$project$View$Dialog$Bots$viewBotLevelOption(form.cu),
+									$author$project$Api$BotLevel$allLevels))
 							]))
 					])),
 				A2(

@@ -75,6 +75,8 @@ including servers, sessions, connection state, and UI state.
 
 -}
 
+import Api.BotLevel exposing (BotLevel)
+import Api.BotRace exposing (BotRace)
 import Api.Invitation exposing (Invitation)
 import Api.OrdersStatus exposing (OrdersStatus)
 import Api.Race exposing (Race)
@@ -575,8 +577,8 @@ emptyInviteForm sessionId =
 -}
 type alias AddBotForm =
     { sessionId : String
-    , selectedRace : Int -- 0-6 (bot race types)
-    , selectedLevel : Int -- 0-4 (difficulty levels)
+    , selectedRace : BotRace
+    , selectedLevel : BotLevel
     , error : Maybe String
     , submitting : Bool
     }
@@ -587,8 +589,8 @@ type alias AddBotForm =
 emptyAddBotForm : String -> AddBotForm
 emptyAddBotForm sessionId =
     { sessionId = sessionId
-    , selectedRace = 0 -- Random
-    , selectedLevel = 2 -- Standard
+    , selectedRace = Api.BotRace.Random
+    , selectedLevel = Api.BotLevel.Standard
     , error = Nothing
     , submitting = False
     }

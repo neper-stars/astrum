@@ -54,6 +54,8 @@ bot players, pending registrations, change API key, and user menu.
 
 -}
 
+import Api.BotLevel exposing (BotLevel)
+import Api.BotRace exposing (BotRace)
 import Api.Encode as Encode
 import Api.UserProfile exposing (UserProfile)
 import Json.Encode as E
@@ -68,8 +70,8 @@ import Task
 type Msg
     = -- Bot Player Messages
       OpenAddBotDialog String -- sessionId
-    | SelectBotRace Int -- raceId (0-6)
-    | SelectBotLevel Int -- level (0-4)
+    | SelectBotRace BotRace
+    | SelectBotLevel BotLevel
     | SubmitAddBot
     | AddBotResult String (Result String ()) -- serverUrl, result
     | RemoveBotPlayer String String -- sessionId, playerRaceId (userProfileId for bots)
@@ -127,8 +129,8 @@ update msg model =
         OpenAddBotDialog sessionId ->
             handleOpenAddBotDialog model sessionId
 
-        SelectBotRace raceId ->
-            handleSelectBotRace model raceId
+        SelectBotRace race ->
+            handleSelectBotRace model race
 
         SelectBotLevel level ->
             handleSelectBotLevel model level
@@ -652,11 +654,11 @@ handleOpenAddBotDialog model sessionId =
 
 {-| Select bot race.
 -}
-handleSelectBotRace : Model -> Int -> ( Model, Cmd Msg )
-handleSelectBotRace model raceId =
+handleSelectBotRace : Model -> BotRace -> ( Model, Cmd Msg )
+handleSelectBotRace model race =
     case model.dialog of
         Just (AddBotDialog form) ->
-            ( { model | dialog = Just (AddBotDialog { form | selectedRace = raceId }) }
+            ( { model | dialog = Just (AddBotDialog { form | selectedRace = race }) }
             , Cmd.none
             )
 
@@ -666,7 +668,7 @@ handleSelectBotRace model raceId =
 
 {-| Select bot level.
 -}
-handleSelectBotLevel : Model -> Int -> ( Model, Cmd Msg )
+handleSelectBotLevel : Model -> BotLevel -> ( Model, Cmd Msg )
 handleSelectBotLevel model level =
     case model.dialog of
         Just (AddBotDialog form) ->
@@ -684,17 +686,13 @@ handleSubmitAddBot : Model -> ( Model, Cmd Msg )
 handleSubmitAddBot model =
     case ( model.dialog, model.selectedServerUrl ) of
         ( Just (AddBotDialog form), Just serverUrl ) ->
-            let
-                raceId =
-                    String.fromInt form.selectedRace
-            in
             ( { model | dialog = Just (AddBotDialog { form | submitting = True, error = Nothing }) }
             , Ports.addBotPlayer
                 (E.object
                     [ ( "serverUrl", E.string serverUrl )
                     , ( "sessionId", E.string form.sessionId )
-                    , ( "raceId", E.string raceId )
-                    , ( "botLevel", E.int form.selectedLevel )
+                    , ( "raceId", E.string (String.fromInt (Api.BotRace.toInt form.selectedRace)) )
+                    , ( "botLevel", E.int (Api.BotLevel.toInt form.selectedLevel) )
                     ]
                 )
             )
