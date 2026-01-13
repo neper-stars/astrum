@@ -326,7 +326,7 @@
     justify-content: flex-end;
     gap: $spacing-xs;
     flex-shrink: 0;
-    min-width: 70px; // Fixed width for consistent row alignment
+    min-width: 120px; // Fixed width for consistent row alignment (wider for AI control buttons)
   }
 
   &__remove-bot {
@@ -387,6 +387,30 @@
     &--bot {
       color: $color-info;
       background-color: rgba($color-info, 0.15);
+    }
+
+    &--ai-controlled {
+      color: $color-warning;
+      background-color: rgba($color-warning, 0.15);
+    }
+  }
+
+  // AI control indicator (shows Human/AI status for managers)
+  &__ai-indicator {
+    font-size: $font-size-xs;
+    font-weight: $font-weight-medium;
+    padding: $spacing-xs $spacing-sm;
+    border-radius: $radius-sm;
+    white-space: nowrap;
+
+    &--human {
+      color: $color-success;
+      background-color: rgba($color-success, 0.1);
+    }
+
+    &--ai {
+      color: $color-warning;
+      background-color: rgba($color-warning, 0.15);
     }
   }
 

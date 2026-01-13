@@ -124,6 +124,21 @@ func SessionArchivePath(sessionID string) string {
 	return fmt.Sprintf("%s/%s/archive", SessionsBase, sessionID)
 }
 
+// SessionPlayerControlPath returns the path to get player control status for all players
+func SessionPlayerControlPath(sessionID string) string {
+	return fmt.Sprintf("%s/%s/player_control", SessionsBase, sessionID)
+}
+
+// SessionPlayerSwitchToAIPath returns the path to switch a player to AI control
+func SessionPlayerSwitchToAIPath(sessionID string, playerOrder int) string {
+	return fmt.Sprintf("%s/%s/player/%d/switch_to_ai", SessionsBase, sessionID, playerOrder)
+}
+
+// SessionPlayerSwitchToHumanPath returns the path to switch a player back to human control
+func SessionPlayerSwitchToHumanPath(sessionID string, playerOrder int) string {
+	return fmt.Sprintf("%s/%s/player/%d/switch_to_human", SessionsBase, sessionID, playerOrder)
+}
+
 // =============================================================================
 // Invitation URL builders
 // =============================================================================

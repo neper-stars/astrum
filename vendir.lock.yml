@@ -2,11 +2,10 @@ apiVersion: vendir.k14s.io/v1alpha1
 directories:
 - contents:
   - git:
-      commitTitle: Added the id in the SessionPlayerRace to allow easy deletion from
-        client side
-      sha: 168e90a49bc405c3fbe1b21e1425cfdec551f06f
+      commitTitle: Release v0.11.0
+      sha: 5c2934c7c68d32a08fee419e406650f6b5710f57
       tags:
-      - v0.9.4-6-g168e90a
+      - v0.11.0
     path: .
   path: dependencies/neper
 kind: LockConfig

@@ -40,6 +40,7 @@ module Model exposing
     , SessionDetailView
     , SessionFilter(..)
     , SetupRaceForm
+    , SwitchToAIForm
     , TurnFilesForm
     , UsersListPane(..)
     , UsersListState
@@ -55,11 +56,13 @@ module Model exposing
     , emptyServerData
     , emptyServerForm
     , emptySetupRaceForm
+    , emptySwitchToAIForm
     , emptyTurnFilesForm
     , emptyUsersListState
     , defaultServerUrl
     , getConnectionState
     , getCurrentServerData
+    , getCurrentUserId
     , getServerByUrl
     , getServerData
     , getSessionById
@@ -75,6 +78,7 @@ including servers, sessions, connection state, and UI state.
 
 -}
 
+import Api.AIType exposing (AIType)
 import Api.BotLevel exposing (BotLevel)
 import Api.BotRace exposing (BotRace)
 import Api.Invitation exposing (Invitation)
@@ -82,6 +86,7 @@ import Api.LRT exposing (LRT)
 import Api.LeftoverPointsOption exposing (LeftoverPointsOption)
 import Api.OrdersStatus exposing (OrdersStatus)
 import Api.PRT exposing (PRT)
+import Api.PlayerControl exposing (PlayerControlStatus)
 import Api.ResearchLevel exposing (ResearchLevel)
 import Api.Race exposing (Race)
 import Api.Rules exposing (Rules)
@@ -217,6 +222,7 @@ type alias ServerData =
     , orderConflicts : Dict String (Set Int) -- sessionId -> Set of years with local file conflicts
     , sessionHasStarsExe : Dict String Bool -- sessionId -> whether stars.exe exists in game dir
     , sessionPlayerRaces : Dict String Race -- sessionId -> current user's race for that session
+    , sessionPlayerControl : Dict String (List PlayerControlStatus) -- sessionId -> player control list (manager only)
     , lastViewedSession : Maybe String -- sessionId of last viewed session for this server
     , fetchingSessions : Bool -- whether we're currently fetching sessions
     , fetchStartTime : Maybe Int -- milliseconds since epoch when fetch started
@@ -243,6 +249,7 @@ emptyServerData =
     , orderConflicts = Dict.empty
     , sessionHasStarsExe = Dict.empty
     , sessionPlayerRaces = Dict.empty
+    , sessionPlayerControl = Dict.empty
     , fetchingSessions = False
     , fetchStartTime = Nothing
     , lastFetchResult = Nothing
@@ -352,6 +359,7 @@ type Dialog
     | ChangeApikeyDialog ChangeApikeyState -- change own API key
     | MapViewerDialog MapViewerForm -- embedded Stars! browser
     | AddBotDialog AddBotForm -- add bot player to session
+    | SwitchToAIDialog SwitchToAIForm -- switch player to AI control
 
 
 {-| Which pane is active in the users list dialog.
@@ -595,6 +603,31 @@ emptyAddBotForm sessionId =
     { sessionId = sessionId
     , selectedRace = Api.BotRace.Random
     , selectedLevel = Api.BotLevel.Standard
+    , error = Nothing
+    , submitting = False
+    }
+
+
+{-| Form state for switching a player to AI control.
+-}
+type alias SwitchToAIForm =
+    { sessionId : String
+    , playerOrder : Int
+    , nickname : String
+    , selectedAIType : AIType
+    , error : Maybe String
+    , submitting : Bool
+    }
+
+
+{-| Empty switch to AI form with default values.
+-}
+emptySwitchToAIForm : String -> Int -> String -> SwitchToAIForm
+emptySwitchToAIForm sessionId playerOrder nickname =
+    { sessionId = sessionId
+    , playerOrder = playerOrder
+    , nickname = nickname
+    , selectedAIType = Api.AIType.HE
     , error = Nothing
     , submitting = False
     }
@@ -1061,6 +1094,18 @@ getCurrentServerData model =
     model.selectedServerUrl
         |> Maybe.map (\url -> getServerData url model.serverData)
         |> Maybe.withDefault emptyServerData
+
+
+{-| Get the current user ID from the connection state.
+-}
+getCurrentUserId : Model -> Maybe String
+getCurrentUserId model =
+    case (getCurrentServerData model).connectionState of
+        Connected info ->
+            Just info.userId
+
+        _ ->
+            Nothing
 
 
 {-| Update server data for a specific server URL.

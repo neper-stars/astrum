@@ -120,6 +120,30 @@ handleViewSessionDetail model sessionId =
             List.filter (\s -> s.id == sessionId) serverData.sessions
                 |> List.head
 
+        -- Check if current user is a manager
+        currentUserId =
+            getCurrentUserId model
+
+        isManager =
+            case ( currentUserId, maybeSession ) of
+                ( Just uid, Just session ) ->
+                    List.member uid session.managers
+
+                _ ->
+                    False
+
+        -- Check if current user is a global (server) manager
+        isGlobalManager =
+            case serverData.connectionState of
+                Connected info ->
+                    info.isManager
+
+                _ ->
+                    False
+
+        canViewPlayerControl =
+            isManager || isGlobalManager
+
         -- Fetch latest turn and check for stars.exe if session is started
         -- Also always fetch session player race for current user
         cmds =
@@ -138,8 +162,22 @@ handleViewSessionDetail model sessionId =
 
                             else
                                 []
+
+                        -- Fetch player control status for managers on started sessions
+                        playerControlCmds =
+                            if Api.Session.isStarted session && canViewPlayerControl then
+                                [ Ports.getPlayerControl
+                                    (E.object
+                                        [ ( "serverUrl", E.string serverUrl )
+                                        , ( "sessionId", E.string sessionId )
+                                        ]
+                                    )
+                                ]
+
+                            else
+                                []
                     in
-                    baseCmds ++ turnCmds
+                    baseCmds ++ turnCmds ++ playerControlCmds
 
                 _ ->
                     []

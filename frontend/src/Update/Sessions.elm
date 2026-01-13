@@ -927,6 +927,14 @@ handleGameStarted model serverUrl result =
                     , Cmd.batch
                         [ Ports.getSessions serverUrl
                         , Ports.getSession (Encode.getSession serverUrl detail.sessionId)
+
+                        -- Also fetch player control status (managers will see AI control UI)
+                        , Ports.getPlayerControl
+                            (E.object
+                                [ ( "serverUrl", E.string serverUrl )
+                                , ( "sessionId", E.string detail.sessionId )
+                                ]
+                            )
                         ]
                     )
 

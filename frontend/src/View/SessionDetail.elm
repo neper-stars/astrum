@@ -3,8 +3,10 @@ module View.SessionDetail exposing (viewSessionDetail)
 {-| Session detail view - displays detailed information about a single session.
 -}
 
+import Api.AIType
 import Api.Invitation exposing (Invitation)
 import Api.OrdersStatus exposing (OrdersStatus)
+import Api.PlayerControl exposing (ControlStatus(..), PlayerControlStatus)
 import Api.Race exposing (Race)
 import Api.Session exposing (Session, SessionPlayer, isArchived, isStarted)
 import Api.TurnFiles exposing (TurnFiles)
@@ -24,7 +26,7 @@ import Update.Rules
 import Update.SessionDetail
 import Update.Sessions
 import Update.TurnFiles
-import View.Helpers exposing (getCurrentUserId, getNickname)
+import View.Helpers exposing (getNickname)
 import View.Icons as Icons
 import View.SessionList exposing (viewOrdersSummary)
 
@@ -444,10 +446,15 @@ viewSessionDetail session detail availableTurns ordersStatusByYear model =
                             let
                                 myRace =
                                     Dict.get session.id serverData.sessionPlayerRaces
+
+                                -- Get player control status for this session (managers only)
+                                playerControlList =
+                                    Dict.get session.id serverData.sessionPlayerControl
+                                        |> Maybe.withDefault []
                             in
                             List.indexedMap
                                 (\idx player ->
-                                    viewPlayerRow serverData.userProfiles myRace session.id currentUserId isManager (isStarted session) detail.dragState idx player
+                                    viewPlayerRow serverData.userProfiles myRace session.id currentUserId isManager isGlobalManager (isStarted session) detail.dragState playerControlList idx player
                                 )
                                 session.players
                         )
@@ -554,14 +561,19 @@ viewSessionDetail session detail availableTurns ordersStatusByYear model =
         ]
 
 
-viewPlayerRow : List UserProfile -> Maybe Race -> String -> Maybe String -> Bool -> Bool -> Maybe DragState -> Int -> SessionPlayer -> Html Msg
-viewPlayerRow userProfiles myRace sessionId currentUserId isManager sessionStarted dragState index player =
+viewPlayerRow : List UserProfile -> Maybe Race -> String -> Maybe String -> Bool -> Bool -> Bool -> Maybe DragState -> List PlayerControlStatus -> Int -> SessionPlayer -> Html Msg
+viewPlayerRow userProfiles myRace sessionId currentUserId isManager isGlobalManager sessionStarted dragState playerControlList index player =
     let
         isCurrentUser =
             currentUserId == Just player.userProfileId
 
+        -- playerNumber is 1-indexed for display purposes
         playerNumber =
             index + 1
+
+        -- playerOrder is 0-indexed for API calls (matches Neper API spec)
+        playerOrder =
+            index
 
         nickname =
             getNickname userProfiles player.userProfileId
@@ -586,6 +598,40 @@ viewPlayerRow userProfiles myRace sessionId currentUserId isManager sessionStart
 
             else
                 nickname
+
+        -- Can view/manage player control (managers only)
+        canManagePlayerControl =
+            (isManager || isGlobalManager) && sessionStarted
+
+        -- Find player control status for this player (by playerOrder, which is 0-indexed)
+        playerControl =
+            playerControlList
+                |> List.filter (\pc -> pc.playerOrder == playerOrder)
+                |> List.head
+
+        -- Determine if this player is currently AI-controlled
+        isAIControlled =
+            case playerControl of
+                Just pc ->
+                    pc.controlStatus == AI
+
+                Nothing ->
+                    False
+
+        -- Get AI type name if AI-controlled
+        aiTypeName =
+            case playerControl of
+                Just pc ->
+                    case pc.aiControlType of
+                        Just aiCode ->
+                            Api.AIType.fromString aiCode
+                                |> Maybe.map Api.AIType.toRaceName
+
+                        Nothing ->
+                            Nothing
+
+                Nothing ->
+                    Nothing
 
         -- Drag state helpers
         isDragging =
@@ -649,6 +695,7 @@ viewPlayerRow userProfiles myRace sessionId currentUserId isManager sessionStart
                         [ ( "session-detail__player-status--ready", player.ready )
                         , ( "session-detail__player-status--not-ready", not player.ready && not player.isBot )
                         , ( "session-detail__player-status--bot", player.isBot )
+                        , ( "session-detail__player-status--ai-controlled", isAIControlled && canManagePlayerControl )
                         ]
                     ]
                     [ text
@@ -662,6 +709,24 @@ viewPlayerRow userProfiles myRace sessionId currentUserId isManager sessionStart
                             "Not Ready"
                         )
                     ]
+
+                -- Show AI control indicator for managers (only on started sessions)
+                , if canManagePlayerControl && not player.isBot then
+                    case aiTypeName of
+                        Just typeName ->
+                            span [ class "session-detail__ai-indicator session-detail__ai-indicator--ai" ]
+                                [ text ("AI: " ++ typeName) ]
+
+                        Nothing ->
+                            if not (List.isEmpty playerControlList) then
+                                span [ class "session-detail__ai-indicator session-detail__ai-indicator--human" ]
+                                    [ text "Human" ]
+
+                            else
+                                text ""
+
+                  else
+                    text ""
                 ]
             ]
         , -- Actions area (outside draggable zone) - always rendered for consistent width
@@ -695,6 +760,29 @@ viewPlayerRow userProfiles myRace sessionId currentUserId isManager sessionStart
                     , title "Remove bot player"
                     ]
                     [ text "×" ]
+
+              else if canManagePlayerControl && not player.isBot then
+                -- AI control buttons for managers on started sessions (not for bot slots)
+                -- Note: playerOrder is 0-indexed as per Neper API spec
+                if isAIControlled then
+                    button
+                        [ class "btn btn-secondary btn-sm"
+                        , onClick (AdminMsg (Update.Admin.SwitchToHuman sessionId playerOrder))
+                        , title "Switch back to human control"
+                        ]
+                        [ text "Switch to Human" ]
+
+                else if not (List.isEmpty playerControlList) then
+                    -- Only show if we have player control data
+                    button
+                        [ class "btn btn-warning btn-sm"
+                        , onClick (AdminMsg (Update.Admin.OpenSwitchToAIDialog sessionId playerOrder nickname))
+                        , title "Switch player to AI control"
+                        ]
+                        [ text "Switch to AI" ]
+
+                else
+                    text ""
 
               else
                 text ""

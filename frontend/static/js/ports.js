@@ -519,6 +519,43 @@ function initPorts(app) {
     }
 
     // =========================================================================
+    // AI Control
+    // =========================================================================
+
+    if (app.ports.switchPlayerToAI) {
+        app.ports.switchPlayerToAI.subscribe(async (data) => {
+            callGoWithContext(app.ports.switchToAIResult, data.serverUrl,
+                window.go.main.App.SwitchPlayerToAI(data.serverUrl, data.sessionId, data.playerOrder, data.aiType));
+        });
+    }
+
+    if (app.ports.switchPlayerToHuman) {
+        app.ports.switchPlayerToHuman.subscribe(async (data) => {
+            callGoWithContext(app.ports.switchToHumanResult, data.serverUrl,
+                window.go.main.App.SwitchPlayerToHuman(data.serverUrl, data.sessionId, data.playerOrder));
+        });
+    }
+
+    if (app.ports.getPlayerControl) {
+        app.ports.getPlayerControl.subscribe(async (data) => {
+            try {
+                const result = await window.go.main.App.GetPlayerControlStatus(data.serverUrl, data.sessionId);
+                app.ports.playerControlReceived.send({
+                    serverUrl: data.serverUrl,
+                    sessionId: data.sessionId,
+                    ok: result
+                });
+            } catch (err) {
+                app.ports.playerControlReceived.send({
+                    serverUrl: data.serverUrl,
+                    sessionId: data.sessionId,
+                    error: err.message || String(err)
+                });
+            }
+        });
+    }
+
+    // =========================================================================
     // Race Builder
     // =========================================================================
 

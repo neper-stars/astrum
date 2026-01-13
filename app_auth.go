@@ -184,6 +184,15 @@ func (a *App) setupNotificationCallbacks(notifMgr *notification.Manager, serverU
 			if nAction == async.ResourceChangeActionApproved {
 				go a.showRegistrationApprovedNotification(serverURL, n.Metadata)
 			}
+		} else if nType == api.NotificationTypePlayerControl && n.Metadata != nil {
+			// For player_control, include metadata (session_id, player_order, ai_control_type)
+			runtime.EventsEmit(a.ctx, eventName, serverURL, nID, n.Metadata)
+			logger.App.Debug().
+				Str("event", eventName).
+				Str("serverUrl", serverURL).
+				Str("id", nID).
+				Interface("metadata", n.Metadata).
+				Msg("Player control notification received")
 		} else {
 			runtime.EventsEmit(a.ctx, eventName, serverURL, nID)
 			logger.App.Debug().

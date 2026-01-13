@@ -18,7 +18,6 @@ import Model exposing (..)
 import Msg exposing (Msg(..))
 import Update.SessionDetail
 import Update.Sessions
-import View.Helpers exposing (getCurrentUserId)
 
 
 {-| Render the session list with filters and session cards.

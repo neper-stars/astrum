@@ -92,6 +92,8 @@ export function GetOrdersStatus(arg1:string,arg2:string):Promise<main.OrdersStat
 
 export function GetPendingRegistrations(arg1:string):Promise<Array<main.UserProfileInfo>>;
 
+export function GetPlayerControlStatus(arg1:string,arg2:string):Promise<Array<main.PlayerControlStatusInfo>>;
+
 export function GetRaceTemplate(arg1:string):Promise<main.RaceConfig>;
 
 export function GetRules(arg1:string,arg2:string):Promise<main.RulesInfo>;
@@ -177,6 +179,10 @@ export function SetWinePrefixesDir(arg1:string):Promise<main.AppSettingsInfo>;
 export function SetZoomLevel(arg1:number):Promise<main.AppSettingsInfo>;
 
 export function StartGame(arg1:string,arg2:string):Promise<void>;
+
+export function SwitchPlayerToAI(arg1:string,arg2:string,arg3:number,arg4:string):Promise<void>;
+
+export function SwitchPlayerToHuman(arg1:string,arg2:string,arg3:number):Promise<void>;
 
 export function UpdateServer(arg1:string,arg2:string,arg3:string):Promise<void>;
 

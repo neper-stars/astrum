@@ -258,3 +258,23 @@ func (c *Client) DeleteRace(ctx context.Context, userProfileID, raceID string) e
 func (c *Client) ArchiveSession(ctx context.Context, sessionID string) error {
 	return c.post(ctx, SessionArchivePath(sessionID), nil, nil)
 }
+
+// GetPlayerControl retrieves player control status for all players in a session (manager only)
+func (c *Client) GetPlayerControl(ctx context.Context, sessionID string) (*PlayerControlList, error) {
+	var list PlayerControlList
+	if err := c.get(ctx, SessionPlayerControlPath(sessionID), &list); err != nil {
+		return nil, err
+	}
+	return &list, nil
+}
+
+// SwitchPlayerToAI switches a human player to AI control (manager only)
+func (c *Client) SwitchPlayerToAI(ctx context.Context, sessionID string, playerOrder int, aiType string) error {
+	req := &SwitchToAIRequest{AiType: aiType}
+	return c.post(ctx, SessionPlayerSwitchToAIPath(sessionID, playerOrder), req, nil)
+}
+
+// SwitchPlayerToHuman switches an AI-controlled player back to human control (manager only)
+func (c *Client) SwitchPlayerToHuman(ctx context.Context, sessionID string, playerOrder int) error {
+	return c.post(ctx, SessionPlayerSwitchToHumanPath(sessionID, playerOrder), nil, nil)
+}

@@ -3,6 +3,7 @@ module Api.Decode exposing
     , invitationList
     , ntvdmCheckResult
     , ordersStatus
+    , playerControlStatusList
     , race
     , raceConfig
     , raceList
@@ -29,6 +30,7 @@ import Api.LRT as LRT exposing (LRT)
 import Api.LeftoverPointsOption as LeftoverPointsOption exposing (LeftoverPointsOption)
 import Api.OrdersStatus exposing (OrdersStatus, PlayerOrderStatus)
 import Api.PRT as PRT exposing (PRT)
+import Api.PlayerControl exposing (ControlStatus(..), PlayerControlStatus, controlStatusFromString)
 import Api.Race exposing (Race)
 import Api.ResearchLevel as ResearchLevel exposing (ResearchLevel)
 import Api.Rules exposing (Rules)
@@ -412,6 +414,40 @@ playerOrderStatus =
         |> required "nickname" D.string
         |> required "isBot" D.bool
         |> required "submitted" D.bool
+
+
+
+-- =============================================================================
+-- PLAYER CONTROL DECODERS
+-- =============================================================================
+
+
+{-| Decode a list of player control statuses.
+-}
+playerControlStatusList : Decoder (List PlayerControlStatus)
+playerControlStatusList =
+    D.list playerControlStatus
+
+
+{-| Decode a single player's control status.
+-}
+playerControlStatus : Decoder PlayerControlStatus
+playerControlStatus =
+    D.succeed PlayerControlStatus
+        |> required "playerOrder" D.int
+        |> required "userProfileId" D.string
+        |> required "nickname" D.string
+        |> required "isBot" D.bool
+        |> optional "aiControlType" (D.maybe D.string) Nothing
+        |> required "controlStatus" controlStatusDecoder
+
+
+{-| Decode control status from string.
+-}
+controlStatusDecoder : Decoder ControlStatus
+controlStatusDecoder =
+    D.string
+        |> D.map controlStatusFromString
 
 
 

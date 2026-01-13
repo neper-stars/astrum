@@ -8,18 +8,21 @@ import (
 
 // Type aliases for generated models - allows using api.X instead of models.X
 type (
-	UserProfile        = models.UserProfile
-	Session            = models.Session
-	SessionPlayer      = models.SessionPlayer
-	Invitation         = models.Invitation
-	SessionPlayerRace  = models.SessionPlayerRace
-	Race               = models.Race
-	TurnFiles          = models.TurnFiles
-	PlayerTurn         = models.PlayerTurn
-	Ruleset            = models.Ruleset
-	SessionFiles       = models.SessionFiles
-	PlayerOrder        = models.PlayerOrder
-	RegistrationResult = models.RegistrationResult
+	UserProfile           = models.UserProfile
+	Session               = models.Session
+	SessionPlayer         = models.SessionPlayer
+	Invitation            = models.Invitation
+	SessionPlayerRace     = models.SessionPlayerRace
+	Race                  = models.Race
+	TurnFiles             = models.TurnFiles
+	PlayerTurn            = models.PlayerTurn
+	Ruleset               = models.Ruleset
+	SessionFiles          = models.SessionFiles
+	PlayerOrder           = models.PlayerOrder
+	RegistrationResult    = models.RegistrationResult
+	PlayerControlList     = models.PlayerControlList
+	PlayerControlStatus   = models.PlayerControlStatus
+	SwitchToAIRequest     = models.SwitchToAiRequest
 )
 
 // Credentials for authentication
@@ -76,4 +79,5 @@ const (
 	NotificationTypeSessionTurn         = "session_turn"
 	NotificationTypeOrderStatus         = "order_status"
 	NotificationTypePendingRegistration = "pending_registration"
+	NotificationTypePlayerControl       = "player_control"
 )

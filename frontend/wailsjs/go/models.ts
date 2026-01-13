@@ -438,6 +438,28 @@ export namespace main {
 	        this.pointCost = source["pointCost"];
 	    }
 	}
+	export class PlayerControlStatusInfo {
+	    playerOrder: number;
+	    userProfileId: string;
+	    nickname: string;
+	    isBot: boolean;
+	    aiControlType?: string;
+	    controlStatus: string;
+	
+	    static createFrom(source: any = {}) {
+	        return new PlayerControlStatusInfo(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.playerOrder = source["playerOrder"];
+	        this.userProfileId = source["userProfileId"];
+	        this.nickname = source["nickname"];
+	        this.isBot = source["isBot"];
+	        this.aiControlType = source["aiControlType"];
+	        this.controlStatus = source["controlStatus"];
+	    }
+	}
 	
 	export class RaceConfig {
 	    singularName: string;

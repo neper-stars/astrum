@@ -14,6 +14,7 @@ import View.Dialog.ApiKey exposing (viewChangeApikeyDialog)
 import View.Dialog.Auth exposing (viewConnectDialog, viewRegisterDialog)
 import View.Dialog.Bots exposing (viewAddBotDialog)
 import View.Dialog.MapViewer exposing (viewMapViewerDialog)
+import View.Dialog.SwitchToAI exposing (viewSwitchToAIDialog)
 import View.Dialog.RaceBuilder exposing (viewRaceBuilderDialog)
 import View.Dialog.Races exposing (viewRacesDialog, viewSetupRaceDialog)
 import View.Dialog.Rules exposing (viewRulesDialog)
@@ -108,5 +109,8 @@ viewDialog model =
 
                         AddBotDialog form ->
                             viewAddBotDialog form
+
+                        SwitchToAIDialog form ->
+                            viewSwitchToAIDialog form
                     ]
                 ]

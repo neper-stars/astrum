@@ -10,10 +10,13 @@ bot players, pending registrations, change API key, and user menu.
 
 -}
 
+import Api.AIType exposing (AIType)
 import Api.BotLevel exposing (BotLevel)
 import Api.BotRace exposing (BotRace)
 import Api.Encode as Encode
+import Api.PlayerControl exposing (PlayerControlStatus)
 import Api.UserProfile exposing (UserProfile)
+import Dict
 import Json.Encode as E
 import Model exposing (..)
 import Ports
@@ -75,6 +78,14 @@ type Msg
     | HideToast -- hide toast after delay
       -- Stars Browser Messages
     | OpenStarsBrowser String String -- serverUrl, sessionId
+      -- AI Control Messages
+    | OpenSwitchToAIDialog String Int String -- sessionId, playerOrder, nickname
+    | SelectAIType AIType
+    | SubmitSwitchToAI
+    | SwitchToAIResult String (Result String ()) -- serverUrl, result
+    | SwitchToHuman String Int -- sessionId, playerOrder
+    | SwitchToHumanResult String (Result String ()) -- serverUrl, result
+    | GotPlayerControl String String (Result String (List PlayerControlStatus)) -- serverUrl, sessionId, result
 
 
 {-| Update function for admin messages.
@@ -216,6 +227,28 @@ update msg model =
 
         OpenStarsBrowser serverUrl sessionId ->
             handleOpenStarsBrowser model serverUrl sessionId
+
+        -- AI Control
+        OpenSwitchToAIDialog sessionId playerOrder nickname ->
+            handleOpenSwitchToAIDialog model sessionId playerOrder nickname
+
+        SelectAIType aiType ->
+            handleSelectAIType model aiType
+
+        SubmitSwitchToAI ->
+            handleSubmitSwitchToAI model
+
+        SwitchToAIResult serverUrl result ->
+            handleSwitchToAIResult model serverUrl result
+
+        SwitchToHuman sessionId playerOrder ->
+            handleSwitchToHuman model sessionId playerOrder
+
+        SwitchToHumanResult serverUrl result ->
+            handleSwitchToHumanResult model serverUrl result
+
+        GotPlayerControl serverUrl sessionId result ->
+            handleGotPlayerControl model serverUrl sessionId result
 
 
 
@@ -1144,3 +1177,157 @@ handleCopyToClipboard model text =
     ( model
     , Ports.copyToClipboard text
     )
+
+
+
+-- =============================================================================
+-- AI CONTROL
+-- =============================================================================
+
+
+{-| Open the Switch to AI dialog.
+-}
+handleOpenSwitchToAIDialog : Model -> String -> Int -> String -> ( Model, Cmd Msg )
+handleOpenSwitchToAIDialog model sessionId playerOrder nickname =
+    ( { model | dialog = Just (SwitchToAIDialog (emptySwitchToAIForm sessionId playerOrder nickname)) }
+    , Cmd.none
+    )
+
+
+{-| Handle AI type selection.
+-}
+handleSelectAIType : Model -> AIType -> ( Model, Cmd Msg )
+handleSelectAIType model aiType =
+    case model.dialog of
+        Just (SwitchToAIDialog form) ->
+            ( { model | dialog = Just (SwitchToAIDialog { form | selectedAIType = aiType }) }
+            , Cmd.none
+            )
+
+        _ ->
+            ( model, Cmd.none )
+
+
+{-| Submit switch to AI request.
+-}
+handleSubmitSwitchToAI : Model -> ( Model, Cmd Msg )
+handleSubmitSwitchToAI model =
+    case ( model.selectedServerUrl, model.dialog ) of
+        ( Just serverUrl, Just (SwitchToAIDialog form) ) ->
+            ( { model | dialog = Just (SwitchToAIDialog { form | submitting = True, error = Nothing }) }
+            , Ports.switchPlayerToAI
+                (E.object
+                    [ ( "serverUrl", E.string serverUrl )
+                    , ( "sessionId", E.string form.sessionId )
+                    , ( "playerOrder", E.int form.playerOrder )
+                    , ( "aiType", E.string (Api.AIType.toString form.selectedAIType) )
+                    ]
+                )
+            )
+
+        _ ->
+            ( model, Cmd.none )
+
+
+{-| Handle switch to AI result.
+-}
+handleSwitchToAIResult : Model -> String -> Result String () -> ( Model, Cmd Msg )
+handleSwitchToAIResult model serverUrl result =
+    case result of
+        Ok () ->
+            -- Close dialog, refresh player control
+            case model.dialog of
+                Just (SwitchToAIDialog form) ->
+                    ( { model | dialog = Nothing, toast = Just "Player switched to AI control" }
+                    , Cmd.batch
+                        [ Ports.getPlayerControl
+                            (E.object
+                                [ ( "serverUrl", E.string serverUrl )
+                                , ( "sessionId", E.string form.sessionId )
+                                ]
+                            )
+                        , Process.sleep 3000
+                            |> Task.perform (\_ -> HideToast)
+                        ]
+                    )
+
+                _ ->
+                    ( model, Cmd.none )
+
+        Err err ->
+            case model.dialog of
+                Just (SwitchToAIDialog form) ->
+                    ( { model | dialog = Just (SwitchToAIDialog { form | submitting = False, error = Just err }) }
+                    , Cmd.none
+                    )
+
+                _ ->
+                    ( { model | error = Just err }, Cmd.none )
+
+
+{-| Switch player back to human control.
+-}
+handleSwitchToHuman : Model -> String -> Int -> ( Model, Cmd Msg )
+handleSwitchToHuman model sessionId playerOrder =
+    case model.selectedServerUrl of
+        Just serverUrl ->
+            ( model
+            , Ports.switchPlayerToHuman
+                (E.object
+                    [ ( "serverUrl", E.string serverUrl )
+                    , ( "sessionId", E.string sessionId )
+                    , ( "playerOrder", E.int playerOrder )
+                    ]
+                )
+            )
+
+        Nothing ->
+            ( model, Cmd.none )
+
+
+{-| Handle switch to human result.
+-}
+handleSwitchToHumanResult : Model -> String -> Result String () -> ( Model, Cmd Msg )
+handleSwitchToHumanResult model serverUrl result =
+    case result of
+        Ok () ->
+            -- Refresh player control for current session
+            case model.selectedSessionId of
+                Just sessionId ->
+                    ( { model | toast = Just "Player switched to human control" }
+                    , Cmd.batch
+                        [ Ports.getPlayerControl
+                            (E.object
+                                [ ( "serverUrl", E.string serverUrl )
+                                , ( "sessionId", E.string sessionId )
+                                ]
+                            )
+                        , Process.sleep 3000
+                            |> Task.perform (\_ -> HideToast)
+                        ]
+                    )
+
+                Nothing ->
+                    ( model, Cmd.none )
+
+        Err err ->
+            ( { model | error = Just err }, Cmd.none )
+
+
+{-| Handle got player control result.
+-}
+handleGotPlayerControl : Model -> String -> String -> Result String (List PlayerControlStatus) -> ( Model, Cmd Msg )
+handleGotPlayerControl model serverUrl sessionId result =
+    case result of
+        Ok controlList ->
+            let
+                updateServerData serverData =
+                    { serverData | sessionPlayerControl = Dict.insert sessionId controlList serverData.sessionPlayerControl }
+            in
+            ( { model | serverData = Dict.update serverUrl (Maybe.map updateServerData) model.serverData }
+            , Cmd.none
+            )
+
+        Err err ->
+            -- Don't show error for player control - it's optional and may fail for non-managers
+            ( model, Cmd.none )

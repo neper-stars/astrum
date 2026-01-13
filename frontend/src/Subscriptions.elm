@@ -141,6 +141,11 @@ subscriptions model =
         , Ports.botPlayerAdded (decodeResultWithServerUrl (D.succeed ()) (\url result -> AdminMsg (Update.Admin.AddBotResult url result)))
         , Ports.botPlayerRemoved (decodeResultWithServerUrl (D.succeed ()) (\url result -> AdminMsg (Update.Admin.RemoveBotResult url result)))
 
+        -- AI Control
+        , Ports.switchToAIResult (decodeResultWithServerUrl (D.succeed ()) (\url result -> AdminMsg (Update.Admin.SwitchToAIResult url result)))
+        , Ports.switchToHumanResult (decodeResultWithServerUrl (D.succeed ()) (\url result -> AdminMsg (Update.Admin.SwitchToHumanResult url result)))
+        , Ports.playerControlReceived decodePlayerControlResult
+
         -- Race Builder
         , Ports.raceBuilderValidation (decodeResult Decode.raceValidation (RaceBuilderMsg << Update.RaceBuilder.RaceBuilderValidationReceived))
         , Ports.raceTemplateReceived (decodeResult Decode.raceConfig (RaceBuilderMsg << Update.RaceBuilder.RaceTemplateLoaded))
@@ -892,3 +897,31 @@ decodeSessionPlayerRace value =
 
         Err err ->
             RacesMsg (Update.Races.GotSessionPlayerRace "" "" (Err (D.errorToString err)))
+
+
+{-| Decode player control status received result.
+
+The JavaScript sends: { serverUrl: "...", sessionId: "...", ok: [...] } | { serverUrl: "...", sessionId: "...", error: "..." }
+
+This allows managers to see the control status for all players in a session.
+
+-}
+decodePlayerControlResult : D.Value -> Msg
+decodePlayerControlResult value =
+    let
+        decoder =
+            D.map3 (\serverUrl sessionId result -> ( serverUrl, sessionId, result ))
+                (D.field "serverUrl" D.string)
+                (D.field "sessionId" D.string)
+                (D.oneOf
+                    [ D.field "ok" Decode.playerControlStatusList |> D.map Ok
+                    , D.field "error" D.string |> D.map Err
+                    ]
+                )
+    in
+    case D.decodeValue decoder value of
+        Ok ( serverUrl, sessionId, result ) ->
+            AdminMsg (Update.Admin.GotPlayerControl serverUrl sessionId result)
+
+        Err err ->
+            AdminMsg (Update.Admin.GotPlayerControl "" "" (Err (D.errorToString err)))

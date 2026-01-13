@@ -12,8 +12,8 @@ require (
 	github.com/gorilla/websocket v1.5.3
 	github.com/json-iterator/go v1.1.12
 	github.com/kirsle/configdir v0.0.0-20170128060238-e45d2f54772f
-	github.com/neper-stars/houston v0.2.0
-	github.com/neper-stars/neper v0.0.0-20260101203407-280957da8292
+	github.com/neper-stars/houston v0.8.0
+	github.com/neper-stars/neper v0.11.0
 	github.com/rs/zerolog v1.34.0
 	github.com/stretchr/testify v1.11.1
 	github.com/wailsapp/wails/v2 v2.11.0
@@ -83,7 +83,7 @@ require (
 	github.com/srwiley/rasterx v0.0.0-20220730225603-2ab79fcdd4ef // indirect
 	github.com/srwiley/scanx v0.0.0-20190309010443-e94503791388 // indirect
 	github.com/tadvi/systray v0.0.0-20190226123456-11a2b8fa57af // indirect
-	github.com/tdewolff/canvas v0.0.0-20251224152029-436d73bc8f67 // indirect
+	github.com/tdewolff/canvas v0.0.0-20260109131636-69e1540379c6 // indirect
 	github.com/tdewolff/font v0.0.0-20250902141222-fb72ecc1bc0a // indirect
 	github.com/tdewolff/minify/v2 v2.24.4 // indirect
 	github.com/tdewolff/parse/v2 v2.8.4 // indirect

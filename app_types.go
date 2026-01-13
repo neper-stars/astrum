@@ -190,6 +190,16 @@ type PlayerOrderStatusInfo struct {
 	Submitted   bool   `json:"submitted"`
 }
 
+// PlayerControlStatusInfo is the JSON-friendly representation of player control status
+type PlayerControlStatusInfo struct {
+	PlayerOrder   int     `json:"playerOrder"`
+	UserProfileID string  `json:"userProfileId"`
+	Nickname      string  `json:"nickname"`
+	IsBot         bool    `json:"isBot"`
+	AIControlType *string `json:"aiControlType,omitempty"` // nil = human, otherwise AI type code
+	ControlStatus string  `json:"controlStatus"`           // "human" or "ai"
+}
+
 // =============================================================================
 // SETTINGS TYPES
 // =============================================================================

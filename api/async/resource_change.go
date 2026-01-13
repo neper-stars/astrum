@@ -39,7 +39,7 @@ type ResourceChange struct {
 
 	// The resource type
 	// Required: true
-	// Enum: ["session","session_turn","order_status","invitation","race","ruleset","session_player_race","pending_registration"]
+	// Enum: ["session","session_turn","order_status","invitation","race","ruleset","session_player_race","pending_registration","player_control"]
 	Type *string `json:"type"`
 }
 
@@ -149,7 +149,7 @@ var resourceChangeTypeTypePropEnum []any
 
 func init() {
 	var res []string
-	if err := json.Unmarshal([]byte(`["session","session_turn","order_status","invitation","race","ruleset","session_player_race","pending_registration"]`), &res); err != nil {
+	if err := json.Unmarshal([]byte(`["session","session_turn","order_status","invitation","race","ruleset","session_player_race","pending_registration","player_control"]`), &res); err != nil {
 		panic(err)
 	}
 	for _, v := range res {
@@ -182,6 +182,9 @@ const (
 
 	// ResourceChangeTypePendingRegistration captures enum value "pending_registration"
 	ResourceChangeTypePendingRegistration string = "pending_registration"
+
+	// ResourceChangeTypePlayerControl captures enum value "player_control"
+	ResourceChangeTypePlayerControl string = "player_control"
 )
 
 // prop value enum

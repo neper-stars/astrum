@@ -400,3 +400,87 @@ func (a *App) archiveOrphanedSessions(serverURL string, serverSessionIDs map[str
 		}
 	}
 }
+
+// =============================================================================
+// PLAYER CONTROL (AI Switch)
+// =============================================================================
+
+// GetPlayerControlStatus returns the control status for all players in a session (manager only)
+func (a *App) GetPlayerControlStatus(serverURL, sessionID string) ([]PlayerControlStatusInfo, error) {
+	a.mu.RLock()
+	client, ok := a.clients[serverURL]
+	mgr, mgrOk := a.authManagers[serverURL]
+	a.mu.RUnlock()
+
+	if !ok || !mgrOk {
+		return nil, fmt.Errorf("not connected to server: %s", serverURL)
+	}
+
+	list, err := client.GetPlayerControl(mgr.GetContext(), sessionID)
+	if err != nil {
+		return nil, fmt.Errorf("failed to get player control status: %w", err)
+	}
+
+	result := make([]PlayerControlStatusInfo, len(list.Players))
+	for i, p := range list.Players {
+		result[i] = PlayerControlStatusInfo{
+			PlayerOrder:   int(p.PlayerOrder),
+			UserProfileID: p.UserProfileID,
+			Nickname:      p.Nickname,
+			IsBot:         p.IsBot,
+			AIControlType: p.AiControlType,
+			ControlStatus: p.ControlStatus,
+		}
+	}
+
+	return result, nil
+}
+
+// SwitchPlayerToAI switches a human player to AI control (manager only)
+func (a *App) SwitchPlayerToAI(serverURL, sessionID string, playerOrder int, aiType string) error {
+	a.mu.RLock()
+	client, ok := a.clients[serverURL]
+	mgr, mgrOk := a.authManagers[serverURL]
+	a.mu.RUnlock()
+
+	if !ok || !mgrOk {
+		return fmt.Errorf("not connected to server: %s", serverURL)
+	}
+
+	if err := client.SwitchPlayerToAI(mgr.GetContext(), sessionID, playerOrder, aiType); err != nil {
+		return fmt.Errorf("failed to switch player to AI: %w", err)
+	}
+
+	logger.App.Info().
+		Str("serverUrl", serverURL).
+		Str("sessionId", sessionID).
+		Int("playerOrder", playerOrder).
+		Str("aiType", aiType).
+		Msg("Switched player to AI control")
+
+	return nil
+}
+
+// SwitchPlayerToHuman switches an AI-controlled player back to human control (manager only)
+func (a *App) SwitchPlayerToHuman(serverURL, sessionID string, playerOrder int) error {
+	a.mu.RLock()
+	client, ok := a.clients[serverURL]
+	mgr, mgrOk := a.authManagers[serverURL]
+	a.mu.RUnlock()
+
+	if !ok || !mgrOk {
+		return fmt.Errorf("not connected to server: %s", serverURL)
+	}
+
+	if err := client.SwitchPlayerToHuman(mgr.GetContext(), sessionID, playerOrder); err != nil {
+		return fmt.Errorf("failed to switch player to human: %w", err)
+	}
+
+	logger.App.Info().
+		Str("serverUrl", serverURL).
+		Str("sessionId", sessionID).
+		Int("playerOrder", playerOrder).
+		Msg("Switched player back to human control")
+
+	return nil
+}

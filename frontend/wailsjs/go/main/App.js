@@ -182,6 +182,10 @@ export function GetPendingRegistrations(arg1) {
   return window['go']['main']['App']['GetPendingRegistrations'](arg1);
 }
 
+export function GetPlayerControlStatus(arg1, arg2) {
+  return window['go']['main']['App']['GetPlayerControlStatus'](arg1, arg2);
+}
+
 export function GetRaceTemplate(arg1) {
   return window['go']['main']['App']['GetRaceTemplate'](arg1);
 }
@@ -352,6 +356,14 @@ export function SetZoomLevel(arg1) {
 
 export function StartGame(arg1, arg2) {
   return window['go']['main']['App']['StartGame'](arg1, arg2);
+}
+
+export function SwitchPlayerToAI(arg1, arg2, arg3, arg4) {
+  return window['go']['main']['App']['SwitchPlayerToAI'](arg1, arg2, arg3, arg4);
+}
+
+export function SwitchPlayerToHuman(arg1, arg2, arg3) {
+  return window['go']['main']['App']['SwitchPlayerToHuman'](arg1, arg2, arg3);
 }
 
 export function UpdateServer(arg1, arg2, arg3) {

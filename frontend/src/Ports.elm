@@ -62,6 +62,7 @@ port module Ports exposing
     , getSessionPlayerRace
     , getSessions
     , getSessionsIncludeArchived
+    , getPlayerControl
     , getTurn
     , getUserProfiles
     , gifSaved
@@ -147,6 +148,11 @@ port module Ports exposing
     , sessionReceived
     , sessionsReceived
     , sessionsUpdated
+    , switchPlayerToAI
+    , switchPlayerToHuman
+    , switchToAIResult
+    , switchToHumanResult
+    , playerControlReceived
     , setAutoDownloadStars
     , setEnableBrowserStars
     , setPlayerReady
@@ -350,6 +356,19 @@ port removeBotPlayer : E.Value -> Cmd msg
 
 
 port getSessionPlayerRace : E.Value -> Cmd msg
+
+
+
+-- AI Control
+
+
+port switchPlayerToAI : E.Value -> Cmd msg
+
+
+port switchPlayerToHuman : E.Value -> Cmd msg
+
+
+port getPlayerControl : E.Value -> Cmd msg
 
 
 
@@ -627,6 +646,19 @@ port botPlayerRemoved : (D.Value -> msg) -> Sub msg
 
 
 port sessionPlayerRaceReceived : (D.Value -> msg) -> Sub msg
+
+
+
+-- AI Control Results
+
+
+port switchToAIResult : (D.Value -> msg) -> Sub msg
+
+
+port switchToHumanResult : (D.Value -> msg) -> Sub msg
+
+
+port playerControlReceived : (D.Value -> msg) -> Sub msg
 
 
 
