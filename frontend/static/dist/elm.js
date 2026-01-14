@@ -10187,7 +10187,6 @@ var $author$project$Update$Admin$handleGotPlayerControl = F4(
 					}),
 				$elm$core$Platform$Cmd$none);
 		} else {
-			var err = result.a;
 			return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
 		}
 	});
@@ -29558,34 +29557,6 @@ var $author$project$View$SessionDetail$viewPlayerRow = function (userProfiles) {
 													},
 													playerControlList));
 											var nickname = A2($author$project$View$Helpers$getNickname, userProfiles, player.fE);
-											var mouseAttrs = isManager ? _List_fromArray(
-												[
-													A2(
-													$elm$html$Html$Events$preventDefaultOn,
-													'mousedown',
-													A3(
-														$elm$json$Json$Decode$map2,
-														F2(
-															function (x, y) {
-																return _Utils_Tuple2(
-																	$author$project$Msg$DragDropMsg(
-																		A4($author$project$Update$DragDrop$MouseDownOnPlayer, player.fE, player.fE, x, y)),
-																	true);
-															}),
-														A2($elm$json$Json$Decode$field, 'clientX', $elm$json$Json$Decode$float),
-														A2($elm$json$Json$Decode$field, 'clientY', $elm$json$Json$Decode$float))),
-													A2(
-													$elm$html$Html$Events$on,
-													'mouseenter',
-													$elm$json$Json$Decode$succeed(
-														$author$project$Msg$DragDropMsg(
-															$author$project$Update$DragDrop$MouseEnterPlayer(player.fE)))),
-													A2(
-													$elm$html$Html$Events$on,
-													'mouseleave',
-													$elm$json$Json$Decode$succeed(
-														$author$project$Msg$DragDropMsg($author$project$Update$DragDrop$MouseLeavePlayer)))
-												]) : _List_Nil;
 											var isDragging = function () {
 												if (!dragState.$) {
 													var ds = dragState.a;
@@ -29638,6 +29609,35 @@ var $author$project$View$SessionDetail$viewPlayerRow = function (userProfiles) {
 												}
 											}();
 											var canManagePlayerControl = (isManager || isGlobalManager) && sessionStarted;
+											var canDrag = isManager && (!sessionStarted);
+											var mouseAttrs = canDrag ? _List_fromArray(
+												[
+													A2(
+													$elm$html$Html$Events$preventDefaultOn,
+													'mousedown',
+													A3(
+														$elm$json$Json$Decode$map2,
+														F2(
+															function (x, y) {
+																return _Utils_Tuple2(
+																	$author$project$Msg$DragDropMsg(
+																		A4($author$project$Update$DragDrop$MouseDownOnPlayer, player.fE, player.fE, x, y)),
+																	true);
+															}),
+														A2($elm$json$Json$Decode$field, 'clientX', $elm$json$Json$Decode$float),
+														A2($elm$json$Json$Decode$field, 'clientY', $elm$json$Json$Decode$float))),
+													A2(
+													$elm$html$Html$Events$on,
+													'mouseenter',
+													$elm$json$Json$Decode$succeed(
+														$author$project$Msg$DragDropMsg(
+															$author$project$Update$DragDrop$MouseEnterPlayer(player.fE)))),
+													A2(
+													$elm$html$Html$Events$on,
+													'mouseleave',
+													$elm$json$Json$Decode$succeed(
+														$author$project$Msg$DragDropMsg($author$project$Update$DragDrop$MouseLeavePlayer)))
+												]) : _List_Nil;
 											var aiTypeName = function () {
 												if (!playerControl.$) {
 													var pc = playerControl.a;
@@ -29678,7 +29678,7 @@ var $author$project$View$SessionDetail$viewPlayerRow = function (userProfiles) {
 																	$elm$html$Html$Attributes$classList(
 																	_List_fromArray(
 																		[
-																			_Utils_Tuple2('session-detail__player--draggable', isManager)
+																			_Utils_Tuple2('session-detail__player--draggable', canDrag)
 																		]))
 																]),
 															mouseAttrs),

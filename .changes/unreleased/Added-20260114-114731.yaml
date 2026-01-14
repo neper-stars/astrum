@@ -1,0 +1,3 @@
+kind: Added
+body: Added a new pathgen tool to auto generate the paths.go from swagger specs
+time: 2026-01-14T11:47:31.081796904+01:00

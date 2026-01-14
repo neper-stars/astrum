@@ -68,7 +68,7 @@ func (c *Client) QuitSession(ctx context.Context, sessionID string) error {
 
 // PromoteMember promotes a member to manager in a session
 func (c *Client) PromoteMember(ctx context.Context, sessionID, memberID string) error {
-	return c.post(ctx, SessionPromoteMemberPath(sessionID, memberID), nil, nil)
+	return c.post(ctx, SessionPromotePath(sessionID, memberID), nil, nil)
 }
 
 // CreateInvitation creates an invitation for a user to join a session
@@ -134,7 +134,7 @@ func (c *Client) SetSessionPlayerRace(ctx context.Context, sessionID string, pla
 // SetPlayerReady sets the ready state for the current player in a session
 func (c *Client) SetPlayerReady(ctx context.Context, sessionID string, ready bool) (*SessionPlayerRace, error) {
 	var updated SessionPlayerRace
-	if err := c.put(ctx, SessionPlayerReadyPath(sessionID), ready, &updated); err != nil {
+	if err := c.put(ctx, SessionPlayerRaceReadyPath(sessionID), ready, &updated); err != nil {
 		return nil, err
 	}
 	return &updated, nil
@@ -207,7 +207,7 @@ func (c *Client) SubmitTurn(ctx context.Context, sessionID string, year int, ord
 // GetOrdersStatus retrieves order submission status for all players for a specific year
 func (c *Client) GetOrdersStatus(ctx context.Context, sessionID string, year int) ([]PlayerOrderStatus, error) {
 	var status []PlayerOrderStatus
-	if err := c.get(ctx, SessionOrdersStatusPath(sessionID, year), &status); err != nil {
+	if err := c.get(ctx, SessionOrdersPath(sessionID, year), &status); err != nil {
 		return nil, err
 	}
 	return status, nil

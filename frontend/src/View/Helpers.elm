@@ -1,6 +1,5 @@
 module View.Helpers exposing
-    ( getCurrentUserId
-    , getNickname
+    ( getNickname
     , onMouseDownTarget
     , viewFormError
     )
@@ -13,7 +12,6 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Json.Decode as Decode
-import Model
 import Msg exposing (Msg)
 
 
@@ -47,14 +45,6 @@ onMouseDownTarget targetClass msg =
                         Decode.fail "not target"
                 )
         )
-
-
-{-| Get the current user ID from the connection state.
-Re-exported from Model.
--}
-getCurrentUserId : Model.Model -> Maybe String
-getCurrentUserId =
-    Model.getCurrentUserId
 
 
 {-| Look up a user's nickname by their ID. Falls back to the ID if not found.

@@ -1,0 +1,3 @@
+kind: Changed
+body: Now refuse to drag & drop users in the player roster if the session is already started
+time: 2026-01-14T11:46:48.481974326+01:00

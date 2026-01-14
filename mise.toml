@@ -6,6 +6,7 @@ go = "1.25"
 node = "22"
 golangci-lint = "2.7.2"
 "asdf:pdemagny/asdf-changie" = "latest"
+"vendir" = "latest"
 # Note: elm is installed via npm in frontend/package.json
 
 # ===========================================================================
@@ -284,20 +285,20 @@ run = "govulncheck ./..."
 
 [tasks.deps]
 description = "Sync external dependencies with vendir"
-depends = ["fetch-vendir"]
+#depends = ["fetch-vendir"]
 run = "vendir sync"
 
-[tasks."fetch-vendir"]
-description = "Install vendir"
-run = "go install carvel.dev/vendir/cmd/vendir@latest"
+#[tasks."fetch-vendir"]
+#description = "Install vendir"
+#run = "go install carvel.dev/vendir/cmd/vendir@latest"
 
 # ===========================================================================
 # CODE GENERATION
 # ===========================================================================
 
 [tasks.generate]
-description = "Generate all code (API types and async types)"
-depends = ["generate:api-types", "generate:async-types"]
+description = "Generate all code (API types, async types, and paths)"
+depends = ["generate:api-types", "generate:async-types", "generate:paths"]
 
 [tasks."generate:api-types"]
 description = "Generate Go types from neper API swagger spec"
@@ -337,6 +338,11 @@ swagger generate model \
   --model-package=async
 rm /tmp/async-types-spec.yaml
 """
+
+[tasks."generate:paths"]
+description = "Generate api/paths.go from swagger spec"
+depends = ["deps"]
+run = "go run ./tools/pathgen -spec dependencies/neper/neper-api.yaml -output api/paths.go"
 
 # ===========================================================================
 # TOOL INSTALLATION (tools not available via mise plugins)

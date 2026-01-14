@@ -20,6 +20,7 @@ require (
 	github.com/zalando/go-keyring v0.2.6
 	go.etcd.io/bbolt v1.4.3
 	golang.org/x/sys v0.37.0
+	gopkg.in/yaml.v3 v3.0.1
 )
 
 require (
@@ -98,7 +99,6 @@ require (
 	golang.org/x/image v0.32.0 // indirect
 	golang.org/x/net v0.46.0 // indirect
 	golang.org/x/text v0.30.0 // indirect
-	gopkg.in/yaml.v3 v3.0.1 // indirect
 	modernc.org/knuth v0.5.5 // indirect
 	modernc.org/token v1.1.0 // indirect
 	star-tex.org/x/tex v0.7.1 // indirect

@@ -650,11 +650,15 @@ viewPlayerRow userProfiles myRace sessionId currentUserId isManager isGlobalMana
                 Nothing ->
                     False
 
-        -- Mouse-based drag attributes (only if manager)
+        -- Mouse-based drag attributes (only if manager and session not started)
         -- We use mouse events because WebKit in Wails doesn't support HTML5 drag events
         -- Using preventDefaultOn to stop text selection during drag
+        -- Drag is disabled once session is started (Stars! doesn't allow player reordering after start)
+        canDrag =
+            isManager && not sessionStarted
+
         mouseAttrs =
-            if isManager then
+            if canDrag then
                 [ preventDefaultOn "mousedown"
                     (Decode.map2
                         (\x y -> ( DragDropMsg (Update.DragDrop.MouseDownOnPlayer player.userProfileId player.userProfileId x y), True ))
@@ -679,7 +683,7 @@ viewPlayerRow userProfiles myRace sessionId currentUserId isManager isGlobalMana
           div
             ([ class "session-detail__player"
              , classList
-                [ ( "session-detail__player--draggable", isManager )
+                [ ( "session-detail__player--draggable", canDrag )
                 ]
              ]
                 ++ mouseAttrs

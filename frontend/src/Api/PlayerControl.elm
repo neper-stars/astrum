@@ -2,7 +2,6 @@ module Api.PlayerControl exposing
     ( ControlStatus(..)
     , PlayerControlStatus
     , controlStatusFromString
-    , controlStatusToString
     )
 
 {-| Player control status for AI switching functionality.
@@ -30,18 +29,6 @@ type alias PlayerControlStatus =
     , aiControlType : Maybe String -- AI type code if AI-controlled, Nothing if human
     , controlStatus : ControlStatus -- Current control: Human or AI
     }
-
-
-{-| Convert control status to string.
--}
-controlStatusToString : ControlStatus -> String
-controlStatusToString status =
-    case status of
-        Human ->
-            "human"
-
-        AI ->
-            "ai"
 
 
 {-| Parse control status from string.

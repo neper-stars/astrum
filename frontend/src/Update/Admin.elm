@@ -1328,6 +1328,6 @@ handleGotPlayerControl model serverUrl sessionId result =
             , Cmd.none
             )
 
-        Err err ->
+        Err _ ->
             -- Don't show error for player control - it's optional and may fail for non-managers
             ( model, Cmd.none )
